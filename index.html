@@ -3,7 +3,7 @@
 <head>
 	<title>Alexander's Ulizko blog</title>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-	<link rel="stylesheet" href="/release-201207022057/css/main.css" type="text/css" media="screen" />
+	<link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" />
 </head>
 <body>
 <div id="wrapper">
@@ -26,27 +26,23 @@
 
 <p>You can grab the sources <a href='https://github.com/aulizko/mongo-i18n'>here</a> or you can install the gem via command line:</p>
 <div class='highlight'><pre><code class='bash'>gem install mongo-i18n
-</code></pre>
-</div>
+</code></pre></div>
 <h4 id='usage'>Usage:</h4>
 
 <p>I recommend to start with <a href='https://github.com/svenfuchs/i18n/blob/master/lib/i18n/backend/chain.rb'>Chain</a> backend while mongodb collection is empty, and move to entirely mongodb-based backend when you populate your database with all I18n messages.</p>
 
 <p>Begin with:</p>
-<div class='highlight'><pre><code class='ruby'><span class='n'>collection</span> <span class='o'>=</span> <span class='no'>Mongo</span><span class='o'>::</span><span class='no'>Connection</span><span class='o'>.</span><span class='n'>new</span><span class='o'>[</span><span class='s1'>&#39;my_app_related_db&#39;</span><span class='o'>].</span><span class='n'>collection</span><span class='p'>(</span><span class='s1'>&#39;i18n&#39;</span><span class='p'>)</span>
-<span class='no'>I18n</span><span class='o'>.</span><span class='n'>backend</span> <span class='o'>=</span> <span class='no'>I18n</span><span class='o'>::</span><span class='no'>Backend</span><span class='o'>::</span><span class='no'>Chain</span><span class='o'>.</span><span class='n'>new</span><span class='p'>(</span><span class='no'>I18n</span><span class='o'>::</span><span class='no'>Backend</span><span class='o'>::</span><span class='no'>KeyValue</span><span class='o'>.</span><span class='n'>new</span><span class='p'>(</span><span class='no'>MongoI18n</span><span class='o'>::</span><span class='no'>Store</span><span class='o'>.</span><span class='n'>new</span><span class='p'>(</span><span class='n'>collection</span><span class='p'>)),</span> <span class='no'>I18n</span><span class='o'>.</span><span class='n'>backend</span><span class='p'>)</span>
-</code></pre>
-</div>
+<div class='highlight'><pre><code class='ruby'><span class='n'>collection</span> <span class='o'>=</span> <span class='ss'>Mongo</span><span class='p'>:</span><span class='ss'>:Connection</span><span class='o'>.</span><span class='n'>new</span><span class='o'>[</span><span class='s1'>&#39;my_app_related_db&#39;</span><span class='o'>].</span><span class='n'>collection</span><span class='p'>(</span><span class='s1'>&#39;i18n&#39;</span><span class='p'>)</span>
+<span class='no'>I18n</span><span class='o'>.</span><span class='n'>backend</span> <span class='o'>=</span> <span class='ss'>I18n</span><span class='p'>:</span><span class='ss'>:Backend</span><span class='o'>::</span><span class='no'>Chain</span><span class='o'>.</span><span class='n'>new</span><span class='p'>(</span><span class='ss'>I18n</span><span class='p'>:</span><span class='ss'>:Backend</span><span class='o'>::</span><span class='no'>KeyValue</span><span class='o'>.</span><span class='n'>new</span><span class='p'>(</span><span class='ss'>MongoI18n</span><span class='p'>:</span><span class='ss'>:Store</span><span class='o'>.</span><span class='n'>new</span><span class='p'>(</span><span class='n'>collection</span><span class='p'>)),</span> <span class='no'>I18n</span><span class='o'>.</span><span class='n'>backend</span><span class='p'>)</span>
+</code></pre></div>
 <p>And finish with:</p>
-<div class='highlight'><pre><code class='ruby'><span class='n'>collection</span> <span class='o'>=</span> <span class='no'>Mongo</span><span class='o'>::</span><span class='no'>Connection</span><span class='o'>.</span><span class='n'>new</span><span class='o'>[</span><span class='s1'>&#39;my_app_related_db&#39;</span><span class='o'>].</span><span class='n'>collection</span><span class='p'>(</span><span class='s1'>&#39;i18n&#39;</span><span class='p'>)</span>
-<span class='no'>I18n</span><span class='o'>.</span><span class='n'>backend</span> <span class='o'>=</span> <span class='no'>I18n</span><span class='o'>::</span><span class='no'>Backend</span><span class='o'>::</span><span class='no'>KeyValue</span><span class='o'>.</span><span class='n'>new</span><span class='p'>(</span><span class='no'>MongoI18n</span><span class='o'>::</span><span class='no'>Store</span><span class='o'>.</span><span class='n'>new</span><span class='p'>(</span><span class='n'>collection</span><span class='p'>)</span>
-</code></pre>
-</div>
+<div class='highlight'><pre><code class='ruby'><span class='n'>collection</span> <span class='o'>=</span> <span class='ss'>Mongo</span><span class='p'>:</span><span class='ss'>:Connection</span><span class='o'>.</span><span class='n'>new</span><span class='o'>[</span><span class='s1'>&#39;my_app_related_db&#39;</span><span class='o'>].</span><span class='n'>collection</span><span class='p'>(</span><span class='s1'>&#39;i18n&#39;</span><span class='p'>)</span>
+<span class='no'>I18n</span><span class='o'>.</span><span class='n'>backend</span> <span class='o'>=</span> <span class='ss'>I18n</span><span class='p'>:</span><span class='ss'>:Backend</span><span class='o'>::</span><span class='no'>KeyValue</span><span class='o'>.</span><span class='n'>new</span><span class='p'>(</span><span class='ss'>MongoI18n</span><span class='p'>:</span><span class='ss'>:Store</span><span class='o'>.</span><span class='n'>new</span><span class='p'>(</span><span class='n'>collection</span><span class='p'>)</span>
+</code></pre></div>
 <p>If you are already using a mongodb ORM in your project (and I suppose you are, why else would you be reading this article? :), I recommend using the existing database connection.</p>
 <div class='highlight'><pre><code class='ruby'><span class='n'>collection</span> <span class='o'>=</span> <span class='no'>MongoMapper</span><span class='o'>.</span><span class='n'>database</span><span class='o'>.</span><span class='n'>collection</span><span class='p'>(</span><span class='s1'>&#39;i18n&#39;</span><span class='p'>)</span>
-<span class='no'>I18n</span><span class='o'>.</span><span class='n'>backend</span> <span class='o'>=</span> <span class='no'>I18n</span><span class='o'>::</span><span class='no'>Backend</span><span class='o'>::</span><span class='no'>KeyValue</span><span class='o'>.</span><span class='n'>new</span><span class='p'>(</span><span class='no'>MongoI18n</span><span class='o'>::</span><span class='no'>Store</span><span class='o'>.</span><span class='n'>new</span><span class='p'>(</span><span class='n'>collection</span><span class='p'>))</span>
-</code></pre>
-</div>
+<span class='no'>I18n</span><span class='o'>.</span><span class='n'>backend</span> <span class='o'>=</span> <span class='ss'>I18n</span><span class='p'>:</span><span class='ss'>:Backend</span><span class='o'>::</span><span class='no'>KeyValue</span><span class='o'>.</span><span class='n'>new</span><span class='p'>(</span><span class='ss'>MongoI18n</span><span class='p'>:</span><span class='ss'>:Store</span><span class='o'>.</span><span class='n'>new</span><span class='p'>(</span><span class='n'>collection</span><span class='p'>))</span>
+</code></pre></div>
 <p>Free Christmas gift, the rake file to import en.yml into mongodb:</p>
 <div class='highlight'><pre><code class='ruby'><span class='lineno'> 1</span> <span class='c1'># usage:</span>
 <span class='lineno'> 2</span> <span class='c1'># bundle exec rake locale:file RAILS_ENV=production</span>
@@ -83,17 +79,16 @@
 <span class='lineno'>33</span>     <span class='n'>locale</span> <span class='o'>=</span> <span class='no'>ENV</span><span class='o'>[</span><span class='s1'>&#39;locale&#39;</span><span class='o'>]</span> <span class='o'>||</span> <span class='s2'>&quot;en&quot;</span>
 <span class='lineno'>34</span>     <span class='n'>environment</span> <span class='o'>=</span> <span class='no'>ENV</span><span class='o'>[</span><span class='s1'>&#39;RAILS_ENV&#39;</span><span class='o'>]</span>   <span class='o'>||</span> <span class='s2'>&quot;development&quot;</span>
 <span class='lineno'>35</span>     <span class='c1'># I keep mongodb connection descriptor in config/mongodb.yml</span>
-<span class='lineno'>36</span>     <span class='n'>config</span> <span class='o'>=</span> <span class='no'>YAML</span><span class='o'>::</span><span class='nb'>load</span><span class='p'>(</span><span class='no'>File</span><span class='o'>.</span><span class='n'>read</span><span class='p'>(</span><span class='no'>Rails</span><span class='o'>.</span><span class='n'>root</span><span class='o'>.</span><span class='n'>join</span><span class='p'>(</span><span class='s1'>&#39;config/mongodb.yml&#39;</span><span class='p'>)))</span>
-<span class='lineno'>37</span>     <span class='n'>collection</span> <span class='o'>=</span> <span class='no'>Mongo</span><span class='o'>::</span><span class='no'>Connection</span><span class='o'>.</span><span class='n'>new</span><span class='o'>[</span><span class='n'>config</span><span class='o'>[</span><span class='s2'>&quot;development&quot;</span><span class='o'>][</span><span class='s2'>&quot;database&quot;</span><span class='o'>]].</span><span class='n'>collection</span><span class='p'>(</span><span class='s1'>&#39;i18n&#39;</span><span class='p'>)</span>
-<span class='lineno'>38</span>     <span class='n'>store</span> <span class='o'>=</span> <span class='no'>MongoI18n</span><span class='o'>::</span><span class='no'>Store</span><span class='o'>.</span><span class='n'>new</span><span class='p'>(</span><span class='n'>collection</span><span class='p'>)</span>
+<span class='lineno'>36</span>     <span class='n'>config</span> <span class='o'>=</span> <span class='ss'>YAML</span><span class='p'>:</span><span class='ss'>:load</span><span class='p'>(</span><span class='no'>File</span><span class='o'>.</span><span class='n'>read</span><span class='p'>(</span><span class='no'>Rails</span><span class='o'>.</span><span class='n'>root</span><span class='o'>.</span><span class='n'>join</span><span class='p'>(</span><span class='s1'>&#39;config/mongodb.yml&#39;</span><span class='p'>)))</span>
+<span class='lineno'>37</span>     <span class='n'>collection</span> <span class='o'>=</span> <span class='ss'>Mongo</span><span class='p'>:</span><span class='ss'>:Connection</span><span class='o'>.</span><span class='n'>new</span><span class='o'>[</span><span class='n'>config</span><span class='o'>[</span><span class='s2'>&quot;development&quot;</span><span class='o'>][</span><span class='s2'>&quot;database&quot;</span><span class='o'>]].</span><span class='n'>collection</span><span class='p'>(</span><span class='s1'>&#39;i18n&#39;</span><span class='p'>)</span>
+<span class='lineno'>38</span>     <span class='n'>store</span> <span class='o'>=</span> <span class='ss'>MongoI18n</span><span class='p'>:</span><span class='ss'>:Store</span><span class='o'>.</span><span class='n'>new</span><span class='p'>(</span><span class='n'>collection</span><span class='p'>)</span>
 <span class='lineno'>39</span>     
-<span class='lineno'>40</span>     <span class='n'>dump</span> <span class='o'>=</span> <span class='no'>YAML</span><span class='o'>::</span><span class='nb'>load</span><span class='p'>(</span><span class='no'>File</span><span class='o'>.</span><span class='n'>open</span><span class='p'>(</span><span class='no'>Rails</span><span class='o'>.</span><span class='n'>root</span><span class='o'>.</span><span class='n'>join</span><span class='p'>(</span><span class='s2'>&quot;config&quot;</span><span class='p'>,</span><span class='s2'>&quot;locales&quot;</span><span class='p'>,</span> <span class='s2'>&quot;</span><span class='si'>#{</span><span class='n'>locale</span><span class='si'>}</span><span class='s2'>.yml&quot;</span><span class='p'>)))</span>
+<span class='lineno'>40</span>     <span class='n'>dump</span> <span class='o'>=</span> <span class='ss'>YAML</span><span class='p'>:</span><span class='ss'>:load</span><span class='p'>(</span><span class='no'>File</span><span class='o'>.</span><span class='n'>open</span><span class='p'>(</span><span class='no'>Rails</span><span class='o'>.</span><span class='n'>root</span><span class='o'>.</span><span class='n'>join</span><span class='p'>(</span><span class='s2'>&quot;config&quot;</span><span class='p'>,</span><span class='s2'>&quot;locales&quot;</span><span class='p'>,</span> <span class='s2'>&quot;</span><span class='si'>#{</span><span class='n'>locale</span><span class='si'>}</span><span class='s2'>.yml&quot;</span><span class='p'>)))</span>
 <span class='lineno'>41</span> 
 <span class='lineno'>42</span>     <span class='n'>traverse</span><span class='p'>(</span><span class='n'>store</span><span class='p'>,</span> <span class='n'>dump</span><span class='p'>,</span> <span class='o'>[]</span><span class='p'>)</span>
 <span class='lineno'>43</span>   <span class='k'>end</span>
 <span class='lineno'>44</span> <span class='k'>end</span>
-</code></pre>
-</div>
+</code></pre></div>
 <p>Any feedback would be welcome.</p>
 		</div>
 	</div><!-- close:post -->
@@ -105,13 +100,13 @@
 			<p>Recently I was developing project on top of Servlet API 3.0 and GWT 2.1 and faced the following problem: When I wanted to use async support from Servlet 3.0, <a href='http://www.jetbrains.com/idea/'>Idea</a> was unable to resolve method startAsync for HttpServletRequest.</p>
 
 <p>Like this:</p>
-<img alt='Resolving method failure' width='344' height='31' title='Resolving method failure' src='/release-201207022057/images/idea_dependencies/resolving_method_failure.png' />
+<img alt='Resolving method failure' height='31' width='344' src='/images/idea_dependencies/resolving_method_failure.png' title='Resolving method failure' />
 <p>It turns out that gwt-dev-2.1.0.jar contains Servlet API 2.4 (looks like it comes with jetty or tomcat gwt dependencies) and <a href='http://www.jetbrains.com/idea/'>Idea</a> uses it for inspections and autocomplete.</p>
 
 <p>Solution is simple: Check if servlet api 3.0 jar comes after gwt-dev-2.1.0.jar in yout project module dependencies (meta+; shortcut), like this:</p>
-<img alt='Wrong dependency order' width='481' height='34' title='Wrong dependency order' src='/release-201207022057/images/idea_dependencies/wrong_dependency_order.png' />
+<img alt='Wrong dependency order' height='34' width='481' src='/images/idea_dependencies/wrong_dependency_order.png' title='Wrong dependency order' />
 <p>And swap them using &#8220;Move Up&#8221;|&#8221;Move Down&#8221; keys, than hit OK button. After that Idea will resolve Servlet API as expected:</p>
-<img alt='Resolving method success' width='619' height='169' title='Resolving method success' src='/release-201207022057/images/idea_dependencies/resolving_method_success.png' />
+<img alt='Resolving method success' height='169' width='619' src='/images/idea_dependencies/resolving_method_success.png' title='Resolving method success' />
 		</div>
 	</div><!-- close:post -->
 
@@ -155,12 +150,10 @@
 <span class='lineno'>21</span>         <span class='nt'>&lt;/replaceregexp&gt;</span>
 <span class='lineno'>22</span>     <span class='nt'>&lt;/target&gt;</span>
 <span class='lineno'>23</span> <span class='nt'>&lt;/project&gt;</span>
-</code></pre>
-</div>
+</code></pre></div>
 <p>Использовать так: создать xml-файл с удобным вам именем (например, boom.xml) и скопипастить в него этот код. Разумеется, стоит поправить значение переменной js, которая указывает на папку с еще не сжатыми js-скриптами. После этого запускаем адскую машину такой командой (для *nix):</p>
 <div class='highlight'><pre><code class='bash'>ant stripFirebugConsoleCalls -buildfile /path/to/boom.xml
-</code></pre>
-</div>
+</code></pre></div>
 <p>Вот и все. Засим я откланиваюсь до следующего ЧП или конца проекта.</p>
 		</div>
 	</div><!-- close:post -->
@@ -198,8 +191,8 @@
 </div><!-- close:sidebar -->
 	    </div><!-- close:content -->
 <div id="footer">
-    <p>&copy;2008&nbsp;&mdash;&nbsp;2012 <a href="http://ulizko.com">Alexander Ulizko</a></p>
-	<p>managed by <a href="http://github.com/aulizko/blog">github</a> | generated by <a href="https://github.com/mojombo/jekyll">jekyll</a> | powered by <a href="http://disqus.com">disqus</a> | themed by <a href="http://www.vostoktheme.com" hreflang="en">Vostok Theme</a></p>
+    <p>&copy;2008&nbsp;&mdash;&nbsp;2014 <a href="http://ulizko.com">Alexander Ulizko</a></p>
+	<p>Powered by <a href="https://pages.github.com/">Github Pages</a> | generated by <a href="https://github.com/mojombo/jekyll">jekyll</a> | powered by <a href="http://disqus.com">disqus</a> | themed by <a href="http://www.vostoktheme.com" hreflang="en">Vostok Theme</a></p>
 </div><!-- close:footer -->
 </div><!-- close:wrapper -->
 <script type="text/javascript">

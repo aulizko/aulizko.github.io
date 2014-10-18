@@ -3,7 +3,7 @@
 <head>
 	<title>Alexander's Ulizko blog</title>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-	<link rel="stylesheet" href="/release-201207022057/css/main.css" type="text/css" media="screen" />
+	<link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" />
 </head>
 <body>
 <div id="wrapper">
@@ -52,8 +52,7 @@
 <li>Сжимаем js и css. Для этого мы будем использовать yui-comressor. Делается это примерно так: качаем последний стабильный релиз YUICompressor&#8217;a с <a href='http://www.julienlecomte.net/yuicompressor/'>официального сайта</a>, устанавливаем, если еще не установлено JRE и выполняем на css/js файл команду следующего вида:</li>
 </ol>
 <div class='highlight'><pre><code class='bash'>java -jar /path/to/yuicompressor-*.*.*.jar -o <span class='s2'>&quot;output_filename&quot;</span> <span class='nv'>$file</span>
-</code></pre>
-</div>
+</code></pre></div>
 <p>можно использовать флаг <code>-type</code>, который указывает, какой тип файла. Если флаг не указан, то тип файла определяется по расширению.</p>
 
 <h4 id='__'>Уменьшаем количество файлов</h4>
@@ -70,12 +69,10 @@
 
 <p>Итак, для оптимизации всего png картинок мы будем использовать <a href='http://pmt.sourceforge.net/pngcrush/'>pngcrush</a>. Я затрудняюсь ответить, как ее инсталлировать на windows или linux, но я на своем mac&#8217;e без проблем установил эту утилиту из портов. Чтобы сжать png-файлы без потери качества, используйте следующую команду:</p>
 <div class='highlight'><pre><code class='bash'>pngcrush -rem alla -reduce -brute image.png result.png
-</code></pre>
-</div>
+</code></pre></div>
 <p>Для сжатия jp(e)g-файлов используйте <a href='http://sylvana.net/jpegcrop/jpegtran/'> jpegtran</a>, которая входит в пакет libjpg, который я также установил из портов. Команда для сжатия jp(e)g-файлов без потери качества:</p>
 <div class='highlight'><pre><code class='bash'>jpegtran -copy none -optimize -perfect src.jpg dest.jpg
-</code></pre>
-</div>
+</code></pre></div>
 <p>Я тут набросал shell-скрипт, который рекурсивно пройдет по директории и оптимизирует все png/jp(e)g картинки в ней:</p>
 <div class='highlight'><pre><code class='bash'><span class='lineno'> 1</span> <span class='k'>for </span>file in <span class='sb'>`</span>find . -iname <span class='s2'>&quot;*.jpg&quot;</span> -or -iname <span class='s2'>&quot;*.png&quot;</span> -or -iname <span class='s2'>&quot;*.jpeg&quot;</span><span class='sb'>`</span>;<span class='k'>do</span>
 <span class='lineno'> 2</span> <span class='k'>    </span><span class='nv'>ext</span><span class='o'>=</span><span class='k'>${</span><span class='nv'>file</span><span class='p'>##*.</span><span class='k'>}</span>
@@ -97,8 +94,7 @@
 <span class='lineno'>18</span>         <span class='k'>fi</span>
 <span class='lineno'>19</span> <span class='k'>	fi</span>
 <span class='lineno'>20</span> <span class='k'>done</span>;
-</code></pre>
-</div>
+</code></pre></div>
 <p>Просто выполните его в директории uploads что в папке wp-content и все будет хорошо. Можно даже повесить его на cron-job и больше не париться на этот счет - все вновь прибывшие файлы будут оптимизироваться. Разумеется, надо оптимизировать графику, используемую в теме, так что вот еще один shell-скрипт, который рекурсивно пройдет по директории, сожмет css, js файлы и оптимизирует jp(e)g/png файлы. На всякий случай перед его использованием не забудьте забэкапиться:</p>
 <div class='highlight'><pre><code class='bash'><span class='lineno'> 1</span> <span class='k'>for </span>file in <span class='sb'>`</span>find . -iname <span class='s2'>&quot;*.jpg&quot;</span> -or -iname <span class='s2'>&quot;*.jpeg&quot;</span> -or -iname <span class='s2'>&quot;*.png&quot;</span> -or -iname <span class='s2'>&quot;*.js&quot;</span> -or -iname <span class='s2'>&quot;*.css&quot;</span> <span class='sb'>`</span>;<span class='k'>do</span>
 <span class='lineno'> 2</span> <span class='k'>    </span><span class='nv'>ext</span><span class='o'>=</span><span class='k'>${</span><span class='nv'>file</span><span class='p'>##*.</span><span class='k'>}</span>
@@ -130,8 +126,7 @@
 <span class='lineno'>28</span>         <span class='k'>fi</span>
 <span class='lineno'>29</span> <span class='k'>    fi</span>
 <span class='lineno'>30</span> <span class='k'>done</span>;
-</code></pre>
-</div>
+</code></pre></div>
 <p>Используйте меньше dns-lookups. Не выкладывайте картинки, src которых указывает на другой ресурс, лучше загрузите их к себе и пропишите ссылку на автора. Работать будет быстрее.</p>
 
 <h4 id='id3'>Сжатие</h4>
@@ -144,8 +139,7 @@
 <span class='nb'>BrowserMatch</span> bMSI[E] !no-gzip !gzip-only-text/html
 <span class='nb'>SetEnvIfNoCase</span> Request_URI .(?:gif|png)$ no-gzip dont-vary
 <span class='nb'>Header</span> append Vary <span class='k'>User</span>-Agent env=!dont-vary
-</code></pre>
-</div>
+</code></pre></div>
 <p>Таким способом можно добиться уменьшения js/css/html файлов на 70-80%, и примерно 10% уменьшения jpeg-файлов, что значительно ускоряет загрузку сайта. Следует, правда, помнить, что использования mod_deflate увеличивает нагрузку на сервер, так как ему нужно сжать файлы перед тем, как отдать их, так что стоит проконтролировать, что использование mod_deflate не создает чрезмерной нагрузки на сервер.</p>
 
 <h4 id='id4'>Кеширование</h4>
@@ -166,8 +160,7 @@
 <span class='nb'>ExpiresByType</span> video/x-flv A604800
 <span class='nb'>ExpiresByType</span> application/pdf A604800
 <span class='nb'>ExpiresByType</span> text/html A900
-</code></pre>
-</div><div class='highlight'><pre><code class='apache'><span class='c'># используем mod_header</span>
+</code></pre></div><div class='highlight'><pre><code class='apache'><span class='c'># используем mod_header</span>
 
 <span class='c'># 3 Month</span>
 
@@ -188,8 +181,7 @@
     <span class='nb'>Header</span> unset Last-Modified
     <span class='nb'>FileETag</span> <span class='k'>None</span>
     <span class='nb'>Header</span> unset Pragma
-</code></pre>
-</div>
+</code></pre></div>
 <h4 id='___'>Кеширование на стороне сервера</h4>
 
 <p>Есть несколько плагинов к wordpress&#8217;у, которые позволяют кешировать файлы на стороне сервера. Работают они по такому принципу: как только какая-то из ваших страниц запрашвается на сервере, она динамически строится и создается html-файл со всеми данными, который ложится в кеш. Как только приходит запрос на эту страницы, пользователю отдается html файл вместо того, чтобы динамически строить страничку, что значительно снижает нагрузку на сервер (теперь ведь не прогоняются php-скрипты и не нагружается база данных). К сожалению, все эти плагины работают как-то очень странно, во всяком случае, у меня не работали должным образом ни <a href='http://wordpress.org/extend/plugins/wp-cache/'>wp-cache</a>, ни работающий на его основе <a href='http://wordpress.org/extend/plugins/wp-super-cache/'>wp-super-cache</a>.</p>
@@ -215,8 +207,7 @@
 <p>Короче, чтобы JBOSS работал побыстрее, вставь эту строку в run.conf (который, напоминаю, расположен в $JBOSS_HOME/bin) куда-нибудь после того IF-a, что мы изменяли в <a href='http://ulizko.com/posts/45/index.html'>предыдущей</a> статье:</p>
 <div class='highlight'><pre><code class='bash'><span class='nv'>JAVA_OPTS</span><span class='o'>=</span><span class='s2'>&quot;$JAVA_OPTS -Dsun.rmi.dgc.client.gcInterval=3600000 \</span>
 <span class='s2'>-Dsun.rmi.dgc.server.gcInterval=3600000&quot;</span>
-</code></pre>
-</div>
+</code></pre></div>
 <p>(Обратный слэш в данном случае не имеет никакого значения, он просто экранирует перевод каретки, чтобы строка кода влезла в формат поста. Когда будешь вставлять эту строку, можешь просто срастить эти две строки в одну, а слэш удалить.)</p>
 
 <p>Есть еще один вариант. Можно запретить любому коду (в том числе и RMI подсистеме) запускать принудительную очистку мусора ,так что вместо вышеуказанных опций можно указать <code>XX:+DisableExplicitGC</code>. В этом случае сборка мусора будет запускаться если куча будет заполнена примерно на 70% (это дефолтное значение и оно тоже настраивается).</p>
@@ -249,12 +240,12 @@
 
 <p>В принципе, уже из этого понятно, что такое PermGen, и почему у него заканчивается место при redeploy&#8217;е. Желающие узнать больше о принципах работы поколенного сборщика мусора могут обратиться к еще одной статье <a href='http://www.briangoetz.com/'>Брайна Гетца</a> &#8221;<a href='http://www.ibm.com/developerworks/ru/library/j-jtp11253/index.html'>Сборка мусора в HotSpot JVM</a>&#8221;.</p>
 
-<p>Отдельно стоит упомянуть про многопроцессорные системы. В ранних версиях JDK сборка мусора в параллельных потоках сильно замедляла работу систему. Я даже спиздел из статьи <a href='http://java.sun.com/docs/hotspot/gc5.0/gc_tuning_5.html'>Tuning Collection with the 5.0 Java[tm] Virtual Machine</a> классную картинку, которая визуализирует зависимость между временем сборки мусора и количеством процессоров:<br /><img alt='' width='500' height='377' title='Падение производительности сборщика мусора при увеличении количества процессоров' src='/release-201207022056/images/garbage_collector/proc_throughput_chart.png' /></p>
+<p>Отдельно стоит упомянуть про многопроцессорные системы. В ранних версиях JDK сборка мусора в параллельных потоках сильно замедляла работу систему. Я даже спиздел из статьи <a href='http://java.sun.com/docs/hotspot/gc5.0/gc_tuning_5.html'>Tuning Collection with the 5.0 Java[tm] Virtual Machine</a> классную картинку, которая визуализирует зависимость между временем сборки мусора и количеством процессоров:<br /><img alt='' height='377' width='500' src='/images/garbage_collector/proc_throughput_chart.png' title='Падение производительности сборщика мусора при увеличении количества процессоров' /></p>
 
 <p>К счастью, в JDK 1.4 добавили специально для таких систем еще три сборщика мусора: параллельный копирующий сборщик мусора, параллельный утилизирующий сборщик мусора и синхронизированный маркирующе-чистящий сборщик. Эти новые сборщики призваны решить проблему сборки мусора, которая является основным припятствием для решения проблемы масштабируемости на многопроцессорных системах.</p>
 
 <p>Ну и напоследок еще одна пизженная у Брайна Гетца картинка, на которой проиллюстрированы рекомендации для выбора сборщика мусора:</p>
-<img alt='' width='500' height='213' title='Рекомендации выбора сборщика мусора' src='/release-201207022056/images/garbage_collector/gc-options.png' />
+<img alt='' height='213' width='500' src='/images/garbage_collector/gc-options.png' title='Рекомендации выбора сборщика мусора' />
 <h2 id='_jboss_as'>Настройка JBOSS AS</h2>
 
 <p>PermGen Space : OutOfMemory exception вылетает от того, что оставшиеся от предыдущего deploy&#8217;я вечные объекты так и остаются в PermGen (это я не знаю, а предполагаю - и могу ошибаться) и PermGen Space рано или поздно переполняется. Соответственно, для решения этой проблемы нам надо как-то заставить сборщик мусора убирать более не нужные объекты в PermGen. На практике это выглядит так:</p>
@@ -270,8 +261,7 @@
 </ol>
 <div class='highlight'><pre><code class='bash'><span class='nv'>JAVA_OPTS</span><span class='o'>=</span><span class='s2'>&quot;-Xms256m -Xmx1024m -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000 -XX:+UseConcMarkSweepGC \</span>
 <span class='s2'> -XX:+CMSPermGenSweepingEnabled -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=128m&quot;</span>
-</code></pre>
-</div>
+</code></pre></div>
 		</div>
 	</div><!-- close:post -->
 
@@ -310,8 +300,8 @@
 </div><!-- close:sidebar -->
 	    </div><!-- close:content -->
 <div id="footer">
-    <p>&copy;2008&nbsp;&mdash;&nbsp;2012 <a href="http://ulizko.com">Alexander Ulizko</a></p>
-	<p>managed by <a href="http://github.com/aulizko/blog">github</a> | generated by <a href="https://github.com/mojombo/jekyll">jekyll</a> | powered by <a href="http://disqus.com">disqus</a> | themed by <a href="http://www.vostoktheme.com" hreflang="en">Vostok Theme</a></p>
+    <p>&copy;2008&nbsp;&mdash;&nbsp;2014 <a href="http://ulizko.com">Alexander Ulizko</a></p>
+	<p>Powered by <a href="https://pages.github.com/">Github Pages</a> | generated by <a href="https://github.com/mojombo/jekyll">jekyll</a> | powered by <a href="http://disqus.com">disqus</a> | themed by <a href="http://www.vostoktheme.com" hreflang="en">Vostok Theme</a></p>
 </div><!-- close:footer -->
 </div><!-- close:wrapper -->
 <script type="text/javascript">

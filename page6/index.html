@@ -3,7 +3,7 @@
 <head>
 	<title>Alexander's Ulizko blog</title>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-	<link rel="stylesheet" href="/release-201207022057/css/main.css" type="text/css" media="screen" />
+	<link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" />
 </head>
 <body>
 <div id="wrapper">
@@ -25,7 +25,7 @@
 <p>Видео получилось со&#160;второй попытки, продолжительность&#160;&#8212; 18&#160;минут, звук писался через встроенный макбуковский микрофон. Писалось все в&#160;программе <a href='http://www.telestream.net/screen-flow/overview.htm'>ScreenFlow</a>.</p>
 
 <p>Собственно, вот видео с vimeo:</p>
-<object width='400' height='250'><param value='true' name='allowfullscreen' /><param value='always' name='allowscriptaccess' /><param value='http://vimeo.com/moogaloop.swf?clip_id=2565495&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=00ADEF&amp;fullscreen=1' name='movie' /><embed width='400' height='250' allowfullscreen='true' src='http://vimeo.com/moogaloop.swf?clip_id=2565495&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=00ADEF&amp;fullscreen=1' type='application/x-shockwave-flash' allowscriptaccess='always' /></object>
+<object height='250' width='400'><param name='allowfullscreen' value='true' /><param name='allowscriptaccess' value='always' /><param name='movie' value='http://vimeo.com/moogaloop.swf?clip_id=2565495&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=00ADEF&amp;fullscreen=1' /><embed height='250' width='400' allowfullscreen='true' type='application/x-shockwave-flash' src='http://vimeo.com/moogaloop.swf?clip_id=2565495&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=00ADEF&amp;fullscreen=1' allowscriptaccess='always' /></object>
 <p><a href='http://vimeo.com/2565495'>Fireunit Screencast</a> from <a href='http://vimeo.com/user1053824'>Alexander Ulizko</a> on <a href='http://vimeo.com'>Vimeo</a>.</p>
 
 <p>Хотя лучше смотреть на самом vimeo в HD качестве, лучше видно шрифт: <a href='http://vimeo.com/2565495'>http://vimeo.com/2565495</a>.</p>
@@ -66,8 +66,7 @@
 <span class='lineno'>13</span>         <span class='p'>}</span>
 <span class='lineno'>14</span>         <span class='k'>return</span> <span class='nx'>ArrayUtilites</span><span class='p'>;</span>
 <span class='lineno'>15</span>     <span class='p'>};</span>
-</code></pre>
-</div>
+</code></pre></div>
 <p>Как уважаемые любители JavaScript воспринимают такой синтакс для feature-detection, когда проверка наличия функционала проводится лишь раз, при старте скрипта, а не во время выполнения, как обычно?</p>
 		</div>
 	</div><!-- close:post -->
@@ -79,8 +78,7 @@
 			<p>Сижу я, значит, никого не трогаю, <span style='text-decoration: line-through;'>починяю примус</span> пишу один модуль, и тут выясняется неприятное: оказывается, в <a href='http://developer.yahoo.com/yui/3/'>YUI 3.0.0.pr2</a>, модуле <a href='http://developer.yahoo.com/yui/3/yui/'>Lang</a> методы <a href='http://developer.yahoo.com/yui/3/api/Lang.html#method_isNumber'>isNumber</a> и <a href='http://developer.yahoo.com/yui/3/api/Lang.html#method_isBoolean'>isBoolean</a> того. Не этого. В смысле, бажные:</p>
 <div class='highlight'><pre><code class='javascript'><span class='nx'>alert</span><span class='p'>(</span><span class='nx'>YUI</span><span class='p'>.</span><span class='nx'>Lang</span><span class='p'>.</span><span class='nx'>isNumber</span><span class='p'>(</span><span class='k'>new</span> <span class='nb'>Number</span><span class='p'>(</span><span class='mi'>1</span><span class='p'>)));</span> <span class='c1'>// false</span>
 <span class='nx'>alert</span><span class='p'>(</span><span class='nx'>YUI</span><span class='p'>.</span><span class='nx'>Lang</span><span class='p'>.</span><span class='nx'>isBoolean</span><span class='p'>(</span><span class='k'>new</span> <span class='nb'>Boolean</span><span class='p'>(</span><span class='kc'>true</span><span class='p'>)))</span> <span class='c1'>// false</span>
-</code></pre>
-</div>
+</code></pre></div>
 <p>Неприятно.</p>
 
 <p>Лезу в код, и вижу:</p>
@@ -92,32 +90,27 @@
 <span class='lineno'>6</span> <span class='nx'>isNumber</span> <span class='o'>=</span> <span class='kd'>function</span><span class='p'>(</span><span class='nx'>o</span><span class='p'>)</span> <span class='p'>{</span>
 <span class='lineno'>7</span>     <span class='k'>return</span> <span class='k'>typeof</span> <span class='nx'>o</span> <span class='o'>===</span> <span class='s1'>&#39;number&#39;</span> <span class='o'>&amp;&amp;</span> <span class='nb'>isFinite</span><span class='p'>(</span><span class='nx'>o</span><span class='p'>);</span>
 <span class='lineno'>8</span> <span class='p'>};</span>
-</code></pre>
-</div>
+</code></pre></div>
 <p>Придется править ручками.</p>
 
 <p>Как известно, typeof объекта Boolean возвращает <code>object</code>. Лезу в <a href='http://www.w3schools.com/jsref/jsref_obj_boolean.asp'>Boolean Reference</a>, что на w3schools, и вижу, что у Boolean есть метод, который мне поможет - valueOf. Правлю isBoolean на что-то вроде:</p>
 <div class='highlight'><pre><code class='javascript'><span class='lineno'>1</span> <span class='nx'>isBoolean</span> <span class='o'>=</span> <span class='kd'>function</span><span class='p'>(</span><span class='nx'>o</span><span class='p'>)</span> <span class='p'>{</span>
 <span class='lineno'>2</span>     <span class='k'>return</span> <span class='p'>(</span><span class='k'>typeof</span> <span class='nx'>o</span> <span class='o'>===</span> <span class='s1'>&#39;boolean&#39;</span> <span class='o'>||</span> <span class='p'>(</span><span class='nx'>o</span> <span class='o'>!==</span> <span class='kc'>null</span> <span class='o'>&amp;&amp;</span> <span class='k'>typeof</span> <span class='nx'>o</span> <span class='o'>===</span> <span class='s1'>&#39;object&#39;</span> <span class='o'>&amp;&amp;</span> <span class='p'>(</span><span class='k'>typeof</span> <span class='nx'>o</span><span class='p'>.</span><span class='nx'>valueOf</span><span class='p'>()</span> <span class='o'>===</span> <span class='s1'>&#39;boolean&#39;</span><span class='p'>)));</span>
 <span class='lineno'>3</span> <span class='p'>};</span>
-</code></pre>
-</div>
+</code></pre></div>
 <p>Тесты прогоняются на ура. Идем дальше. Смотрим в <a href='http://www.w3schools.com/jsref/jsref_obj_number.asp'>Number Reference</a>, и по накатанной правлю и <code>isNumber</code>:</p>
 <div class='highlight'><pre><code class='javascript'><span class='lineno'>1</span> <span class='nx'>isNumber</span> <span class='o'>=</span> <span class='kd'>function</span><span class='p'>(</span><span class='nx'>o</span><span class='p'>)</span> <span class='p'>{</span>
 <span class='lineno'>2</span>     <span class='k'>return</span> <span class='p'>((</span><span class='k'>typeof</span> <span class='nx'>o</span> <span class='o'>===</span> <span class='s1'>&#39;number&#39;</span><span class='p'>)</span> <span class='o'>||</span> <span class='p'>(</span><span class='nx'>o</span> <span class='o'>!==</span> <span class='kc'>null</span> <span class='o'>&amp;&amp;</span> <span class='k'>typeof</span> <span class='nx'>o</span> <span class='o'>===</span> <span class='s1'>&#39;object&#39;</span> <span class='o'>&amp;&amp;</span> <span class='p'>(</span><span class='k'>typeof</span> <span class='nx'>o</span><span class='p'>.</span><span class='nx'>valueOf</span><span class='p'>()</span> <span class='o'>===</span> <span class='s1'>&#39;number&#39;</span><span class='p'>))</span> <span class='o'>&amp;&amp;</span> <span class='nb'>isFinite</span><span class='p'>(</span><span class='nx'>o</span><span class='p'>);</span>
 <span class='lineno'>3</span> <span class='p'>};</span>
-</code></pre>
-</div>
+</code></pre></div>
 <p>Казалось бы, все круто? Не совсем.</p>
 <div class='highlight'><pre><code class='javascript'><span class='nx'>alert</span><span class='p'>(</span><span class='nx'>isNumber</span><span class='p'>(</span><span class='k'>new</span> <span class='nb'>Date</span><span class='p'>()));</span> <span class='c1'>// return true;</span>
-</code></pre>
-</div>
+</code></pre></div>
 <p>Хм. Ну, давайте еще добавлю проверку на то, что это не Date.</p>
 <div class='highlight'><pre><code class='javascript'><span class='lineno'>1</span> <span class='nx'>isNumber</span> <span class='o'>=</span> <span class='kd'>function</span><span class='p'>(</span><span class='nx'>o</span><span class='p'>)</span> <span class='p'>{</span>
 <span class='lineno'>2</span>     <span class='k'>return</span> <span class='p'>((</span><span class='k'>typeof</span> <span class='nx'>o</span> <span class='o'>===</span> <span class='s1'>&#39;number&#39;</span><span class='p'>)</span> <span class='o'>||</span> <span class='p'>(</span><span class='nx'>o</span> <span class='o'>!==</span> <span class='kc'>null</span> <span class='o'>&amp;&amp;</span> <span class='k'>typeof</span> <span class='nx'>o</span> <span class='o'>===</span> <span class='s1'>&#39;object&#39;</span> <span class='o'>&amp;&amp;</span> <span class='o'>!</span><span class='p'>(</span><span class='nx'>o</span> <span class='k'>instanceof</span> <span class='nb'>Date</span><span class='p'>)))</span> <span class='o'>&amp;&amp;</span> <span class='p'>(</span><span class='k'>typeof</span> <span class='nx'>o</span><span class='p'>.</span><span class='nx'>valueOf</span><span class='p'>()</span> <span class='o'>===</span> <span class='s1'>&#39;number&#39;</span><span class='p'>))</span> <span class='o'>&amp;&amp;</span> <span class='nb'>isFinite</span><span class='p'>(</span><span class='nx'>o</span><span class='p'>);</span>
 <span class='lineno'>3</span> <span class='p'>};</span>
-</code></pre>
-</div>
+</code></pre></div>
 <p>Теперь все работает нормально, но какой монстрик-то жуткий получается. Ладно, в идиота я наигрался, пора и голову включить:</p>
 <div class='highlight'><pre><code class='javascript'><span class='lineno'>1</span> <span class='nx'>isBoolean</span> <span class='o'>=</span> <span class='kd'>function</span><span class='p'>(</span><span class='nx'>o</span><span class='p'>)</span> <span class='p'>{</span>
 <span class='lineno'>2</span>     <span class='k'>return</span> <span class='k'>typeof</span> <span class='nx'>o</span> <span class='o'>===</span> <span class='s1'>&#39;boolean&#39;</span> <span class='o'>||</span> <span class='nx'>o</span> <span class='k'>instanceof</span> <span class='nb'>Boolean</span><span class='p'>;</span>
@@ -126,8 +119,7 @@
 <span class='lineno'>5</span> <span class='nx'>isNumber</span> <span class='o'>=</span> <span class='kd'>function</span><span class='p'>(</span><span class='nx'>o</span><span class='p'>)</span> <span class='p'>{</span>
 <span class='lineno'>6</span>     <span class='k'>return</span> <span class='p'>(</span><span class='k'>typeof</span> <span class='nx'>o</span> <span class='o'>===</span> <span class='s1'>&#39;number&#39;</span> <span class='o'>||</span> <span class='nx'>o</span> <span class='k'>instanceof</span> <span class='nb'>Number</span><span class='p'>)</span> <span class='o'>&amp;&amp;</span> <span class='nb'>isFinite</span><span class='p'>(</span><span class='nx'>o</span><span class='p'>);</span>
 <span class='lineno'>7</span> <span class='p'>};</span>
-</code></pre>
-</div>
+</code></pre></div>
 <p>Вуаля. Пойду на форум YUI рапортовать о баге. Всем спасибо за внимание.</p>
 		</div>
 	</div><!-- close:post -->
@@ -167,8 +159,8 @@
 </div><!-- close:sidebar -->
 	    </div><!-- close:content -->
 <div id="footer">
-    <p>&copy;2008&nbsp;&mdash;&nbsp;2012 <a href="http://ulizko.com">Alexander Ulizko</a></p>
-	<p>managed by <a href="http://github.com/aulizko/blog">github</a> | generated by <a href="https://github.com/mojombo/jekyll">jekyll</a> | powered by <a href="http://disqus.com">disqus</a> | themed by <a href="http://www.vostoktheme.com" hreflang="en">Vostok Theme</a></p>
+    <p>&copy;2008&nbsp;&mdash;&nbsp;2014 <a href="http://ulizko.com">Alexander Ulizko</a></p>
+	<p>Powered by <a href="https://pages.github.com/">Github Pages</a> | generated by <a href="https://github.com/mojombo/jekyll">jekyll</a> | powered by <a href="http://disqus.com">disqus</a> | themed by <a href="http://www.vostoktheme.com" hreflang="en">Vostok Theme</a></p>
 </div><!-- close:footer -->
 </div><!-- close:wrapper -->
 <script type="text/javascript">

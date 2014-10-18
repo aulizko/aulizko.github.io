@@ -4,7 +4,7 @@
  <title>Alexander Ulizko</title>
  <link href="http://ulizko.com/atom.xml" rel="self"/>
  <link href="http://ulizko.com/"/>
- <updated>2012-07-02T20:56:51+04:00</updated>
+ <updated>2014-10-18T23:23:30+04:00</updated>
  <id>http://ulizko.com/</id>
  <author>
    <name>Alexander Ulizko</name>
@@ -25,27 +25,23 @@
 
 &lt;p&gt;You can grab the sources &lt;a href='https://github.com/aulizko/mongo-i18n'&gt;here&lt;/a&gt; or you can install the gem via command line:&lt;/p&gt;
 &lt;div class='highlight'&gt;&lt;pre&gt;&lt;code class='bash'&gt;gem install mongo-i18n
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h4 id='usage'&gt;Usage:&lt;/h4&gt;
 
 &lt;p&gt;I recommend to start with &lt;a href='https://github.com/svenfuchs/i18n/blob/master/lib/i18n/backend/chain.rb'&gt;Chain&lt;/a&gt; backend while mongodb collection is empty, and move to entirely mongodb-based backend when you populate your database with all I18n messages.&lt;/p&gt;
 
 &lt;p&gt;Begin with:&lt;/p&gt;
-&lt;div class='highlight'&gt;&lt;pre&gt;&lt;code class='ruby'&gt;&lt;span class='n'&gt;collection&lt;/span&gt; &lt;span class='o'&gt;=&lt;/span&gt; &lt;span class='no'&gt;Mongo&lt;/span&gt;&lt;span class='o'&gt;::&lt;/span&gt;&lt;span class='no'&gt;Connection&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;new&lt;/span&gt;&lt;span class='o'&gt;[&lt;/span&gt;&lt;span class='s1'&gt;&amp;#39;my_app_related_db&amp;#39;&lt;/span&gt;&lt;span class='o'&gt;].&lt;/span&gt;&lt;span class='n'&gt;collection&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='s1'&gt;&amp;#39;i18n&amp;#39;&lt;/span&gt;&lt;span class='p'&gt;)&lt;/span&gt;
-&lt;span class='no'&gt;I18n&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;backend&lt;/span&gt; &lt;span class='o'&gt;=&lt;/span&gt; &lt;span class='no'&gt;I18n&lt;/span&gt;&lt;span class='o'&gt;::&lt;/span&gt;&lt;span class='no'&gt;Backend&lt;/span&gt;&lt;span class='o'&gt;::&lt;/span&gt;&lt;span class='no'&gt;Chain&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;new&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='no'&gt;I18n&lt;/span&gt;&lt;span class='o'&gt;::&lt;/span&gt;&lt;span class='no'&gt;Backend&lt;/span&gt;&lt;span class='o'&gt;::&lt;/span&gt;&lt;span class='no'&gt;KeyValue&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;new&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='no'&gt;MongoI18n&lt;/span&gt;&lt;span class='o'&gt;::&lt;/span&gt;&lt;span class='no'&gt;Store&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;new&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='n'&gt;collection&lt;/span&gt;&lt;span class='p'&gt;)),&lt;/span&gt; &lt;span class='no'&gt;I18n&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;backend&lt;/span&gt;&lt;span class='p'&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class='highlight'&gt;&lt;pre&gt;&lt;code class='ruby'&gt;&lt;span class='n'&gt;collection&lt;/span&gt; &lt;span class='o'&gt;=&lt;/span&gt; &lt;span class='ss'&gt;Mongo&lt;/span&gt;&lt;span class='p'&gt;:&lt;/span&gt;&lt;span class='ss'&gt;:Connection&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;new&lt;/span&gt;&lt;span class='o'&gt;[&lt;/span&gt;&lt;span class='s1'&gt;&amp;#39;my_app_related_db&amp;#39;&lt;/span&gt;&lt;span class='o'&gt;].&lt;/span&gt;&lt;span class='n'&gt;collection&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='s1'&gt;&amp;#39;i18n&amp;#39;&lt;/span&gt;&lt;span class='p'&gt;)&lt;/span&gt;
+&lt;span class='no'&gt;I18n&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;backend&lt;/span&gt; &lt;span class='o'&gt;=&lt;/span&gt; &lt;span class='ss'&gt;I18n&lt;/span&gt;&lt;span class='p'&gt;:&lt;/span&gt;&lt;span class='ss'&gt;:Backend&lt;/span&gt;&lt;span class='o'&gt;::&lt;/span&gt;&lt;span class='no'&gt;Chain&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;new&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='ss'&gt;I18n&lt;/span&gt;&lt;span class='p'&gt;:&lt;/span&gt;&lt;span class='ss'&gt;:Backend&lt;/span&gt;&lt;span class='o'&gt;::&lt;/span&gt;&lt;span class='no'&gt;KeyValue&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;new&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='ss'&gt;MongoI18n&lt;/span&gt;&lt;span class='p'&gt;:&lt;/span&gt;&lt;span class='ss'&gt;:Store&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;new&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='n'&gt;collection&lt;/span&gt;&lt;span class='p'&gt;)),&lt;/span&gt; &lt;span class='no'&gt;I18n&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;backend&lt;/span&gt;&lt;span class='p'&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;And finish with:&lt;/p&gt;
-&lt;div class='highlight'&gt;&lt;pre&gt;&lt;code class='ruby'&gt;&lt;span class='n'&gt;collection&lt;/span&gt; &lt;span class='o'&gt;=&lt;/span&gt; &lt;span class='no'&gt;Mongo&lt;/span&gt;&lt;span class='o'&gt;::&lt;/span&gt;&lt;span class='no'&gt;Connection&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;new&lt;/span&gt;&lt;span class='o'&gt;[&lt;/span&gt;&lt;span class='s1'&gt;&amp;#39;my_app_related_db&amp;#39;&lt;/span&gt;&lt;span class='o'&gt;].&lt;/span&gt;&lt;span class='n'&gt;collection&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='s1'&gt;&amp;#39;i18n&amp;#39;&lt;/span&gt;&lt;span class='p'&gt;)&lt;/span&gt;
-&lt;span class='no'&gt;I18n&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;backend&lt;/span&gt; &lt;span class='o'&gt;=&lt;/span&gt; &lt;span class='no'&gt;I18n&lt;/span&gt;&lt;span class='o'&gt;::&lt;/span&gt;&lt;span class='no'&gt;Backend&lt;/span&gt;&lt;span class='o'&gt;::&lt;/span&gt;&lt;span class='no'&gt;KeyValue&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;new&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='no'&gt;MongoI18n&lt;/span&gt;&lt;span class='o'&gt;::&lt;/span&gt;&lt;span class='no'&gt;Store&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;new&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='n'&gt;collection&lt;/span&gt;&lt;span class='p'&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class='highlight'&gt;&lt;pre&gt;&lt;code class='ruby'&gt;&lt;span class='n'&gt;collection&lt;/span&gt; &lt;span class='o'&gt;=&lt;/span&gt; &lt;span class='ss'&gt;Mongo&lt;/span&gt;&lt;span class='p'&gt;:&lt;/span&gt;&lt;span class='ss'&gt;:Connection&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;new&lt;/span&gt;&lt;span class='o'&gt;[&lt;/span&gt;&lt;span class='s1'&gt;&amp;#39;my_app_related_db&amp;#39;&lt;/span&gt;&lt;span class='o'&gt;].&lt;/span&gt;&lt;span class='n'&gt;collection&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='s1'&gt;&amp;#39;i18n&amp;#39;&lt;/span&gt;&lt;span class='p'&gt;)&lt;/span&gt;
+&lt;span class='no'&gt;I18n&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;backend&lt;/span&gt; &lt;span class='o'&gt;=&lt;/span&gt; &lt;span class='ss'&gt;I18n&lt;/span&gt;&lt;span class='p'&gt;:&lt;/span&gt;&lt;span class='ss'&gt;:Backend&lt;/span&gt;&lt;span class='o'&gt;::&lt;/span&gt;&lt;span class='no'&gt;KeyValue&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;new&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='ss'&gt;MongoI18n&lt;/span&gt;&lt;span class='p'&gt;:&lt;/span&gt;&lt;span class='ss'&gt;:Store&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;new&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='n'&gt;collection&lt;/span&gt;&lt;span class='p'&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;If you are already using a mongodb ORM in your project (and I suppose you are, why else would you be reading this article? :), I recommend using the existing database connection.&lt;/p&gt;
 &lt;div class='highlight'&gt;&lt;pre&gt;&lt;code class='ruby'&gt;&lt;span class='n'&gt;collection&lt;/span&gt; &lt;span class='o'&gt;=&lt;/span&gt; &lt;span class='no'&gt;MongoMapper&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;database&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;collection&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='s1'&gt;&amp;#39;i18n&amp;#39;&lt;/span&gt;&lt;span class='p'&gt;)&lt;/span&gt;
-&lt;span class='no'&gt;I18n&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;backend&lt;/span&gt; &lt;span class='o'&gt;=&lt;/span&gt; &lt;span class='no'&gt;I18n&lt;/span&gt;&lt;span class='o'&gt;::&lt;/span&gt;&lt;span class='no'&gt;Backend&lt;/span&gt;&lt;span class='o'&gt;::&lt;/span&gt;&lt;span class='no'&gt;KeyValue&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;new&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='no'&gt;MongoI18n&lt;/span&gt;&lt;span class='o'&gt;::&lt;/span&gt;&lt;span class='no'&gt;Store&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;new&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='n'&gt;collection&lt;/span&gt;&lt;span class='p'&gt;))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;span class='no'&gt;I18n&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;backend&lt;/span&gt; &lt;span class='o'&gt;=&lt;/span&gt; &lt;span class='ss'&gt;I18n&lt;/span&gt;&lt;span class='p'&gt;:&lt;/span&gt;&lt;span class='ss'&gt;:Backend&lt;/span&gt;&lt;span class='o'&gt;::&lt;/span&gt;&lt;span class='no'&gt;KeyValue&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;new&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='ss'&gt;MongoI18n&lt;/span&gt;&lt;span class='p'&gt;:&lt;/span&gt;&lt;span class='ss'&gt;:Store&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;new&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='n'&gt;collection&lt;/span&gt;&lt;span class='p'&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Free Christmas gift, the rake file to import en.yml into mongodb:&lt;/p&gt;
 &lt;div class='highlight'&gt;&lt;pre&gt;&lt;code class='ruby'&gt;&lt;span class='lineno'&gt; 1&lt;/span&gt; &lt;span class='c1'&gt;# usage:&lt;/span&gt;
 &lt;span class='lineno'&gt; 2&lt;/span&gt; &lt;span class='c1'&gt;# bundle exec rake locale:file RAILS_ENV=production&lt;/span&gt;
@@ -82,17 +78,16 @@
 &lt;span class='lineno'&gt;33&lt;/span&gt;     &lt;span class='n'&gt;locale&lt;/span&gt; &lt;span class='o'&gt;=&lt;/span&gt; &lt;span class='no'&gt;ENV&lt;/span&gt;&lt;span class='o'&gt;[&lt;/span&gt;&lt;span class='s1'&gt;&amp;#39;locale&amp;#39;&lt;/span&gt;&lt;span class='o'&gt;]&lt;/span&gt; &lt;span class='o'&gt;||&lt;/span&gt; &lt;span class='s2'&gt;&amp;quot;en&amp;quot;&lt;/span&gt;
 &lt;span class='lineno'&gt;34&lt;/span&gt;     &lt;span class='n'&gt;environment&lt;/span&gt; &lt;span class='o'&gt;=&lt;/span&gt; &lt;span class='no'&gt;ENV&lt;/span&gt;&lt;span class='o'&gt;[&lt;/span&gt;&lt;span class='s1'&gt;&amp;#39;RAILS_ENV&amp;#39;&lt;/span&gt;&lt;span class='o'&gt;]&lt;/span&gt;   &lt;span class='o'&gt;||&lt;/span&gt; &lt;span class='s2'&gt;&amp;quot;development&amp;quot;&lt;/span&gt;
 &lt;span class='lineno'&gt;35&lt;/span&gt;     &lt;span class='c1'&gt;# I keep mongodb connection descriptor in config/mongodb.yml&lt;/span&gt;
-&lt;span class='lineno'&gt;36&lt;/span&gt;     &lt;span class='n'&gt;config&lt;/span&gt; &lt;span class='o'&gt;=&lt;/span&gt; &lt;span class='no'&gt;YAML&lt;/span&gt;&lt;span class='o'&gt;::&lt;/span&gt;&lt;span class='nb'&gt;load&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='no'&gt;File&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;read&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='no'&gt;Rails&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;root&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;join&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='s1'&gt;&amp;#39;config/mongodb.yml&amp;#39;&lt;/span&gt;&lt;span class='p'&gt;)))&lt;/span&gt;
-&lt;span class='lineno'&gt;37&lt;/span&gt;     &lt;span class='n'&gt;collection&lt;/span&gt; &lt;span class='o'&gt;=&lt;/span&gt; &lt;span class='no'&gt;Mongo&lt;/span&gt;&lt;span class='o'&gt;::&lt;/span&gt;&lt;span class='no'&gt;Connection&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;new&lt;/span&gt;&lt;span class='o'&gt;[&lt;/span&gt;&lt;span class='n'&gt;config&lt;/span&gt;&lt;span class='o'&gt;[&lt;/span&gt;&lt;span class='s2'&gt;&amp;quot;development&amp;quot;&lt;/span&gt;&lt;span class='o'&gt;][&lt;/span&gt;&lt;span class='s2'&gt;&amp;quot;database&amp;quot;&lt;/span&gt;&lt;span class='o'&gt;]].&lt;/span&gt;&lt;span class='n'&gt;collection&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='s1'&gt;&amp;#39;i18n&amp;#39;&lt;/span&gt;&lt;span class='p'&gt;)&lt;/span&gt;
-&lt;span class='lineno'&gt;38&lt;/span&gt;     &lt;span class='n'&gt;store&lt;/span&gt; &lt;span class='o'&gt;=&lt;/span&gt; &lt;span class='no'&gt;MongoI18n&lt;/span&gt;&lt;span class='o'&gt;::&lt;/span&gt;&lt;span class='no'&gt;Store&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;new&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='n'&gt;collection&lt;/span&gt;&lt;span class='p'&gt;)&lt;/span&gt;
+&lt;span class='lineno'&gt;36&lt;/span&gt;     &lt;span class='n'&gt;config&lt;/span&gt; &lt;span class='o'&gt;=&lt;/span&gt; &lt;span class='ss'&gt;YAML&lt;/span&gt;&lt;span class='p'&gt;:&lt;/span&gt;&lt;span class='ss'&gt;:load&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='no'&gt;File&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;read&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='no'&gt;Rails&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;root&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;join&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='s1'&gt;&amp;#39;config/mongodb.yml&amp;#39;&lt;/span&gt;&lt;span class='p'&gt;)))&lt;/span&gt;
+&lt;span class='lineno'&gt;37&lt;/span&gt;     &lt;span class='n'&gt;collection&lt;/span&gt; &lt;span class='o'&gt;=&lt;/span&gt; &lt;span class='ss'&gt;Mongo&lt;/span&gt;&lt;span class='p'&gt;:&lt;/span&gt;&lt;span class='ss'&gt;:Connection&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;new&lt;/span&gt;&lt;span class='o'&gt;[&lt;/span&gt;&lt;span class='n'&gt;config&lt;/span&gt;&lt;span class='o'&gt;[&lt;/span&gt;&lt;span class='s2'&gt;&amp;quot;development&amp;quot;&lt;/span&gt;&lt;span class='o'&gt;][&lt;/span&gt;&lt;span class='s2'&gt;&amp;quot;database&amp;quot;&lt;/span&gt;&lt;span class='o'&gt;]].&lt;/span&gt;&lt;span class='n'&gt;collection&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='s1'&gt;&amp;#39;i18n&amp;#39;&lt;/span&gt;&lt;span class='p'&gt;)&lt;/span&gt;
+&lt;span class='lineno'&gt;38&lt;/span&gt;     &lt;span class='n'&gt;store&lt;/span&gt; &lt;span class='o'&gt;=&lt;/span&gt; &lt;span class='ss'&gt;MongoI18n&lt;/span&gt;&lt;span class='p'&gt;:&lt;/span&gt;&lt;span class='ss'&gt;:Store&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;new&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='n'&gt;collection&lt;/span&gt;&lt;span class='p'&gt;)&lt;/span&gt;
 &lt;span class='lineno'&gt;39&lt;/span&gt;     
-&lt;span class='lineno'&gt;40&lt;/span&gt;     &lt;span class='n'&gt;dump&lt;/span&gt; &lt;span class='o'&gt;=&lt;/span&gt; &lt;span class='no'&gt;YAML&lt;/span&gt;&lt;span class='o'&gt;::&lt;/span&gt;&lt;span class='nb'&gt;load&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='no'&gt;File&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;open&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='no'&gt;Rails&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;root&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;join&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='s2'&gt;&amp;quot;config&amp;quot;&lt;/span&gt;&lt;span class='p'&gt;,&lt;/span&gt;&lt;span class='s2'&gt;&amp;quot;locales&amp;quot;&lt;/span&gt;&lt;span class='p'&gt;,&lt;/span&gt; &lt;span class='s2'&gt;&amp;quot;&lt;/span&gt;&lt;span class='si'&gt;#{&lt;/span&gt;&lt;span class='n'&gt;locale&lt;/span&gt;&lt;span class='si'&gt;}&lt;/span&gt;&lt;span class='s2'&gt;.yml&amp;quot;&lt;/span&gt;&lt;span class='p'&gt;)))&lt;/span&gt;
+&lt;span class='lineno'&gt;40&lt;/span&gt;     &lt;span class='n'&gt;dump&lt;/span&gt; &lt;span class='o'&gt;=&lt;/span&gt; &lt;span class='ss'&gt;YAML&lt;/span&gt;&lt;span class='p'&gt;:&lt;/span&gt;&lt;span class='ss'&gt;:load&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='no'&gt;File&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;open&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='no'&gt;Rails&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;root&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;join&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='s2'&gt;&amp;quot;config&amp;quot;&lt;/span&gt;&lt;span class='p'&gt;,&lt;/span&gt;&lt;span class='s2'&gt;&amp;quot;locales&amp;quot;&lt;/span&gt;&lt;span class='p'&gt;,&lt;/span&gt; &lt;span class='s2'&gt;&amp;quot;&lt;/span&gt;&lt;span class='si'&gt;#{&lt;/span&gt;&lt;span class='n'&gt;locale&lt;/span&gt;&lt;span class='si'&gt;}&lt;/span&gt;&lt;span class='s2'&gt;.yml&amp;quot;&lt;/span&gt;&lt;span class='p'&gt;)))&lt;/span&gt;
 &lt;span class='lineno'&gt;41&lt;/span&gt; 
 &lt;span class='lineno'&gt;42&lt;/span&gt;     &lt;span class='n'&gt;traverse&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='n'&gt;store&lt;/span&gt;&lt;span class='p'&gt;,&lt;/span&gt; &lt;span class='n'&gt;dump&lt;/span&gt;&lt;span class='p'&gt;,&lt;/span&gt; &lt;span class='o'&gt;[]&lt;/span&gt;&lt;span class='p'&gt;)&lt;/span&gt;
 &lt;span class='lineno'&gt;43&lt;/span&gt;   &lt;span class='k'&gt;end&lt;/span&gt;
 &lt;span class='lineno'&gt;44&lt;/span&gt; &lt;span class='k'&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Any feedback would be welcome.&lt;/p&gt;</content>
  </entry>
  
@@ -104,13 +99,13 @@
    <content type="html">&lt;p&gt;Recently I was developing project on top of Servlet API 3.0 and GWT 2.1 and faced the following problem: When I wanted to use async support from Servlet 3.0, &lt;a href='http://www.jetbrains.com/idea/'&gt;Idea&lt;/a&gt; was unable to resolve method startAsync for HttpServletRequest.&lt;/p&gt;
 
 &lt;p&gt;Like this:&lt;/p&gt;
-&lt;img alt='Resolving method failure' width='344' height='31' title='Resolving method failure' src='/release-201207022057/images/idea_dependencies/resolving_method_failure.png' /&gt;
+&lt;img alt='Resolving method failure' height='31' width='344' src='/images/idea_dependencies/resolving_method_failure.png' title='Resolving method failure' /&gt;
 &lt;p&gt;It turns out that gwt-dev-2.1.0.jar contains Servlet API 2.4 (looks like it comes with jetty or tomcat gwt dependencies) and &lt;a href='http://www.jetbrains.com/idea/'&gt;Idea&lt;/a&gt; uses it for inspections and autocomplete.&lt;/p&gt;
 
 &lt;p&gt;Solution is simple: Check if servlet api 3.0 jar comes after gwt-dev-2.1.0.jar in yout project module dependencies (meta+; shortcut), like this:&lt;/p&gt;
-&lt;img alt='Wrong dependency order' width='481' height='34' title='Wrong dependency order' src='/release-201207022057/images/idea_dependencies/wrong_dependency_order.png' /&gt;
+&lt;img alt='Wrong dependency order' height='34' width='481' src='/images/idea_dependencies/wrong_dependency_order.png' title='Wrong dependency order' /&gt;
 &lt;p&gt;And swap them using &amp;#8220;Move Up&amp;#8221;|&amp;#8221;Move Down&amp;#8221; keys, than hit OK button. After that Idea will resolve Servlet API as expected:&lt;/p&gt;
-&lt;img alt='Resolving method success' width='619' height='169' title='Resolving method success' src='/release-201207022057/images/idea_dependencies/resolving_method_success.png' /&gt;</content>
+&lt;img alt='Resolving method success' height='169' width='619' src='/images/idea_dependencies/resolving_method_success.png' title='Resolving method success' /&gt;</content>
  </entry>
  
  <entry>
@@ -154,12 +149,10 @@
 &lt;span class='lineno'&gt;21&lt;/span&gt;         &lt;span class='nt'&gt;&amp;lt;/replaceregexp&amp;gt;&lt;/span&gt;
 &lt;span class='lineno'&gt;22&lt;/span&gt;     &lt;span class='nt'&gt;&amp;lt;/target&amp;gt;&lt;/span&gt;
 &lt;span class='lineno'&gt;23&lt;/span&gt; &lt;span class='nt'&gt;&amp;lt;/project&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Использовать так: создать xml-файл с удобным вам именем (например, boom.xml) и скопипастить в него этот код. Разумеется, стоит поправить значение переменной js, которая указывает на папку с еще не сжатыми js-скриптами. После этого запускаем адскую машину такой командой (для *nix):&lt;/p&gt;
 &lt;div class='highlight'&gt;&lt;pre&gt;&lt;code class='bash'&gt;ant stripFirebugConsoleCalls -buildfile /path/to/boom.xml
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Вот и все. Засим я откланиваюсь до следующего ЧП или конца проекта.&lt;/p&gt;</content>
  </entry>
  
@@ -258,8 +251,7 @@
 &lt;span class='lineno'&gt;57&lt;/span&gt; &lt;span class='p'&gt;}),&lt;/span&gt; &lt;span class='kd'&gt;function&lt;/span&gt; &lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='nx'&gt;person&lt;/span&gt;&lt;span class='p'&gt;)&lt;/span&gt; &lt;span class='p'&gt;{&lt;/span&gt;
 &lt;span class='lineno'&gt;58&lt;/span&gt;     &lt;span class='k'&gt;return&lt;/span&gt; &lt;span class='nx'&gt;person&lt;/span&gt;&lt;span class='p'&gt;.&lt;/span&gt;&lt;span class='nx'&gt;name&lt;/span&gt; &lt;span class='o'&gt;+&lt;/span&gt; &lt;span class='s1'&gt;&amp;#39; &amp;#39;&lt;/span&gt; &lt;span class='o'&gt;+&lt;/span&gt; &lt;span class='nx'&gt;person&lt;/span&gt;&lt;span class='p'&gt;.&lt;/span&gt;&lt;span class='nx'&gt;lastName&lt;/span&gt;&lt;span class='p'&gt;;&lt;/span&gt;
 &lt;span class='lineno'&gt;59&lt;/span&gt; &lt;span class='p'&gt;});&lt;/span&gt; &lt;span class='c1'&gt;// John Doe, Abraham Smith&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Чрезвычайно избыточный и непонятный с непривычки код, особенно в сравнении с аналогичным в ruby или python.&lt;/p&gt;</content>
  </entry>
  
@@ -291,8 +283,7 @@
 &lt;span class='lineno'&gt;10&lt;/span&gt; &lt;span class='nx'&gt;IF&lt;/span&gt;&lt;span class='p'&gt;[(&lt;/span&gt;&lt;span class='mi'&gt;5&lt;/span&gt; &lt;span class='o'&gt;&amp;lt;&lt;/span&gt; &lt;span class='mi'&gt;4&lt;/span&gt;&lt;span class='p'&gt;)]();&lt;/span&gt; &lt;span class='c1'&gt;// should be false&lt;/span&gt;
 &lt;span class='lineno'&gt;11&lt;/span&gt; 
 &lt;span class='lineno'&gt;12&lt;/span&gt; &lt;span class='nx'&gt;IF&lt;/span&gt;&lt;span class='p'&gt;[(&lt;/span&gt;&lt;span class='k'&gt;typeof&lt;/span&gt; &lt;span class='nb'&gt;window&lt;/span&gt;&lt;span class='p'&gt;.&lt;/span&gt;&lt;span class='nx'&gt;UnusualAndStrangeProperty&lt;/span&gt; &lt;span class='o'&gt;===&lt;/span&gt; &lt;span class='s1'&gt;&amp;#39;undefined&amp;#39;&lt;/span&gt;&lt;span class='p'&gt;)]();&lt;/span&gt; &lt;span class='c1'&gt;// should be true&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Думаю, как это работает, очевидно, поэтому я&amp;#160;хочу заострить внимание на&amp;#160;другом: такая конструкция, по&amp;#160;идее, должна работать достаточно быстро, так как доступ к&amp;#160;свойствам объекта в&amp;#160;javascript очень быстр. Правда, в&amp;#160;таком случае мы&amp;#160;платим памятью за&amp;#160;скорость. И&amp;#160;действительно, тесты в&amp;#160;safari показывают, что этот код лишь чуть-чуть медленнее классической конструкции if&amp;#8230; else. Про остальные браузеры ничего не&amp;#160;могу сказать, так как всесторонним тестированием не&amp;#160;занимался &amp;#8212; да&amp;#160;и&amp;#160;не&amp;#160;стоит оно того, это&amp;#160;же чисто proof of&amp;#160;concept.&lt;/p&gt;
 
 &lt;p&gt;В&amp;#160;общем, как обычно, гибкость javascript достойна всяческих похвал. Если в&amp;#160;этом языке чего-то не&amp;#160;хватает, то&amp;#160;это что-то легко может быть дописано руками.&lt;/p&gt;</content>
@@ -306,7 +297,7 @@
    <content type="html">&lt;p&gt;Вчера я потратил вечер, записывая скринкаст. Нервов было израсходовано много, и в этом посте я собираюсь поделиться с вами своими впечатлениями от процесса и размышлениями на тему.&lt;/p&gt;
 
 &lt;p&gt;Итак. Что касается виновника торжества, то вот он:&lt;/p&gt;
-&lt;object data='http://vimeo.com/moogaloop.swf?clip_id=3310996&amp;amp;server=vimeo.com&amp;amp;show_title=1&amp;amp;show_byline=1&amp;amp;show_portrait=0&amp;amp;color=00ADEF&amp;amp;fullscreen=1' width='400' height='251' type='application/x-shockwave-flash'&gt;&lt;param value='true' name='allowfullscreen' /&gt;&lt;param value='always' name='allowscriptaccess' /&gt;&lt;param value='http://vimeo.com/moogaloop.swf?clip_id=3310996&amp;amp;server=vimeo.com&amp;amp;show_title=1&amp;amp;show_byline=1&amp;amp;show_portrait=0&amp;amp;color=00ADEF&amp;amp;fullscreen=1' name='src' /&gt;&lt;/object&gt;
+&lt;object height='251' width='400' data='http://vimeo.com/moogaloop.swf?clip_id=3310996&amp;amp;server=vimeo.com&amp;amp;show_title=1&amp;amp;show_byline=1&amp;amp;show_portrait=0&amp;amp;color=00ADEF&amp;amp;fullscreen=1' type='application/x-shockwave-flash'&gt;&lt;param name='allowfullscreen' value='true' /&gt;&lt;param name='allowscriptaccess' value='always' /&gt;&lt;param name='src' value='http://vimeo.com/moogaloop.swf?clip_id=3310996&amp;amp;server=vimeo.com&amp;amp;show_title=1&amp;amp;show_byline=1&amp;amp;show_portrait=0&amp;amp;color=00ADEF&amp;amp;fullscreen=1' /&gt;&lt;/object&gt;
 &lt;p&gt;&lt;a href='http://vimeo.com/3310996'&gt;TweetDeck screencast (rus)&lt;/a&gt; от &lt;a href='http://vimeo.com/user1053824'&gt;Александра Улизько&lt;/a&gt; на &lt;a href='http://vimeo.com'&gt;Vimeo&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;На мой взгляд, получилось гораздо лучше, нежели в &lt;a href='http://ulizko.com/posts/210/index.html'&gt;прошлый раз&lt;/a&gt;, но до сколько-нибудь нормального уровня скринкаст все еще не дотягивает. Из замеченных недостатков:&lt;/p&gt;
@@ -316,9 +307,9 @@
 &lt;p&gt;Язык убегает вперед головы&amp;#160;&amp;#8212; иногда не&amp;#160;согласованы рода и&amp;#160;числа, предложения остаются оборваны. Вы&amp;#160;бы видели, как хохотал &lt;a href='http://proxiper.livejournal.com'&gt;proxiper&lt;/a&gt;, когда, я&amp;#160;пять раз подряд записывал фразу &amp;#171;зарегистрировался в&amp;#160;сервисе&amp;#187;, потому что с&amp;#160;языка упорно слетало слово &amp;#171;сервер&amp;#187;. Как с&amp;#160;этим бороться, я&amp;#160;не&amp;#160;знаю, если честно&amp;#160;&amp;#8212; заучивать текст мне кажется глупым, но&amp;#160;иного способа говорить четко и&amp;#160;без оговорок я&amp;#160;не&amp;#160;знаю. Может быть, кто-нибудь из&amp;#160;более опытных товарищей поделится?&lt;/p&gt;
 
 &lt;p&gt;Откровенно странное качество записи&amp;#160;&amp;#8212; писалось все на&amp;#160;встроенный в&amp;#160;макбук микрофон в&amp;#160;течении достаточно длительного времени, от&amp;#160;этого голос время от&amp;#160;времени меняется, что вы&amp;#160;наверняка заметили. Думаю, при наличии нормального микрофона и&amp;#160;сокращении времени записи конкретно этот недостаток можно изжить.&lt;/p&gt;
-&lt;a href='/images/tweetdeck_screencast/tweetdeck_screencast_plan.png'&gt;&lt;img alt='План скринкаста о tweetdeck&amp;apos;e' width='150' height='150' title='План скринкаста о tweetdeck&amp;apos;e' src='/release-201207022057images/tweetdeck_screencast/tweetdeck_screencast_plan-150x150.png' /&gt;&lt;/a&gt;
+&lt;a href='/images/tweetdeck_screencast/tweetdeck_screencast_plan.png'&gt;&lt;img alt='План скринкаста о tweetdeck&amp;apos;e' height='150' width='150' src='images/tweetdeck_screencast/tweetdeck_screencast_plan-150x150.png' title='План скринкаста о tweetdeck&amp;apos;e' /&gt;&lt;/a&gt;
 &lt;p&gt;Сделав выводы из&amp;#160;прошлого скринкаста, я&amp;#160;решил, что записывать одновременно видео, звуки клавиатуры и&amp;#160;речь&amp;#160;&amp;#8212; не&amp;#160;комильфо, по&amp;#160;крайней мере, мне еще далеко до&amp;#160;такого уровня мастерства, так что я&amp;#160;сделал себе такой вот план и&amp;#160;решил сначала по&amp;#160;нему записать видео, а&amp;#160;потом поверх наложить звук. Собственно, результат действительно оказался гораздо лучше, чем в&amp;#160;прошлый раз, но&amp;#160;тоже изобилует недостатками. Короче, это было правильное решение, надо и&amp;#160;дальше действовать так.&lt;/p&gt;
-&lt;img alt='Монтаж скринкаста' width='150' class='size-thumbnail wp-image-340' height='150' title='Монтаж скринкаста' src='/release-201207022057/images/tweetdeck_screencast/dhcdhndhdhndhnn-3.png' /&gt;
+&lt;img alt='Монтаж скринкаста' height='150' width='150' class='size-thumbnail wp-image-340' src='/images/tweetdeck_screencast/dhcdhndhdhndhnn-3.png' title='Монтаж скринкаста' /&gt;
 &lt;p&gt;Неправильный выбор программы для записи и&amp;#160;редактирования&amp;#160;&amp;#8212; я&amp;#160;записывал все в&amp;#160;программу &lt;a href='http://www.varasoftware.com/products/screenflow/'&gt;screenflow&lt;/a&gt;. Точнее даже, записывает-то она вполне прилично, но&amp;#160;вот редактирование в&amp;#160;ней совершенно не&amp;#160;предусмотренно. Например, совершенно невозможно взять отдельный кадр из&amp;#160;видео и&amp;#160;показывать только его, а&amp;#160;звук пускай идет дальше&amp;#160;&amp;#8212; иногда это полезно, так как не&amp;#160;успеваешь проговорить все, что собирался. Также, совершенно дико реализован процесс дозаписи кусочков звука&amp;#160;&amp;#8212; чем-то процесс мне напоминает далекую молодость, когда я&amp;#160;мышкой накликивал в&amp;#160;cakewalk 9&amp;#160;&lt;nobr&gt;midi-партии.&lt;/nobr&gt; Возникают точно такие&amp;#160;же ощущения бессмысленной и&amp;#160;лишней работы&amp;#160;&amp;#8212; но, черт возьми, уже сколько лет-то прошло? Должен&amp;#160;же прогресс уйти вперед&amp;#160;не?&lt;/p&gt;
 
 &lt;p&gt;В общем, выводы из всего этого такие:&lt;/p&gt;
@@ -355,8 +346,7 @@
 
 &lt;p&gt;Очень просто: надо создать на&amp;#160;страничке элемент anchor с&amp;#160;атрибутом href, содержащим javascript-код. Если перевести на&amp;#160;русский, то&amp;#160;надо сделать вот такую ссылку, адрес которой, по&amp;#160;большому счету, и&amp;#160;будет букмарклетом:&lt;/p&gt;
 &lt;div class='highlight'&gt;&lt;pre&gt;&lt;code class='html'&gt;&lt;span class='nt'&gt;&amp;lt;a&lt;/span&gt; &lt;span class='na'&gt;href=&lt;/span&gt;&lt;span class='s'&gt;&amp;quot;javascript:alert(&amp;#39;I am bookmarklet&amp;#39;); void 0;&amp;quot;&lt;/span&gt;&lt;span class='nt'&gt;&amp;gt;&lt;/span&gt;Bookmarklet&lt;span class='nt'&gt;&amp;lt;/a&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Демо:&lt;/p&gt;
 &lt;a href='javascript:alert(&amp;apos;I am bookmarklet&amp;apos;); void 0;'&gt;Демо вышеописанного кода&lt;/a&gt;
 &lt;p&gt;Для того, чтобы javascript код в&amp;#160;адресе ссылки заработал, надо добавить перед ним слово &lt;code&gt;javascript:&lt;/code&gt;. По&amp;#160;умному это называется &amp;#171;указание псевдопротокола javascript&amp;#187;. Еще одна важная деталь&amp;#160;&amp;#8212; если ваш код вернет какое-то значение, то&amp;#160;браузер воспримет его в&amp;#160;качестве адреса, по&amp;#160;которому нужно перейти, и&amp;#160;уйдет с&amp;#160;текущей страницы. Чтобы избежать этого, не&amp;#160;возвращайте значения, то&amp;#160;есть допишите в&amp;#160;конец скрипта &lt;code&gt;void 0;&lt;/code&gt;, либо оберните весь код в&amp;#160;анонимную функцию, невозвращающую значения&amp;#160;&amp;#8212; &lt;code&gt;(function(){... ваш код мог бы быть здесь...})()&lt;/code&gt;.&lt;/p&gt;
@@ -388,8 +378,7 @@
 &lt;span class='lineno'&gt;18&lt;/span&gt;     &lt;span class='nx'&gt;h&lt;/span&gt;&lt;span class='p'&gt;.&lt;/span&gt;&lt;span class='nx'&gt;appendChild&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='nx'&gt;a&lt;/span&gt;&lt;span class='p'&gt;.&lt;/span&gt;&lt;span class='nx'&gt;script&lt;/span&gt;&lt;span class='p'&gt;);&lt;/span&gt;
 &lt;span class='lineno'&gt;19&lt;/span&gt;     &lt;span class='nx'&gt;h&lt;/span&gt;&lt;span class='o'&gt;=&lt;/span&gt;&lt;span class='kc'&gt;null&lt;/span&gt;&lt;span class='p'&gt;;&lt;/span&gt;
 &lt;span class='lineno'&gt;20&lt;/span&gt; &lt;span class='p'&gt;})();&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Потом подгружается непосредственно код самого окошка. Думаю, он&amp;#160;может представлять некий интерес сам по&amp;#160;себе, так что и&amp;#160;его я&amp;#160;сюда запощу (все комментарии идут на&amp;#160;английском, так как заказчик американец):&lt;/p&gt;
 &lt;div class='highlight'&gt;&lt;pre&gt;&lt;code class='javascript'&gt;&lt;span class='lineno'&gt;  1&lt;/span&gt; &lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='kd'&gt;function&lt;/span&gt; &lt;span class='p'&gt;()&lt;/span&gt; &lt;span class='p'&gt;{&lt;/span&gt;
 &lt;span class='lineno'&gt;  2&lt;/span&gt; &lt;span class='kd'&gt;var&lt;/span&gt; &lt;span class='nx'&gt;Dom&lt;/span&gt; &lt;span class='o'&gt;=&lt;/span&gt; &lt;span class='p'&gt;{&lt;/span&gt;
@@ -709,8 +698,7 @@
 &lt;span class='lineno'&gt;316&lt;/span&gt; &lt;span class='nx'&gt;allThat&lt;/span&gt;&lt;span class='p'&gt;.&lt;/span&gt;&lt;span class='nx'&gt;Bookmarklet&lt;/span&gt;&lt;span class='p'&gt;.&lt;/span&gt;&lt;span class='nx'&gt;initialize&lt;/span&gt;&lt;span class='p'&gt;();&lt;/span&gt; &lt;span class='c1'&gt;// show bookmarklet - this is visual start of the application&lt;/span&gt;
 &lt;span class='lineno'&gt;317&lt;/span&gt; 
 &lt;span class='lineno'&gt;318&lt;/span&gt; &lt;span class='p'&gt;})();&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;&lt;strong&gt;Примечания&lt;/strong&gt;:&lt;/p&gt;
 &lt;ul class='footnotes'&gt;
     &lt;li id='footnotes_wtf'&gt;Вообще скрипт выполнен мной на заказ в рамках моей фрилансерской деятельности, так что не удивляйтесь идее, логотипам и дизайну. &lt;/li&gt;
@@ -731,8 +719,7 @@
         &lt;span class='p'&gt;}&lt;/span&gt;
     &lt;span class='p'&gt;}&lt;/span&gt;
 &lt;span class='p'&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;</content>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
  </entry>
  
  <entry>
@@ -746,12 +733,10 @@
 &lt;div class='highlight'&gt;&lt;pre&gt;&lt;code class='javascript'&gt;&lt;span class='lineno'&gt;1&lt;/span&gt; &lt;span class='kd'&gt;function&lt;/span&gt; &lt;span class='nx'&gt;destroyTheWorld&lt;/span&gt; &lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='nx'&gt;when&lt;/span&gt;&lt;span class='p'&gt;,&lt;/span&gt; &lt;span class='nx'&gt;byWhom&lt;/span&gt;&lt;span class='p'&gt;)&lt;/span&gt; &lt;span class='p'&gt;{&lt;/span&gt;
 &lt;span class='lineno'&gt;2&lt;/span&gt;     &lt;span class='k'&gt;if&lt;/span&gt; &lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='o'&gt;!&lt;/span&gt;&lt;span class='nx'&gt;when&lt;/span&gt;&lt;span class='o'&gt;||!&lt;/span&gt;&lt;span class='nx'&gt;byWhom&lt;/span&gt;&lt;span class='p'&gt;)&lt;/span&gt; &lt;span class='k'&gt;return&lt;/span&gt; &lt;span class='s1'&gt;&amp;#39;fuck off&amp;#39;&lt;/span&gt;&lt;span class='p'&gt;;&lt;/span&gt;
 &lt;span class='lineno'&gt;3&lt;/span&gt; &lt;span class='p'&gt;};&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Если кто не знает, оператор логического отрицания &lt;code&gt;!&lt;/code&gt; в JavaScript вернет &lt;code&gt;true&lt;/code&gt; если ему передан &lt;code&gt;false&lt;/code&gt;, &lt;code&gt;''&lt;/code&gt; (пустая строка), &lt;code&gt;0&lt;/code&gt;, &lt;code&gt;null&lt;/code&gt;, &lt;code&gt;undefined&lt;/code&gt;. Во всех остальных случаях оператор логического отрицания вернет false. На всякий случай, проиллюстрирую:&lt;/p&gt;
 &lt;div class='highlight'&gt;&lt;pre&gt;&lt;code class='javascript'&gt;&lt;span class='o'&gt;!&lt;/span&gt;&lt;span class='mi'&gt;0&lt;/span&gt; &lt;span class='o'&gt;===&lt;/span&gt; &lt;span class='o'&gt;!&lt;/span&gt;&lt;span class='s1'&gt;&amp;#39;&amp;#39;&lt;/span&gt; &lt;span class='o'&gt;===&lt;/span&gt; &lt;span class='o'&gt;!&lt;/span&gt;&lt;span class='kc'&gt;null&lt;/span&gt; &lt;span class='o'&gt;===&lt;/span&gt; &lt;span class='o'&gt;!&lt;/span&gt;&lt;span class='kc'&gt;undefined&lt;/span&gt; &lt;span class='o'&gt;===&lt;/span&gt; &lt;span class='o'&gt;!&lt;/span&gt;&lt;span class='kc'&gt;false&lt;/span&gt; &lt;span class='o'&gt;===&lt;/span&gt; &lt;span class='kc'&gt;true&lt;/span&gt;&lt;span class='p'&gt;;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Таким образом, если мы не передали никакого объекта или передали &lt;code&gt;null&lt;/code&gt;, то функция завершит свою работу и вернет в качестве результата нехорошее слово.&lt;/p&gt;
 
 &lt;p&gt;Внимательные люди могут спросить&amp;#160;&amp;#8212; а&amp;#160;что, если передать &lt;code&gt;true&lt;/code&gt;? Функция завершит работу при вполне валидном параметре? Я&amp;#160;могу на&amp;#160;это ответить примерно так: если вы&amp;#160;передаете в&amp;#160;функцию булевую переменную, то&amp;#160;почти наверняка эта переменная&amp;#160;&amp;#8212; рычаг, т.е. в&amp;#160;зависимости от&amp;#160;нее меняется поведение функции. И&amp;#160;обработка аргументов, таким образом, будет вестить несколько другая. Скажем, такая:&lt;/p&gt;
@@ -763,8 +748,7 @@
 &lt;span class='lineno'&gt;6&lt;/span&gt;         &lt;span class='nx'&gt;World&lt;/span&gt;&lt;span class='p'&gt;.&lt;/span&gt;&lt;span class='nx'&gt;getInstance&lt;/span&gt;&lt;span class='p'&gt;().&lt;/span&gt;&lt;span class='nx'&gt;destructionTimer&lt;/span&gt;&lt;span class='p'&gt;.&lt;/span&gt;&lt;span class='nx'&gt;stop&lt;/span&gt;&lt;span class='p'&gt;();&lt;/span&gt;
 &lt;span class='lineno'&gt;7&lt;/span&gt;     &lt;span class='p'&gt;}&lt;/span&gt;
 &lt;span class='lineno'&gt;8&lt;/span&gt; &lt;span class='p'&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;И если вы опустите этот аргумент, то по эффекту это будет равнозначно передачи &lt;code&gt;false&lt;/code&gt;.&lt;/p&gt;</content>
  </entry>
  
@@ -788,7 +772,7 @@
 &lt;li&gt;Очень часто, даже если женщина не&amp;nbsp;присутствует лично при покупке какой-либо вещи (автомобиля, к&amp;nbsp;примеру), она все равно незримо присутствует&amp;nbsp;&amp;#8212; (она подбивала мужа сходить именно в&amp;nbsp;эти выходные, обсуждала с&amp;nbsp;ним цвет, марку, количество мест и&amp;nbsp;прочее). Так что очень и&amp;nbsp;очень глупо пытаться игнорировать женщин даже в&amp;nbsp;очень и&amp;nbsp;очень &amp;laquo;мужских&amp;raquo; товарах. А&amp;nbsp;уж&amp;nbsp;в&amp;nbsp;остальных товарах прежде всего надо ориентироваться на&amp;nbsp;то,&amp;nbsp;чтобы они понравились женщине. И,&amp;nbsp;кстати, это касается не&amp;nbsp;только товаров, но&amp;nbsp;и&amp;nbsp;услуг, и&amp;nbsp;всего прочего.&lt;/li&gt;
 &lt;li&gt;Население в&amp;nbsp;развитых странах стареет. В&amp;nbsp;развитых странах средний возраст непрерывно увеличивается. При этом, эти &amp;laquo;новые старики&amp;raquo;, в&amp;nbsp;отличии от&amp;nbsp;предыдущих поколений, вовсе не&amp;nbsp;настроены пассивно доживать последние годы своей жизни&amp;nbsp;&amp;#8212; напротив, выйдя на&amp;nbsp;пенсию, они только начинают жить и&amp;nbsp;тратить. Следует помнить, что их&amp;nbsp;все больше, что у&amp;nbsp;них активная жизненная позиция, и&amp;nbsp;у&amp;nbsp;них дохрена денег (и&amp;nbsp;их&amp;nbsp;будет все больше). Кстати, женщин среди них тоже больше (мужчины живут меньше), причем богатых женщин (эти женщины как сами заработали состояния, так и&amp;nbsp;унаследовали состояния мужей).&lt;/li&gt;
 &lt;/ul&gt;&lt;/p&gt;
-&lt;a href='http://www.ozon.ru/context/detail/id/2752879/?partner=aulizko'&gt;&lt;img alt='купить на Озоне книгу Тома Питерса &amp;amp; Марты Барлетта «Основы. Тренды»' width='200' height='376' title='книга Тома Питерса &amp;amp; Марты Барлетта «Основы. Тренды»' src='http://www.ozon.ru/multimedia/books_covers/1000369660.jpg' /&gt;&lt;/a&gt;&lt;a href='http://www.ozon.ru/context/detail/id/126499/?partner=aulizko'&gt;&lt;img alt='купить на Озоне книгу Аллана и Барбары Пиз «Язык взаимоотношений мужчина-женщина»' width='200' height='374' title='книга Аллана и Барбары Пиз «Язык взаимоотношений мужчина-женщина»' src='http://www.ozon.ru/multimedia/books_covers/sd148_05_09_01.jpg' /&gt;&lt;/a&gt;
+&lt;a href='http://www.ozon.ru/context/detail/id/2752879/?partner=aulizko'&gt;&lt;img alt='купить на Озоне книгу Тома Питерса &amp;amp; Марты Барлетта «Основы. Тренды»' height='376' width='200' src='http://www.ozon.ru/multimedia/books_covers/1000369660.jpg' title='книга Тома Питерса &amp;amp; Марты Барлетта «Основы. Тренды»' /&gt;&lt;/a&gt;&lt;a href='http://www.ozon.ru/context/detail/id/126499/?partner=aulizko'&gt;&lt;img alt='купить на Озоне книгу Аллана и Барбары Пиз «Язык взаимоотношений мужчина-женщина»' height='374' width='200' src='http://www.ozon.ru/multimedia/books_covers/sd148_05_09_01.jpg' title='книга Аллана и Барбары Пиз «Язык взаимоотношений мужчина-женщина»' /&gt;&lt;/a&gt;
 &lt;p&gt;&lt;strong&gt;Примечания&lt;/strong&gt;: &lt;ul class='footnotes'&gt;
 &lt;li id='footnotes_super_guru'&gt;сверх-гуру&amp;nbsp;&amp;#8212; это Том Питерс. По&amp;nbsp;крайней мере его так называют некоторые издания и&amp;nbsp;критики.&lt;/li&gt;
 &lt;li id='footnotes_grokh'&gt;грокинг&amp;nbsp;&amp;#8212; термин, придуманный Робертом Хайнлайном. Означает что-то вроде &amp;laquo;впитать знание&amp;raquo;. Подробнее можно прочитать здесь: &lt;a href='http://alternativereality-alias.blogspot.com/2008/01/blog-post_26.html'&gt;http://alternativereality-alias.blogspot.com/2008/01/blog-post_26.html&lt;/a&gt;&lt;/li&gt;
@@ -840,7 +824,7 @@
 &lt;/ul&gt;
 
 &lt;p&gt; &lt;/p&gt;
-&lt;a href='http://www.ozon.ru/context/detail/id/2415920/?partner=aulizko'&gt;&lt;img alt='Купить на озоне аудиокнигу Радислава Гандапаса «Камасутра для оратора»' width='200' height='275' title='аудиокнига Радислава Гандапаса «Камасутра для оратора»' src='http://www.ozon.ru/multimedia/books_covers/1000264080.jpg' /&gt;&lt;/a&gt;
+&lt;a href='http://www.ozon.ru/context/detail/id/2415920/?partner=aulizko'&gt;&lt;img alt='Купить на озоне аудиокнигу Радислава Гандапаса «Камасутра для оратора»' height='275' width='200' src='http://www.ozon.ru/multimedia/books_covers/1000264080.jpg' title='аудиокнига Радислава Гандапаса «Камасутра для оратора»' /&gt;&lt;/a&gt;
 &lt;p&gt;&lt;strong&gt;Примечания&lt;/strong&gt;: &lt;ul class='notes'&gt;&lt;li id='note_spell'&gt;Брэд Нойберг (Brad Neuberg) — надеюсь, я правильно транскрибировал его имя.&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</content>
  </entry>
  
@@ -867,7 +851,7 @@
    <link href="http://ulizko.com/posts/221/index.html"/>
    <updated>2008-12-19T00:00:00+03:00</updated>
    <id>http://ulizko.com/posts/221/221</id>
-   <content type="html">&lt;a href='http://www.ozon.ru/context/detail/id/2752868/?partner=aulizko'&gt;&lt;img alt='Купить на Озоне книгу Тома Питерса «Основы. Талант».' width='200' height='372' title='Том Питерс. Основы. Талант' src='http://www.ozon.ru/multimedia/books_covers/1000369659.jpg' /&gt;&lt;/a&gt;
+   <content type="html">&lt;a href='http://www.ozon.ru/context/detail/id/2752868/?partner=aulizko'&gt;&lt;img alt='Купить на Озоне книгу Тома Питерса «Основы. Талант».' height='372' width='200' src='http://www.ozon.ru/multimedia/books_covers/1000369659.jpg' title='Том Питерс. Основы. Талант' /&gt;&lt;/a&gt;
 &lt;p&gt;Прочитал сегодня маленькую, но&amp;#160;очень и&amp;#160;очень классную книжку от&amp;#160;&amp;#171;сверх-гуру&amp;#187; &lt;a href='http://tompeters.com'&gt;Тома Питерса&lt;/a&gt;, называется &amp;#171;Основы. Талант&amp;#187;.&lt;/p&gt;
 
 &lt;p&gt;Это &lt;em&gt;правильная&lt;/em&gt; книга. Книга, которую стоит читать. Она изменила меня&amp;#160;&amp;#8212; во&amp;#160;время чтения я&amp;#160;прямо чувствовал, как что-то во&amp;#160;мне сдвигается, меняется, выпрямляется.&lt;/p&gt;
