@@ -1,0 +1,158 @@
+#allthat-wish {
+	background: #add5fd url(http://ulizko.com/demo/allthat/images/bookmarklet/bg.gif) repeat-x top;	
+	width: 286px;
+	padding: 4px 14px 20px 14px;
+	position: absolute;	
+	z-index: 999;
+	top: 30px;
+	right: 30px;
+}	
+/* reset styles */
+#allthat-wish, #allthat-wish div, #allthat-wish fieldset, #allthat-wish input, #allthat-wish h1,
+#allthat-wish h2, #allthat-wish h3, #allthat-wish form, #allthat-wish button {
+	color: black;
+	line-height: 1em;	
+	font: normal 11px Arial, sans-serif;
+	margin: 0;
+	text-align: left;
+}
+#allthat-wish fieldset, #allthat-wish form, #allthat-wish h1,
+#allthat-wish h2, #allthat-wish h3, #allthat-wish button {
+	border: none;
+	padding: 0;
+}
+
+#allthat-wish, #allthat-wish #allthat-alerts {
+	border: 2px solid #2C385C;
+}
+
+#allthat-wish h2, #allthat-wish h3 {
+	font-size: 1em;
+}
+#allthat-wish h2 {
+	border-bottom: 1px solid black;
+	padding-top: 10px;
+	font-weight: bold;
+}
+#allthat-wish h3 {
+	font-weight: normal
+}
+#allthat-wish input {
+	border: 1px solid #c2c2c2;	
+	border-top-color:	#7c7c7c;
+	border-bottom-color: #dddddd;
+}
+#allthat-wish input, #allthat-wish select {
+	font-size: 1em;
+}
+#allthat-wish label {
+	font-weight: bold;
+}
+
+#allthat-logo {
+	width: 63px;
+	height: 11px;
+	background: url(http://ulizko.com/demo/allthat/images/bookmarklet/logo.gif) no-repeat;
+	position: absolute;
+	top: 8px;
+	right: 14px;
+}
+#allthat-wish h1 {
+	width: 210px;
+	height: 46px;
+	background: url(http://ulizko.com/demo/allthat/images/bookmarklet/add-to-wishlist.gif) no-repeat;
+	margin-left: -10px;
+}
+#allthat-wish #allthat-alerts input {
+	border: none;
+}
+.allthat-field {
+	width: 100%;
+	padding: 8px 0;
+}
+input.allthat-sample-value {
+	color: #999999 !important;
+}
+#allthat-wishlist {
+	width: 100%;
+}
+#allthat-wish #allthat-product {
+	height: 19px;
+	width: 279px;
+	padding: 7px 0 7px 7px;
+	font-size: 1.4em;
+}
+#allthat-wish #allthat-minprice, #allthat-wish #allthat-maxprice {
+	width: 52px;
+	height: 16px;
+	padding: 4px 0 4px 13px;
+	font-size: 1.2em;
+}
+#allthat-minprice {
+	margin-right: 0.5em !important;
+}
+#allthat-maxprice {
+	margin-left: 0.5em !important;
+}
+#allthat-range {
+	vertical-align: middle;
+}
+#allthat-wish #allthat-alerts {
+	background: white;
+	width: 145px;
+	padding: 10px 7px;
+}
+#allthat-alerts label {
+	font-weight: normal;
+	padding-left: 18px;
+	background: url(http://ulizko.com/demo/allthat/images/bookmarklet/icons-alert.gif) no-repeat left top;
+}
+#allthat-alerts input {
+	vertical-align: middle;
+	margin: 3px 0;
+}
+#allthat-alerts #allthat-sms-label {
+	background-position: 0 -44px;
+}
+#allthat-alerts #allthat-twitter-label {
+	background-position: 0 -87px;
+}
+#allthat-add {
+	width: 75px;
+	height: 35px;
+	border: none;
+	background: #ff5400 url(http://ulizko.com/demo/allthat/images/bookmarklet/button-add.png) no-repeat;
+	position: absolute;
+	bottom: 20px;
+	right: 14px;
+}
+#allthat-close {
+	width: 27px;
+	height: 27px;
+	border: none;
+	position: absolute;
+	top: -15px;
+	left: -15px;
+	z-index: 10;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader (src='http://ulizko.com/demo/allthat/images/bookmarklet/button-close.png', sizingMethod='image');
+}
+#allthat-wish > #allthat-close {
+	background: url(http://ulizko.com/demo/allthat/images/bookmarklet/button-close.png);	
+}
+
+
+#allthat-close, #allthat-add {
+	cursor: pointer;
+}
+#allthat-add span, #allthat-wish h1 span, #allthat-logo span, #allthat-close span {
+	display: none;
+}
+#allthat-throbber {	
+	background: url(http://ulizko.com/demo/allthat/images/bookmarklet/ajax-loader-blue.gif) no-repeat left;
+	padding-left: 20px;
+	position: absolute;
+}
+.allthat-saving#allthat-throbber {	
+	right: 24px;
+	bottom: 30px;
+}

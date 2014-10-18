@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Russify Comments Number</title>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" href="/release-201207022057/css/main.css" type="text/css" media="screen" />
+</head>
+<body>
+<div id="wrapper">
+	<div id="header">
+    	<h1><a href="/">Alexander's Ulizko blog</a></h1>
+	</div><!-- close:header -->
+    <div id="content">
+		<div id="main-content">
+
+			<div class="post" id="post-">
+				<h2>Russify Comments Number</h2>
+				<span class="date"></span>
+				<div class="entry">
+					<p>Когда-то давно я&#160;читал какую-то статью про развитие цивилизаций. Там была любопытная деталь, касающаяся счета. Автор статьи утверждал, что первобытный человек считал так: один, два, и&#160;так до&#160;какого-то предела счетного множества, много. То&#160;есть, он&#160;мог считать до&#160;какого-то ограниченного предела, а&#160;все, что больше этого счетного множества не&#160;помещалось в&#160;его мозги и&#160;называлось попросту &#171;много&#187;. И&#160;он&#160;приводил аргументы за&#160;то,&#160;что в&#160;русском языке (как и&#160;в&#160;некоторых других) до&#160;сих пор есть следы этого деления, к&#160;примеру:</p>
+
+<ul>
+<li>одна лошадь &#151; это один.</li>
+
+<li>две лошади, три лошади, четыре лошади (следите за изменением окончания) &#151; это счетное множество.</li>
+
+<li>пять лошадей, шесть лошадей и&#160;будь их&#160;хоть миллион, но&#160;все равно окончание будет <em>-ей</em>. Это то&#160;самое &#171;много&#187;.</li>
+</ul>
+
+<p>То&#160;есть, счетное множество у&#160;древних славян заканчивалось в&#160;районе четырех.</p>
+
+<p>Собственно, это была лирика. А&#160;практика вот такая:</p>
+
+<p>При настройке wordpress&#146;овского блога я&#160;столкнулся со&#160;следующей проблемой: под русский язык невозможно настроить нормальное склонение (так как я&#160;не&#160;гуманитарий, то&#160;за&#160;точность применения термина не&#160;ручаюсь :) существительного &#171;комментарий&#187;. То&#160;есть, к&#160;посту написали 1&#160;комментарий, 2&#160;комментария, или 5&#160;комментариев.</p>
+
+<p>В&#160;английском языке с&#160;этим делом проще. 0&#160;comments, 1&#160;comment, 2&#160;and more comments. Примерно так и&#160;работает стандартная функция comments_number в&#160;файле wp-includes/comment-tempate.php. Она принимает всего четыре аргумента &#151; формулу для вывода нуля комментариев, одного комментария, &#160;&#171;многих&#187; комментариев, а&#160;также флаг deprecated.</p>
+
+<p>Но&#160;я&#160;пишу на&#160;русском языке, и,&#160;соответственно, имею другую ситуацию. Итак. Чтобы нормально склонять слово &#171;комментарии&#187; нам надо обработать следующие ситуации:</p>
+
+<p>* Ноль комментариев.</p>
+
+<ul>
+<li>Один комментарий (а&#160;также 21,&#160;31&#160;etc.)</li>
+
+<li>Два, три, четыре комментария (а&#160;также 22-24, 32-34&#160;etc.)</li>
+
+<li>Пятнадцать комментариев. То&#160;есть произвольное число, не&#160;подпадающее под вышеуказанные рамки.</li>
+</ul>
+
+<p>Для решения я&#160;написал этот простенький <a href='http://ulizko.com/download/wordpress-plugins/russify_comments_number.php.zip'>плагин</a>.</p>
+
+<p>Плагин устанавливается крайне просто &#151; разархивируйте, скопируете в&#160;папку wp-content/plugins, в&#160;админке его активируйте. Проверялся на версиях 2.3.3 и 2.5.1. Настроек у&#160;него никаких нет, так что он&#160;тупо выводит &#171;23&#160;комментария&#187;, &#171;31&#160;комментарий&#187; и&#160;так далее.</p>
+
+<p>Собственно, пока что я&#160;не&#160;вижу никаких причин его дорабатывать, так как меня полностью устраивает его функционал. В&#160;принципе, можно еще добавить конвертер цифр в&#160;слова, чтобы было полностью словесное описание количества комментариев, но&#160;я&#160;думаю, это не&#160;самый лучший вариант &#151; гораздо удобнее одним взглядом на&#160;цифру понять число, нежели читать целую строчку, чтобы узнать, что к&#160;посту настрочили четыреста восемьдесят девять комментариев.</p>
+				</div>
+			</div>
+		    <div id="disqus_thread"></div>
+            <script type="text/javascript">
+                var disqus_shortname = 'alexander-ulizko';
+                // var disqus_identifier = 'unique_dynamic_id_1234';
+                // var disqus_url = 'http://example.com/permalink-to-page.html';
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+		</div><!-- close:main-content -->
+		<div id="sidebar" class="clearfix">
+    <div id="sb-1">
+        <a href="/about.html">About</a>
+        <ul id="rss">
+            <li><a href="http://feeds.feedburner.com/ulizko-com">RSS Feed of the articles</a></li>
+        </ul>
+    </div>
+	<div id="sb-2">
+		<a href="mailto:alexander@ulizko.com" class="email">alexander@ulizko.com</a>
+		<br />
+		<a href="http://twitter.com/aulizko" class="twitter">@aulizko</a>
+		<br />
+		<a href="http://http://www.facebook.com/profile.php?id=1002139259" class="facebook">Alexander Ulizko</a>
+		<br />
+		<a href="http://github.com/aulizko">github</a>
+		<br />
+		<a href="https://code.google.com/u/aulizko/">Google Code</a>
+	</div><!-- close:sb-2 -->
+</div><!-- close:sidebar -->
+    </div><!-- close:content -->
+<div id="footer">
+    <p>&copy;2008&nbsp;&mdash;&nbsp;2012 <a href="http://ulizko.com">Alexander Ulizko</a></p>
+	<p>managed by <a href="http://github.com/aulizko/blog">github</a> | generated by <a href="https://github.com/mojombo/jekyll">jekyll</a> | powered by <a href="http://disqus.com">disqus</a> | themed by <a href="http://www.vostoktheme.com" hreflang="en">Vostok Theme</a></p>
+</div><!-- close:footer -->
+</div><!-- close:wrapper -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-4326533-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</body>
+</html>

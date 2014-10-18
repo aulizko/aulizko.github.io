@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html class=" js flexbox canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths"
+      lang="en"><!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <!-- Use the .htaccess and remove these lines to avoid edge case issues.
+ More info: h5bp.com/b/378 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="css/screen.css">
+    <title>Список объявлений</title>
+
+    <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link type="ico" rel="shortcut icon" href="/images/favicon.ico">
+
+    <script src="js/modernizr-2.0.6.min.js"></script>
+</head>
+
+<body>
+
+<div id="topbar" class="topbar">
+    <div class="topbar-inner">
+        <div class="container-fluid">
+            <a class="brand" href="/site/admin">TorgoVorot</a>
+            <ul class="nav">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" href="/site/admin">Главная</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/site/admin">Административный центр</a></li>
+                        <li><a href="/">Публичный сайт</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown active">
+                    <a class="dropdown-toggle" href="#">Объявления</a>
+                    <ul class="dropdown-menu">
+                        <li class="active"><a href="/board/admin">Список объявлений</a></li>
+                        <li><a href="/board/create">Добавить объявление</a></li>
+                        <li class="divider"></li>
+                        <li><a href="category/admin">Список категорий</a></li>
+                        <li><a href="category/сreate">Добавить категорию</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="dropdown-toggle" href="/discount/admin">Скидки</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/discount/admin">Список скидок</a></li>
+                        <li><a href="/discount/create">Добавить скидку</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/discountCategory/admin">Список категорий</a></li>
+                        <li><a href="/discountCategory/create">Добавить категорию</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="dropdown-toggle" href="/profile/admin">Пользователи</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/profile/admin">Список</a></li>
+                        <li><a href="/profile/create">Добавить</a></li>
+                    </ul>
+                </li>
+                <li><a href="/photo/admin">Фотопоток</a></li>
+                <li>
+                    <a class="dropdown-toggle" href="/banner/admin">Баннеры</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/banner/admin">Список</a></li>
+                        <li><a href="/banner/create">Добавить</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="dropdown-toggle" href="/page/admin">Страницы</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/page/admin">Список</a></li>
+                        <li><a href="/page/create">Добавить</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form class="pull-right" method="get" action="/logout">Вы вошли как <a
+                    href="#">granit-necropolis@yandex.ru</a>
+                <button type="submit" class="btn"/>
+                Выйти
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="container" id="page">
+    <div class="content">
+        <div class="page-header">
+            <h1>Новые объявления</h1>
+        </div>
+        <div class="row">
+
+            <div class="span16">
+            <ul class="tabs">
+                <li class="active"><a href="#">Новые</a></li>
+                <li><a href="#">Просроченные</a></li>
+                <li><a href="#">Просроченные с витрин</a></li>
+                <li><a href="#">Почти просроченные</a></li>
+                <li><a href="#">Общий список</a></li>
+            </ul>
+
+                <div id="board-grid" class="grid-view">
+                <div class="summary"><p class="pull-right">Элементы 1—40 из 738.</p></div>
+                    <table class="items span16 zebra-striped">
+                        <thead>
+                        <tr>
+                            <th id="board-grid_c0"><a href="/board/admin?Board_sort=title">Заголовок</a></th>
+                            <th id="board-grid_c1"><a href="/board/admin?Board_sort=author_search">Автор</a></th>
+                            <th id="board-grid_c3"><a href="/board/admin?Board_sort=category_id">Категория</a></th>
+                            <th id="board-grid_c5"><a href="/board/admin?Board_sort=creation_date">Дата создания</a>
+                            </th>
+                            <th id="board-grid_c6"><a href="/board/admin?Board_sort=moderated">Одобрено</a></th>
+                        </tr>
+                        <tr class="filters">
+                            <td><input name="Board[title]" class="span7" type="text" maxlength="255"></td>
+                            <td><input name="Board[author_search]" class="span3" type="text"></td>
+                            <td><input name="Board[category_id]" class="span3" type="text"></td>
+                            <td>&nbsp;</td>
+                            <td><input type="checkbox" name="Board[moderated]" value="yes"></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="odd">
+                            <td><a href="/board/update/2438">Магазин игрушек и детских товаров "ТИМИ"</a></td>
+                            <td><a href="/profile/update?id=1252">Тими, магазин детских игрушек.</a></td>
+                            
+                            <td>Все для детей → Другое</td>
+                            
+                            <td>06.10.2011 19:49:51</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                        </tr>
+                        <tr class="even">
+                            <td><a href="/board/update/2400">Ремонт электроники</a></td>
+                            <td><a href="/profile/update?id=1241">Союз-связь, салон сотовой связи</a></td>
+                            <td>Телефоны, связь → Ремонт</td>
+                            
+                            <td>06.10.2011 09:44:29</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                        </tr>
+                        <tr class="odd">
+                            <td><a href="/board/update/2399">Товар в рассрочку</a></td>
+                            <td><a href="/profile/update?id=1241">Союз-связь, салон сотовой связи</a></td>
+                            <td>Телефоны, связь → Продажа</td>
+                            
+                            <td>06.10.2011 09:32:01</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                        </tr>
+                        <tr class="even">
+                            <td><a href="/board/update/2366">Женские сапоги-дутики</a></td>
+                            <td><a href="/profile/update?id=1184">ТД "Вена"</a></td>
+                            
+                            <td>Одежда/обувь → Для женщин</td>
+                            
+                            <td>04.10.2011 15:44:31</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                        </tr>
+                        <tr class="odd">
+                            <td><a href="/board/update/2365">Сапоги школьные для девочки</a></td>
+                            <td><a href="/profile/update?id=1184">ТД "Вена"</a></td>
+                            
+                            <td>Все для детей → Детская обувь</td>
+                            
+                            <td>04.10.2011 15:43:05</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                        </tr>
+                        <tr class="even">
+                            <td><a href="/board/update/2364">Детские ботинки на мальчика</a></td>
+                            <td><a href="/profile/update?id=1184">ТД "Вена"</a></td>
+                            
+                            <td>Все для детей → Детская обувь</td>
+                            
+                            <td>04.10.2011 15:38:06</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                        </tr>
+                        <tr class="odd">
+                            <td><a href="/board/update/2363">Ботинки для мальчика</a></td>
+                            <td><a href="/profile/update?id=1184">ТД "Вена"</a></td>
+                            
+                            <td>Все для детей → Детская обувь</td>
+                            
+                            <td>04.10.2011 15:36:12</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                        </tr>
+                        <tr class="even">
+                            <td><a href="/board/update/2362">Женские полусапожки</a></td>
+                            <td><a href="/profile/update?id=1184">ТД "Вена"</a></td>
+                            
+                            <td>Одежда/обувь → Для женщин</td>
+                            
+                            <td>04.10.2011 15:34:32</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                        </tr>
+                        <tr class="odd">
+                            <td><a href="/board/update/2361">Женские замшевые ботильоны</a></td>
+                            <td><a href="/profile/update?id=1184">ТД "Вена"</a></td>
+                            
+                            <td>Одежда/обувь → Для женщин</td>
+                            
+                            <td>04.10.2011 15:33:19</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                        </tr>
+                        <tr class="even">
+                            <td><a href="/board/update/2360">Сапоги школьные</a></td>
+                            <td><a href="/profile/update?id=1184">ТД "Вена"</a></td>
+                            
+                            <td>Все для детей → Детская обувь</td>
+                            
+                            <td>04.10.2011 15:31:12</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                        </tr>
+                        <tr class="odd">
+                            <td><a href="/board/update/2359">Детские валенки с мехом 1</a></td>
+                            <td><a href="/profile/update?id=1184">ТД "Вена"</a></td>
+                            
+                            <td>Все для детей → Детская обувь</td>
+                            
+                            <td>04.10.2011 15:28:38</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                        </tr>
+                        <tr class="even">
+                            <td><a href="/board/update/2358">Валенки с мехом</a></td>
+                            <td><a href="/profile/update?id=1184">ТД "Вена"</a></td>
+                            
+                            <td>Все для детей → Детская обувь</td>
+                            
+                            <td>04.10.2011 15:27:05</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                        </tr>
+                        <tr class="odd">
+                            <td><a href="/board/update/2357">Детские сапоги со шнуровкой</a></td>
+                            <td><a href="/profile/update?id=1184">ТД "Вена"</a></td>
+                            
+                            <td>Все для детей → Детская обувь</td>
+                            
+                            <td>04.10.2011 15:25:52</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                        </tr>
+                        <tr class="even">
+                            <td><a href="/board/update/2352">Детские сапожки с котиком</a></td>
+                            <td><a href="/profile/update?id=1184">ТД "Вена"</a></td>
+                            
+                            <td>Все для детей → Детская обувь</td>
+                            
+                            <td>04.10.2011 14:55:47</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                        </tr>
+                        <tr class="odd">
+                            <td><a href="/board/update/2351">Сапожки для девочки</a></td>
+                            <td><a href="/profile/update?id=1184">ТД "Вена"</a></td>
+                            
+                            <td>Все для детей → Детская обувь</td>
+                            
+                            <td>04.10.2011 14:54:56</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                        </tr>
+                        <tr class="even">
+                            <td><a href="/board/update/2347">Детские валенки</a></td>
+                            <td><a href="/profile/update?id=1184">ТД "Вена"</a></td>
+                            
+                            <td>Все для детей → Детская обувь</td>
+                            
+                            <td>04.10.2011 14:42:06</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                        </tr>
+                        <tr class="odd">
+                            <td><a href="/board/update/2345">Детские валенки с мехом</a></td>
+                            <td><a href="/profile/update?id=1184">ТД "Вена"</a></td>
+                            
+                            <td>Все для детей → Детская обувь</td>
+                            
+                            <td>04.10.2011 14:40:13</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                        </tr>
+                        <tr class="even">
+                            <td><a href="/board/update/2344">Детские валенки с бабочкой</a></td>
+                            <td><a href="/profile/update?id=1184">ТД "Вена"</a></td>
+                            
+                            <td>Все для детей → Детская обувь</td>
+                            
+                            <td>04.10.2011 14:39:08</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                        </tr>
+                        <tr class="odd">
+                            <td><a href="/board/update/2343">Сапоги для девочки с брелоками</a></td>
+                            <td><a href="/profile/update?id=1184">ТД "Вена"</a></td>
+                            
+                            <td>Все для детей → Детская обувь</td>
+                            
+                            <td>04.10.2011 14:36:47</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                        </tr>
+                        <tr class="even">
+                            <td><a href="/board/update/2309">САНТЕХНИКА ОПТОМ И В РОЗНИЦУ (ХОРОШЕЕ КАЧЕСТВО, ОГРОМНЫЙ
+                                ВЫБОР, НИЗКИЕ ЦЕНЫ)</a></td>
+                            <td><a href="/profile/update?id=1248">Аэлит, декоративные панели</a></td>
+                            
+                            <td>Строительство и ремонт → Сантехника</td>
+                            
+                            <td>03.10.2011 15:03:02</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                        </tr>
+                        <tr class="odd">
+                            <td><a href="/board/update/2222">Межкомнатные двери</a></td>
+                            <td><a href="/profile/update?id=1251">Сим-Сим, салон дверей</a></td>
+                            <td>Строительство и ремонт → Двери, арки</td>
+                            
+                            <td>29.09.2011 15:24:56</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                            
+                        </tr>
+                        <tr class="even">
+                            <td><a href="/board/update/2217">VOLKSWAGEN JETTA NEW</a></td>
+                            <td><a href="/profile/update?id=1242">Автореал, автосалон</a></td>
+                            
+                            <td>Авто → Продажа автомобилей</td>
+                            
+                            <td>29.09.2011 11:40:49</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                            
+                        </tr>
+                        <tr class="odd">
+                            <td><a href="/board/update/2216">VOLKSWAGEN GOLF VI</a></td>
+                            <td><a href="/profile/update?id=1242">Автореал, автосалон</a></td>
+                            
+                            <td>Авто → Продажа автомобилей</td>
+                            
+                            <td>29.09.2011 10:33:45</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                            
+                        </tr>
+                        <tr class="even">
+                            <td><a href="/board/update/2035">СТРОИТЕЛЬНЫЕ И ОТДЕЛОЧНЫЕ МАТЕРИАЛЫ ОПТОМ И В РОЗНИЦУ.
+                                КОМПЛЕКТУЮЩИЕ ДЛЯ ОКОН ПВХ</a></td>
+                            <td><a href="/profile/update?id=1248">Аэлит, декоративные панели</a></td>
+                            
+                            <td>Строительство и ремонт → Стройматериалы</td>
+                            
+                            <td>21.09.2011 12:58:38</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                            
+                        </tr>
+                        <tr class="odd">
+                            <td><a href="/board/update/2034">Декоративные облицовочные панели Аэлит</a></td>
+                            <td><a href="/profile/update?id=1248">Аэлит, декоративные панели</a></td>
+                            
+                            <td>Строительство и ремонт → Стройматериалы</td>
+                            
+                            <td>21.09.2011 12:37:34</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                            
+                        </tr>
+                        <tr class="even">
+                            <td><a href="/board/update/2000">Продам 3 комнатную квартиру по ул. Батюшкова 7-А</a></td>
+                            <td><a href="/profile/update?id=1226">Служба недвижимости "Компромисс"</a></td>
+                            
+                            <td>Недвижимость → Продажа квартир</td>
+                            
+                            <td>19.09.2011 17:07:27</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                            
+                        </tr>
+                        <tr class="odd">
+                            <td><a href="/board/update/1999">Продам 1 комнатную квартиру по ул. Раахе 10</a></td>
+                            <td><a href="/profile/update?id=1226">Служба недвижимости "Компромисс"</a></td>
+                            
+                            <td>Недвижимость → Продажа квартир</td>
+                            
+                            <td>19.09.2011 17:03:58</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                            
+                        </tr>
+                        <tr class="even">
+                            <td><a href="/board/update/1995">Детский фитнес</a></td>
+                            <td><a href="/profile/update?id=1209">ФЦ «Жемчужина»</a></td>
+                            
+                            <td>Спорт → Другое</td>
+                            
+                            <td>19.09.2011 15:23:16</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                            
+                        </tr>
+                        <tr class="odd">
+                            <td><a href="/board/update/1994">Боевые искусства для детей.</a></td>
+                            <td><a href="/profile/update?id=1209">ФЦ «Жемчужина»</a></td>
+                            
+                            <td>Спорт → Боевые искусства</td>
+                            
+                            <td>19.09.2011 15:02:24</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                            
+                        </tr>
+                        <tr class="even">
+                            <td><a href="/board/update/1971">Продам 2 комнатную квартиру по ул. Ленинградская 19/20</a>
+                            </td>
+                            <td><a href="/profile/update?id=1226">Служба недвижимости "Компромисс"</a></td>
+                            
+                            <td>Недвижимость → Продажа квартир</td>
+                            
+                            <td>16.09.2011 17:00:52</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                            
+                        </tr>
+                        <tr class="odd">
+                            <td><a href="/board/update/1969">Продам 1 комнатную квартиру по пр. Строителей 20</a></td>
+                            <td><a href="/profile/update?id=1226">Служба недвижимости "Компромисс"</a></td>
+                            
+                            <td>Недвижимость → Продажа квартир</td>
+                            
+                            <td>16.09.2011 16:57:42</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                            
+                        </tr>
+                        <tr class="even">
+                            <td><a href="/board/update/1968">Продам 1 комнатную квартиру по ул. Наседкина 9</a></td>
+                            <td><a href="/profile/update?id=1226">Служба недвижимости "Компромисс"</a></td>
+                            
+                            <td>Недвижимость → Продажа квартир</td>
+                            
+                            <td>16.09.2011 16:56:21</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                            
+                        </tr>
+                        <tr class="odd">
+                            <td><a href="/board/update/1951">Продам 2 комнатную квартиру по ул. Первомайская 19</a></td>
+                            <td><a href="/profile/update?id=1226">Служба недвижимости "Компромисс"</a></td>
+                            
+                            <td>Недвижимость → Продажа квартир</td>
+                            
+                            <td>15.09.2011 14:47:28</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                            
+                        </tr>
+                        <tr class="even">
+                            <td><a href="/board/update/1907">Натяжные потолки Череповец</a></td>
+                            <td><a href="/profile/update?id=1239">Кварт, натяжные потолки</a></td>
+                            
+                            <td>Услуги для бизнеса → Другое</td>
+                            
+                            <td>13.09.2011 14:19:38</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                            
+                        </tr>
+                        <tr class="odd">
+                            <td><a href="/board/update/1906">Натяжные потолки "Кварт"</a></td>
+                            <td><a href="/profile/update?id=1239">Кварт, натяжные потолки</a></td>
+                            
+                            <td>Строительство и ремонт → Ремонт квартир</td>
+                            
+                            <td>13.09.2011 14:15:54</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                            
+                        </tr>
+                        <tr class="even">
+                            <td><a href="/board/update/1905">Дизайн натяжных потолков</a></td>
+                            <td><a href="/profile/update?id=1239">Кварт, натяжные потолки</a></td>
+                            
+                            <td>Строительство и ремонт → Натяжные потолки</td>
+                            
+                            <td>13.09.2011 14:10:55</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                            
+                        </tr>
+                        <tr class="odd">
+                            <td><a href="/board/update/1903">Установка натяжных потолков</a></td>
+                            <td><a href="/profile/update?id=1239">Кварт, натяжные потолки</a></td>
+                            
+                            <td>Строительство и ремонт → Натяжные потолки</td>
+                            
+                            <td>13.09.2011 14:01:00</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                            
+                        </tr>
+                        <tr class="even">
+                            <td><a href="/board/update/1888">Продам 3 комнатную квартиру по пр. Победы 161</a></td>
+                            <td><a href="/profile/update?id=1226">Служба недвижимости "Компромисс"</a></td>
+                            
+                            <td>Недвижимость → Продажа квартир</td>
+                            
+                            <td>12.09.2011 17:21:11</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                            
+                        </tr>
+                        <tr class="odd">
+                            <td><a href="/board/update/1886">Продам 2 комнатную квартиру по ул. Сталеваров 40</a></td>
+                            <td><a href="/profile/update?id=1226">Служба недвижимости "Компромисс"</a></td>
+                            
+                            <td>Недвижимость → Продажа квартир</td>
+                            
+                            <td>12.09.2011 17:18:12</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                            
+                        </tr>
+                        <tr class="even">
+                            <td><a href="/board/update/1885">Продам 2 комнатную квартиру по пр. Победы 156</a></td>
+                            <td><a href="/profile/update?id=1226">Служба недвижимости "Компромисс"</a></td>
+                            
+                            <td>Недвижимость → Продажа квартир</td>
+                            
+                            <td>12.09.2011 17:16:41</td>
+                            <td><a class="label success" href="#">Да</a></td>
+                            
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="pager pagination">
+                        <ul id="yw0" class="yiiPager">
+                            <li class="prev disabled"><a href="/board/admin">&larr; Предыдущая</a></li>
+                            <li class="page active"><a href="/board/admin">1</a></li>
+                            <li class="page"><a href="/board/admin?Board_page=2">2</a></li>
+                            <li class="page"><a href="/board/admin?Board_page=3">3</a></li>
+                            <li class="page"><a href="/board/admin?Board_page=4">4</a></li>
+                            <li class="page"><a href="/board/admin?Board_page=5">5</a></li>
+                            <li class="page"><a href="/board/admin?Board_page=6">6</a></li>
+                            <li class="page"><a href="/board/admin?Board_page=7">7</a></li>
+                            <li class="page"><a href="/board/admin?Board_page=8">8</a></li>
+                            <li class="page"><a href="/board/admin?Board_page=9">9</a></li>
+                            <li class="page"><a href="/board/admin?Board_page=10">10</a></li>
+                            <li class="next"><a href="/board/admin?Board_page=2">Следующая &rarr;</a></li>
+                        </ul>
+                    </div>
+                    <div class="keys" style="display:none" title="/board/admin"><span>2438</span><span>2400</span><span>2399</span><span>2366</span><span>2365</span><span>2364</span><span>2363</span><span>2362</span><span>2361</span><span>2360</span><span>2359</span><span>2358</span><span>2357</span><span>2352</span><span>2351</span><span>2347</span><span>2345</span><span>2344</span><span>2343</span><span>2309</span><span>2222</span><span>2217</span><span>2216</span><span>2035</span><span>2034</span><span>2000</span><span>1999</span><span>1995</span><span>1994</span><span>1971</span><span>1969</span><span>1968</span><span>1951</span><span>1907</span><span>1906</span><span>1905</span><span>1903</span><span>1888</span><span>1886</span><span>1885</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div> <!-- end content -->
+
+    <footer><p>© TorgoVorot 2011</p></footer>
+</div>
+
+<!-- page -->
+<script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="js/bootstrap-dropdown.js"></script>
+<script type="text/javascript">
+    $('#topbar').dropdown();
+</script>
+</body>
+</html>
