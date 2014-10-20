@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "MongoDB-based Backend::Store implementation for I18n gem"
-permalink: /posts/408/index.html
 ---
+
 Currently I’m working on a web project on top of rails 3 and mongodb.
 
 Recently we faced the necessity of changing I18n backend from simple to something more dynamic (in fact, we wanted to allow the non-geeks from our team to participate in the internationalization process via web interface).

@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "Strip firebug console api calls"
-permalink: /posts/371/index.html
 ---
+
 **Update**: После [обсуждения](http://habrahabr.ru/blogs/webdev/71586/) на хабре и продолжительных размышлений на тему, решил отказаться от подобного метода. Думаю пересесть на [Google Closure Compiler](http://code.google.com/closure/compiler/) и с его помощью обрезать debug-код, как расписано в [статье](http://javascript.ru/optimize/google-closure-compiler/define) у Ильи Кантора. Так что этот пост подустарел и оставляю я его чисто для истории. 
 
 На днях надо было сходить показать представителю заказчика, как пользоваться одной свежевстроенной в проект фичей.

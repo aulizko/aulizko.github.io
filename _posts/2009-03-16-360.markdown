@@ -1,10 +1,10 @@
 ---
 layout: post
 title: "Невпопад"
-permalink: /posts/360/index.html
 tags:
   - JavaScript
 ---
+
 Хочу в отпуск. Так хочу, что меня все раздражает.
 
 GC в ruby в сто раз примитивнее того, что используется в jvm. Ц-ц-ц.

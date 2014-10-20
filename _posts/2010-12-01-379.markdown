@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "Quick tip for Intellij Idea users: manage your dependencies order"
-permalink: /posts/379/index.html
 ---
+
 Recently I was developing project on top of Servlet API 3.0 and GWT 2.1 and faced the following problem:
 When I wanted to use async support from Servlet 3.0, [Idea](http://www.jetbrains.com/idea/) was unable to resolve method startAsync for HttpServletRequest.
 
