@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Russify Comments Number"
-permalink: /posts/29/index.html
 tags: 
   - "wordpress"
   - "плагин"
@@ -15,6 +14,6 @@ tags:
 
 Пока&nbsp;же, чтобы облегчить ожидание, вот немножко сладкого (только для движка wordpress, к&nbsp;сожалению):
 
-Во&nbsp;время настройки блога меня настолько сильно достало неправильное склонение слова &laquo;комментарий&raquo; в&nbsp;выводе числа комментариев к&nbsp;посту, что я&nbsp;занялся этой проблемой и&nbsp;написал <a href="http://ulizko.com/russify_comments_number">супер-простой плагин</a> под wordpress, решающий эту проблему.
+Во&nbsp;время настройки блога меня настолько сильно достало неправильное склонение слова &laquo;комментарий&raquo; в&nbsp;выводе числа комментариев к&nbsp;посту, что я&nbsp;занялся этой проблемой и&nbsp;написал [супер-простой плагин](http://ulizko.com/russify_comments_number) под wordpress, решающий эту проблему.
 
 Думаю, пригодится владельцам standalone блогов на&nbsp;движке wordpress.

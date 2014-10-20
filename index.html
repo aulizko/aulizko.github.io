@@ -1,212 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<title>Alexander's Ulizko blog</title>
-	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-	<link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" />
-</head>
-<body>
-<div id="wrapper">
-	<div id="header">
-    	<h1><a href="/">Alexander's Ulizko blog</a></h1>
-	</div><!-- close:header -->
-    <div id="content">
-		<div id="main-content">
-
-            
-	<div class="post" id="post-/posts/408/408">
-		<h2><a href="/posts/408/index.html" rel="bookmark" title="MongoDB-based Backend::Store implementation for I18n gem">MongoDB-based Backend::Store implementation for I18n gem</a></h2>
-		<span class="date">2010 / 12 / 28</span>
+---
+layout: default
+title: Alexander's Ulizko blog
+---
+{% for post in paginator.posts %}
+	<div class="post" id="post-{{ post.id }}">
+		<h2><a href="{{ post.url }}" rel="bookmark" title="{{ post.title }}">{{ post.title }}</a></h2>
+		<span class="date">{{ post.date | date: "%Y / %m / %d" }}</span>
 		<div class="entry">
-			<p>Currently I’m working on a web project on top of rails 3 and mongodb.</p>
-
-<p>Recently we faced the necessity of changing I18n backend from simple to something more dynamic (in fact, we wanted to allow the non-geeks from our team to participate in the internationalization process via web interface).</p>
-
-<p>I googled for &#8220;mongodb i18n&#8221;, &#8220;mongo_mapper i18n&#8221;, &#8220;mongodb i18n backend&#8221;, etc. and found nothing, so I wrote my own implementation of mongodb backend for I18n, called <a href='https://github.com/aulizko/mongo-i18n'>mongo-i18n</a> (in fact, &#171;wrote&#187; is too strong a word&#160;&#8212; all that I needed to do was to implement three methods of the store interface:)</p>
-
-<p>You can grab the sources <a href='https://github.com/aulizko/mongo-i18n'>here</a> or you can install the gem via command line:</p>
-<div class='highlight'><pre><code class='bash'>gem install mongo-i18n
-</code></pre></div>
-<h4 id='usage'>Usage:</h4>
-
-<p>I recommend to start with <a href='https://github.com/svenfuchs/i18n/blob/master/lib/i18n/backend/chain.rb'>Chain</a> backend while mongodb collection is empty, and move to entirely mongodb-based backend when you populate your database with all I18n messages.</p>
-
-<p>Begin with:</p>
-<div class='highlight'><pre><code class='ruby'><span class='n'>collection</span> <span class='o'>=</span> <span class='ss'>Mongo</span><span class='p'>:</span><span class='ss'>:Connection</span><span class='o'>.</span><span class='n'>new</span><span class='o'>[</span><span class='s1'>&#39;my_app_related_db&#39;</span><span class='o'>].</span><span class='n'>collection</span><span class='p'>(</span><span class='s1'>&#39;i18n&#39;</span><span class='p'>)</span>
-<span class='no'>I18n</span><span class='o'>.</span><span class='n'>backend</span> <span class='o'>=</span> <span class='ss'>I18n</span><span class='p'>:</span><span class='ss'>:Backend</span><span class='o'>::</span><span class='no'>Chain</span><span class='o'>.</span><span class='n'>new</span><span class='p'>(</span><span class='ss'>I18n</span><span class='p'>:</span><span class='ss'>:Backend</span><span class='o'>::</span><span class='no'>KeyValue</span><span class='o'>.</span><span class='n'>new</span><span class='p'>(</span><span class='ss'>MongoI18n</span><span class='p'>:</span><span class='ss'>:Store</span><span class='o'>.</span><span class='n'>new</span><span class='p'>(</span><span class='n'>collection</span><span class='p'>)),</span> <span class='no'>I18n</span><span class='o'>.</span><span class='n'>backend</span><span class='p'>)</span>
-</code></pre></div>
-<p>And finish with:</p>
-<div class='highlight'><pre><code class='ruby'><span class='n'>collection</span> <span class='o'>=</span> <span class='ss'>Mongo</span><span class='p'>:</span><span class='ss'>:Connection</span><span class='o'>.</span><span class='n'>new</span><span class='o'>[</span><span class='s1'>&#39;my_app_related_db&#39;</span><span class='o'>].</span><span class='n'>collection</span><span class='p'>(</span><span class='s1'>&#39;i18n&#39;</span><span class='p'>)</span>
-<span class='no'>I18n</span><span class='o'>.</span><span class='n'>backend</span> <span class='o'>=</span> <span class='ss'>I18n</span><span class='p'>:</span><span class='ss'>:Backend</span><span class='o'>::</span><span class='no'>KeyValue</span><span class='o'>.</span><span class='n'>new</span><span class='p'>(</span><span class='ss'>MongoI18n</span><span class='p'>:</span><span class='ss'>:Store</span><span class='o'>.</span><span class='n'>new</span><span class='p'>(</span><span class='n'>collection</span><span class='p'>)</span>
-</code></pre></div>
-<p>If you are already using a mongodb ORM in your project (and I suppose you are, why else would you be reading this article? :), I recommend using the existing database connection.</p>
-<div class='highlight'><pre><code class='ruby'><span class='n'>collection</span> <span class='o'>=</span> <span class='no'>MongoMapper</span><span class='o'>.</span><span class='n'>database</span><span class='o'>.</span><span class='n'>collection</span><span class='p'>(</span><span class='s1'>&#39;i18n&#39;</span><span class='p'>)</span>
-<span class='no'>I18n</span><span class='o'>.</span><span class='n'>backend</span> <span class='o'>=</span> <span class='ss'>I18n</span><span class='p'>:</span><span class='ss'>:Backend</span><span class='o'>::</span><span class='no'>KeyValue</span><span class='o'>.</span><span class='n'>new</span><span class='p'>(</span><span class='ss'>MongoI18n</span><span class='p'>:</span><span class='ss'>:Store</span><span class='o'>.</span><span class='n'>new</span><span class='p'>(</span><span class='n'>collection</span><span class='p'>))</span>
-</code></pre></div>
-<p>Free Christmas gift, the rake file to import en.yml into mongodb:</p>
-<div class='highlight'><pre><code class='ruby'><span class='lineno'> 1</span> <span class='c1'># usage:</span>
-<span class='lineno'> 2</span> <span class='c1'># bundle exec rake locale:file RAILS_ENV=production</span>
-<span class='lineno'> 3</span> <span class='c1'># if you want to export a different locale (not en.yml), provide locale option, as follows:</span>
-<span class='lineno'> 4</span> <span class='c1'># bundle exec rake locale:file RAILS_ENV=production locale=ru</span>
-<span class='lineno'> 5</span> 
-<span class='lineno'> 6</span> <span class='nb'>require</span> <span class='s1'>&#39;mongo-i18n&#39;</span>
-<span class='lineno'> 7</span> 
-<span class='lineno'> 8</span> <span class='k'>def</span> <span class='nf'>write_to_database</span><span class='p'>(</span><span class='n'>sc</span><span class='p'>,</span> <span class='n'>path</span><span class='p'>,</span> <span class='n'>value</span><span class='p'>)</span>
-<span class='lineno'> 9</span>   <span class='n'>key</span> <span class='o'>=</span> <span class='n'>path</span><span class='o'>.</span><span class='n'>join</span><span class='p'>(</span><span class='s1'>&#39;.&#39;</span><span class='p'>)</span>
-<span class='lineno'>10</span>   <span class='n'>sc</span><span class='o'>[</span><span class='n'>key</span><span class='o'>]</span> <span class='o'>=</span> <span class='n'>value</span><span class='o'>.</span><span class='n'>to_json</span>
-<span class='lineno'>11</span> <span class='k'>end</span>
-<span class='lineno'>12</span> 
-<span class='lineno'>13</span> <span class='c1'># traverse through hash</span>
-<span class='lineno'>14</span> <span class='k'>def</span> <span class='nf'>traverse</span><span class='p'>(</span><span class='n'>sc</span><span class='p'>,</span> <span class='n'>obj</span><span class='p'>,</span> <span class='n'>path</span><span class='p'>)</span>
-<span class='lineno'>15</span>   <span class='k'>case</span> <span class='n'>obj</span>
-<span class='lineno'>16</span>   <span class='k'>when</span> <span class='no'>Hash</span>
-<span class='lineno'>17</span>     <span class='n'>obj</span><span class='o'>.</span><span class='n'>each</span> <span class='k'>do</span> <span class='o'>|</span><span class='n'>k</span><span class='p'>,</span><span class='n'>v</span><span class='o'>|</span> 
-<span class='lineno'>18</span>       <span class='n'>traverse</span><span class='p'>(</span><span class='n'>sc</span><span class='p'>,</span> <span class='n'>v</span><span class='p'>,</span> <span class='n'>path</span> <span class='o'>+</span> <span class='o'>[</span><span class='n'>k</span><span class='o'>]</span><span class='p'>)</span> 
-<span class='lineno'>19</span>     <span class='k'>end</span>
-<span class='lineno'>20</span>   <span class='k'>when</span> <span class='nb'>Array</span>
-<span class='lineno'>21</span>     <span class='n'>obj</span><span class='o'>.</span><span class='n'>each</span> <span class='p'>{</span><span class='o'>|</span><span class='n'>v</span><span class='o'>|</span> <span class='n'>traverse</span><span class='p'>(</span><span class='n'>sc</span><span class='p'>,</span> <span class='n'>v</span><span class='p'>)</span> <span class='p'>}</span>
-<span class='lineno'>22</span>   <span class='k'>else</span> <span class='c1'># end values</span>
-<span class='lineno'>23</span>     <span class='n'>write_to_database</span><span class='p'>(</span><span class='n'>sc</span><span class='p'>,</span> <span class='n'>path</span><span class='p'>,</span> <span class='n'>obj</span><span class='p'>)</span>
-<span class='lineno'>24</span>   <span class='k'>end</span>
-<span class='lineno'>25</span> <span class='k'>end</span>
-<span class='lineno'>26</span> 
-<span class='lineno'>27</span> <span class='n'>namespace</span> <span class='ss'>:locale</span> <span class='k'>do</span>
-<span class='lineno'>28</span>   <span class='n'>desc</span> <span class='o'>&lt;&lt;-</span><span class='no'>eos</span>
-<span class='lineno'>29</span> <span class='sh'>    Exports $app/config/locale/$locale.yml contents to mongodb database. </span>
-<span class='lineno'>30</span> <span class='sh'>    If locale is not specified, default (en) locale file will be exported.</span>
-<span class='lineno'>31</span> <span class='no'>  eos</span>
-<span class='lineno'>32</span>   <span class='n'>task</span> <span class='ss'>:file</span> <span class='k'>do</span>
-<span class='lineno'>33</span>     <span class='n'>locale</span> <span class='o'>=</span> <span class='no'>ENV</span><span class='o'>[</span><span class='s1'>&#39;locale&#39;</span><span class='o'>]</span> <span class='o'>||</span> <span class='s2'>&quot;en&quot;</span>
-<span class='lineno'>34</span>     <span class='n'>environment</span> <span class='o'>=</span> <span class='no'>ENV</span><span class='o'>[</span><span class='s1'>&#39;RAILS_ENV&#39;</span><span class='o'>]</span>   <span class='o'>||</span> <span class='s2'>&quot;development&quot;</span>
-<span class='lineno'>35</span>     <span class='c1'># I keep mongodb connection descriptor in config/mongodb.yml</span>
-<span class='lineno'>36</span>     <span class='n'>config</span> <span class='o'>=</span> <span class='ss'>YAML</span><span class='p'>:</span><span class='ss'>:load</span><span class='p'>(</span><span class='no'>File</span><span class='o'>.</span><span class='n'>read</span><span class='p'>(</span><span class='no'>Rails</span><span class='o'>.</span><span class='n'>root</span><span class='o'>.</span><span class='n'>join</span><span class='p'>(</span><span class='s1'>&#39;config/mongodb.yml&#39;</span><span class='p'>)))</span>
-<span class='lineno'>37</span>     <span class='n'>collection</span> <span class='o'>=</span> <span class='ss'>Mongo</span><span class='p'>:</span><span class='ss'>:Connection</span><span class='o'>.</span><span class='n'>new</span><span class='o'>[</span><span class='n'>config</span><span class='o'>[</span><span class='s2'>&quot;development&quot;</span><span class='o'>][</span><span class='s2'>&quot;database&quot;</span><span class='o'>]].</span><span class='n'>collection</span><span class='p'>(</span><span class='s1'>&#39;i18n&#39;</span><span class='p'>)</span>
-<span class='lineno'>38</span>     <span class='n'>store</span> <span class='o'>=</span> <span class='ss'>MongoI18n</span><span class='p'>:</span><span class='ss'>:Store</span><span class='o'>.</span><span class='n'>new</span><span class='p'>(</span><span class='n'>collection</span><span class='p'>)</span>
-<span class='lineno'>39</span>     
-<span class='lineno'>40</span>     <span class='n'>dump</span> <span class='o'>=</span> <span class='ss'>YAML</span><span class='p'>:</span><span class='ss'>:load</span><span class='p'>(</span><span class='no'>File</span><span class='o'>.</span><span class='n'>open</span><span class='p'>(</span><span class='no'>Rails</span><span class='o'>.</span><span class='n'>root</span><span class='o'>.</span><span class='n'>join</span><span class='p'>(</span><span class='s2'>&quot;config&quot;</span><span class='p'>,</span><span class='s2'>&quot;locales&quot;</span><span class='p'>,</span> <span class='s2'>&quot;</span><span class='si'>#{</span><span class='n'>locale</span><span class='si'>}</span><span class='s2'>.yml&quot;</span><span class='p'>)))</span>
-<span class='lineno'>41</span> 
-<span class='lineno'>42</span>     <span class='n'>traverse</span><span class='p'>(</span><span class='n'>store</span><span class='p'>,</span> <span class='n'>dump</span><span class='p'>,</span> <span class='o'>[]</span><span class='p'>)</span>
-<span class='lineno'>43</span>   <span class='k'>end</span>
-<span class='lineno'>44</span> <span class='k'>end</span>
-</code></pre></div>
-<p>Any feedback would be welcome.</p>
+			{{ post.content }}
 		</div>
 	</div><!-- close:post -->
-
-	<div class="post" id="post-/posts/379/379">
-		<h2><a href="/posts/379/index.html" rel="bookmark" title="Quick tip for Intellij Idea users: manage your dependencies order">Quick tip for Intellij Idea users: manage your dependencies order</a></h2>
-		<span class="date">2010 / 12 / 01</span>
-		<div class="entry">
-			<p>Recently I was developing project on top of Servlet API 3.0 and GWT 2.1 and faced the following problem: When I wanted to use async support from Servlet 3.0, <a href='http://www.jetbrains.com/idea/'>Idea</a> was unable to resolve method startAsync for HttpServletRequest.</p>
-
-<p>Like this:</p>
-<img alt='Resolving method failure' height='31' width='344' src='/images/idea_dependencies/resolving_method_failure.png' title='Resolving method failure' />
-<p>It turns out that gwt-dev-2.1.0.jar contains Servlet API 2.4 (looks like it comes with jetty or tomcat gwt dependencies) and <a href='http://www.jetbrains.com/idea/'>Idea</a> uses it for inspections and autocomplete.</p>
-
-<p>Solution is simple: Check if servlet api 3.0 jar comes after gwt-dev-2.1.0.jar in yout project module dependencies (meta+; shortcut), like this:</p>
-<img alt='Wrong dependency order' height='34' width='481' src='/images/idea_dependencies/wrong_dependency_order.png' title='Wrong dependency order' />
-<p>And swap them using &#8220;Move Up&#8221;|&#8221;Move Down&#8221; keys, than hit OK button. After that Idea will resolve Servlet API as expected:</p>
-<img alt='Resolving method success' height='169' width='619' src='/images/idea_dependencies/resolving_method_success.png' title='Resolving method success' />
-		</div>
-	</div><!-- close:post -->
-
-	<div class="post" id="post-/posts/371/371">
-		<h2><a href="/posts/371/index.html" rel="bookmark" title="Strip firebug console api calls">Strip firebug console api calls</a></h2>
-		<span class="date">2009 / 10 / 05</span>
-		<div class="entry">
-			<p><strong>Update</strong>: После <a href='http://habrahabr.ru/blogs/webdev/71586/'>обсуждения</a> на хабре и продолжительных размышлений на тему, решил отказаться от подобного метода. Думаю пересесть на <a href='http://code.google.com/closure/compiler/'>Google Closure Compiler</a> и с его помощью обрезать debug-код, как расписано в <a href='http://javascript.ru/optimize/google-closure-compiler/define'>статье</a> у Ильи Кантора. Так что этот пост подустарел и оставляю я его чисто для истории.</p>
-
-<p>На днях надо было сходить показать представителю заказчика, как пользоваться одной свежевстроенной в проект фичей. За полчаса до выхода подготовил новый билд, протестировал.</p>
-
-<p>По приезду оказалось, что у заказчика фича не работает. Неприятно получилось, в общем.</p>
-
-<p>Но радость ваша, мои дорогие читатели, была бы не полной, если бы я не сообщил вам, что там случилось и что я по этому поводу предпринял.</p>
-
-<p>Оказалось, что я забыл удалить в функции-обработчике события вызов firebug&#8217;овской консоли (<code>console.log</code>… и т.п.) Со мной вообще часто бывает такое, что я то какой-то символ, случайно ткнув на клавиатуру, допишу, то, наоборот, удалю - короче, использование редакторов без подсветки синтакса и (желательно) анализа структуры кода мне противопоказаны.</p>
-
-<p>Так как я использую apache ant для развертывания приложения на боевой сервер, я дописал маленький скриптик, который уберет все вызовы <code lang='javascript'>console.log(/* something */)</code> или <code lang='javascript'>console.dir(/* something */)</code> из вашего кода.</p>
-
-<p>Собственно, вот он:</p>
-<div class='highlight'><pre><code class='xml'><span class='lineno'> 1</span> <span class='cp'>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
-<span class='lineno'> 2</span> <span class='nt'>&lt;project</span> <span class='na'>name=</span><span class='s'>&quot;deploy&quot;</span> <span class='na'>default=</span><span class='s'>&quot;stripFirebugConsoleCalls&quot;</span> <span class='na'>basedir=</span><span class='s'>&quot;.&quot;</span><span class='nt'>&gt;</span>
-<span class='lineno'> 3</span>     <span class='c'>&lt;!-- место, где сложены наши еще не сжатые и не слитые в один js-скрипты --&gt;</span>
-<span class='lineno'> 4</span>     <span class='nt'>&lt;property</span> <span class='na'>name=</span><span class='s'>&quot;js&quot;</span> <span class='na'>value=</span><span class='s'>&quot;js/&quot;</span><span class='nt'>/&gt;</span>
-<span class='lineno'> 5</span> 
-<span class='lineno'> 6</span>     <span class='c'>&lt;!-- регулярка для отлова нездоровых элементов (беззастенчиво утянута с yui builder&#39;a, и слегка доведена напильником)</span>
-<span class='lineno'> 7</span> <span class='c'>        http://github.com/yui/builder/blob/master/componentbuild/shared/properties.xml 79-я строка --&gt;</span>
-<span class='lineno'> 8</span>     <span class='nt'>&lt;property</span> <span class='na'>name=</span><span class='s'>&quot;firebug.console.regex&quot;</span> <span class='na'>value=</span><span class='s'>&quot;^.*?(?:console.log|console.dir).*?(?:;|\).*;|(?:\r?\n.*?)*?\).*;).*;?.*?\r?\n&quot;</span> <span class='nt'>/&gt;</span>
-<span class='lineno'> 9</span>     <span class='nt'>&lt;property</span> <span class='na'>name=</span><span class='s'>&quot;firebug.console.regex.flags&quot;</span> <span class='na'>value=</span><span class='s'>&quot;mg&quot;</span> <span class='nt'>/&gt;</span>
-<span class='lineno'>10</span>     <span class='nt'>&lt;property</span> <span class='na'>name=</span><span class='s'>&quot;firebug.console.regex.byline&quot;</span> <span class='na'>value=</span><span class='s'>&quot;false&quot;</span> <span class='nt'>/&gt;</span>
-<span class='lineno'>11</span>     <span class='nt'>&lt;property</span> <span class='na'>name=</span><span class='s'>&quot;firebug.console.regex.replace&quot;</span> <span class='na'>value=</span><span class='s'>&quot;&quot;</span> <span class='nt'>/&gt;</span>
-<span class='lineno'>12</span> 
-<span class='lineno'>13</span>     <span class='c'>&lt;!-- Сам таргет тоже без затей &quot;вдохновен&quot; YUI Builder&#39;ом, оригинал тут:</span>
-<span class='lineno'>14</span> <span class='c'>        http://github.com/yui/builder/blob/master/componentbuild/3.x/module.xml 19-я строка --&gt;</span>
-<span class='lineno'>15</span>     <span class='nt'>&lt;target</span> <span class='na'>name=</span><span class='s'>&quot;stripFirebugConsoleCalls&quot;</span> <span class='na'>description=</span><span class='s'>&quot;Replace firebug console calls&quot;</span><span class='nt'>&gt;</span>
-<span class='lineno'>16</span>         <span class='nt'>&lt;replaceregexp</span> <span class='na'>byline=</span><span class='s'>&quot;${firebug.console.regex.byline}&quot;</span>
-<span class='lineno'>17</span>                        <span class='na'>match=</span><span class='s'>&quot;${firebug.console.regex}&quot;</span>
-<span class='lineno'>18</span>                        <span class='na'>replace=</span><span class='s'>&quot;${firebug.console.regex.replace}&quot;</span>
-<span class='lineno'>19</span>                        <span class='na'>flags=</span><span class='s'>&quot;${firebug.console.regex.flags}&quot;</span><span class='nt'>&gt;</span>
-<span class='lineno'>20</span>             <span class='nt'>&lt;fileset</span> <span class='na'>dir=</span><span class='s'>&quot;${js}&quot;</span> <span class='na'>includes=</span><span class='s'>&quot;*.js&quot;</span> <span class='nt'>/&gt;</span>
-<span class='lineno'>21</span>         <span class='nt'>&lt;/replaceregexp&gt;</span>
-<span class='lineno'>22</span>     <span class='nt'>&lt;/target&gt;</span>
-<span class='lineno'>23</span> <span class='nt'>&lt;/project&gt;</span>
-</code></pre></div>
-<p>Использовать так: создать xml-файл с удобным вам именем (например, boom.xml) и скопипастить в него этот код. Разумеется, стоит поправить значение переменной js, которая указывает на папку с еще не сжатыми js-скриптами. После этого запускаем адскую машину такой командой (для *nix):</p>
-<div class='highlight'><pre><code class='bash'>ant stripFirebugConsoleCalls -buildfile /path/to/boom.xml
-</code></pre></div>
-<p>Вот и все. Засим я откланиваюсь до следующего ЧП или конца проекта.</p>
-		</div>
-	</div><!-- close:post -->
-
+{% endfor %}
 <div class="pagination clearfix">
-    
-    		
+    {% if paginator.total_pages > 1 %}
+    		{% if paginator.previous_page %}
+    		    <div class="prev"><a href="/{%if paginator.previous_page > 1 %}page{{ paginator.previous_page }}/{% endif %}">&laquo; Newer</a></div>
+    		{% endif %}
 
-    		
-    		    <div class="next"><a href="/page2/">Older &raquo;</a></div>
-    		
-    
+    		{% if paginator.next_page %}
+    		    <div class="next"><a href="/page{{ paginator.next_page }}/">Older &raquo;</a></div>
+    		{% endif %}
+    {% endif %}
 </div>
 	
-    
-		</div><!-- close:main-content -->
-		<div id="sidebar" class="clearfix">
-    <div id="sb-1">
-        <a href="/about.html">About</a>
-        <ul id="rss">
-            <li><a href="http://feeds.feedburner.com/ulizko-com">RSS Feed of the articles</a></li>
-        </ul>
-    </div>
-	<div id="sb-2">
-		<a href="mailto:alexander@ulizko.com" class="email">alexander@ulizko.com</a>
-		<br />
-		<a href="http://twitter.com/aulizko" class="twitter">@aulizko</a>
-		<br />
-		<a href="http://http://www.facebook.com/profile.php?id=1002139259" class="facebook">Alexander Ulizko</a>
-		<br />
-		<a href="http://github.com/aulizko">github</a>
-		<br />
-		<a href="https://code.google.com/u/aulizko/">Google Code</a>
-	</div><!-- close:sb-2 -->
-</div><!-- close:sidebar -->
-	    </div><!-- close:content -->
-<div id="footer">
-    <p>&copy;2008&nbsp;&mdash;&nbsp;2014 <a href="http://ulizko.com">Alexander Ulizko</a></p>
-	<p>Powered by <a href="https://pages.github.com/">Github Pages</a> | generated by <a href="https://github.com/mojombo/jekyll">jekyll</a> | powered by <a href="http://disqus.com">disqus</a> | themed by <a href="http://www.vostoktheme.com" hreflang="en">Vostok Theme</a></p>
-</div><!-- close:footer -->
-</div><!-- close:wrapper -->
-<script type="text/javascript">
-
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-4326533-1']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-</script>
-</body>
-</html>

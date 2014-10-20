@@ -1,11 +1,11 @@
 ---
 layout: post
 title: "Занимательная задачка"
-permalink: /posts/129/index.html
 tags:
   - JavaScript
   - Quiz
 ---
+
 Небольшой вопрос-тренировка:
 
 {% highlight javascript linenos %}
