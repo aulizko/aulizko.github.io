@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Накипело #2. XML.</title>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" />
+</head>
+<body>
+<div id="wrapper">
+	<div id="header">
+    	<h1><a href="/">Alexander's Ulizko blog</a></h1>
+	</div><!-- close:header -->
+    <div id="content">
+		<div id="main-content">
+
+			<div class="post" id="post-">
+				<h2>Накипело #2. XML.</h2>
+				<span class="date"></span>
+				<div class="entry">
+					<p>Ну, как я&#160;и&#160;обещал, пришло время рассказать еще об&#160;одной &#171;состоявшейся технологии&#187;, которую лично я&#160;терпеть не&#160;могу. Думаю, вы&#160;поняли из&#160;названия, что речь пойдет про XML.</p>
+
+<p>Итак, что такое XML? Это язык разметки документов. Точка. Имею&#160;ли я&#160;против &#171;расширяемого языка разметки&#187;? Нет. Если он&#160;применяется именно для того, для чего он&#160;предназначен.</p>
+
+<p>К&#160;сожалению, куча людей считает, что XML&#160;&#8212; это круто. Это, сука, крайне удобная и&#160;надежная технология. Так давайте&#160;же пихать его везде, куда можно и&#160;нельзя! Давайте пихать его в&#160;API сервисов, в&#160;конфигурационные файлы, сделаем его &#171;стандартом&#187; обмена данными между сервером и&#160;клиентом (в&#160;случае RIA).</p>
+
+<p>Знаете, что я&#160;думаю? Я&#160;думаю, что XML повсеместно внедрили какие-то человеконенавистники. По&#160;прямому заказу какого-нибудь Люцифера. Ага.</p>
+
+<p>Почему я&#160;так думаю? Потому что, блядь, тяжело придумать более тупую хуйню, чем XML&#160;в качестве формата хранения и&#160;передачи данных. Блядь, <strong>любой</strong> другой формат будет в&#160;тысячу раз лучше!</p>
+
+<p>XML предназначен для разметки документов. Документов, сука. Которые обрабатывает специальная программа, а&#160;потом выводит в&#160;красивом и&#160;понятном человеку виде. Нахуя использовать XML&#160;в передаче данных лично мне непонятно, лишние телодвижения ради лишних телодвижений: берем данные, превращаем их&#160;в&#160;документ, передаем на&#160;клиент, превращаем документ в&#160;данные и&#160;пользуемся ими. Охуеть. Не&#160;проще&#160;ли взять данные, передать их&#160;и&#160;использовать данные на&#160;клиенте? Наверное, проще. Наверное, именно поэтому JSON вытесняет XML.</p>
+
+<p>Те, кто работал с&#160;java-фреймворками, поймут меня&#160;&#8212; XML это зло. И&#160;чем больше XML&#8217;a в&#160;проекте, тем больше зла. Особенно отличились на&#160;поприще распространения зла appfuse и&#160;tapestry. Ну, java вообще в&#160;этом смысле отличный язык&#160;&#8212; в&#160;смысле поебаться на&#160;пустом месте.</p>
+
+<p>Я&#160;так понимаю, началось все с&#160;того, что какой-то идиот придумал, что XML легко читать человеку. И&#160;легко править. Ебанаврот! Это чисто машинно-ориентированный формат, и&#160;чтобы его прочитать, надо пять раз уебаться башкой об&#160;стену, чтобы голова напоминала по&#160;форме системный блок&#160;&#8212; вот тогда, наверное, можно будет читать этот &#171;документ&#187; свободно.</p>
+
+<p>Или он&#160;подумал, что круто будет задавать property в&#160;виде XML, потому что так можно в&#160;сам формат зашить, какие именно свойства можно объявлять и&#160;какие они могут иметь значения. В&#160;данном случае, по&#160;моему мнению, нужно немножко больше верить в&#160;человека. Наверное, не&#160;совсем уебаны работают на&#160;должностях программистов и&#160;администраторов, и&#160;уж&#160;как-нибудь прочитают документацию, перед тем как что-то писать в&#160;конфиги. А&#160;не&#160;прочитают&#160;&#8212; ну&#160;так и&#160;XML&#160;им не&#160;поможет, это клиника. Лично я&#160;думаю, что гораздо проще и&#160;естественнее писать конфиги в&#160;формате .property:</p>
+<div class='highlight'><pre><code class='properties'><span class='na'>названиеСвойства</span> <span class='o'>=</span> <span class='s'>значениеСвойства</span>
+</code></pre></div>
+<p>Или посмотрите в&#160;сторону YAML, который используется в&#160;рельсах&#160;&#8212; руки от&#160;зависти можно сгрызть, как все просто и&#160;понятно.</p>
+
+<p>Как&#160;бы то&#160;ни&#160;было, мы, java-программисты, имеем&#160;то, что имеем. Уебанские, нечитаемые и&#160;сложные в&#160;написании конфигурационные файлы.</p>
+
+<p>К&#160;счастью, ситуация начинает меняться в&#160;лучшую сторону, и&#160;здравый смысл побеждает&#160;&#8212; XML постепенно уступает место более вменяемым форматам.</p>
+
+<p>Резюмируя: я&#160;не&#160;против XML. Это отличная технология, которая хороша на&#160;своем месте. Но. Я&#160;считаю, что затыкать каждую дырку XML смешно и&#160;глупо. И&#160;поэтому использование XML надо ограничить.</p>
+				</div>
+			</div>
+		    <div id="disqus_thread"></div>
+            <script type="text/javascript">
+                var disqus_shortname = 'alexander-ulizko';
+                // var disqus_identifier = 'unique_dynamic_id_1234';
+                // var disqus_url = 'http://example.com/permalink-to-page.html';
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+		</div><!-- close:main-content -->
+		<div id="sidebar" class="clearfix">
+    <div id="sb-1">
+        <a href="/about.html">About</a>
+        <ul id="rss">
+            <li><a href="http://feeds.feedburner.com/ulizko-com">RSS Feed of the articles</a></li>
+        </ul>
+    </div>
+	<div id="sb-2">
+		<a href="mailto:alexander@ulizko.com" class="email">alexander@ulizko.com</a>
+		<br />
+		<a href="http://twitter.com/aulizko" class="twitter">@aulizko</a>
+		<br />
+		<a href="http://http://www.facebook.com/profile.php?id=1002139259" class="facebook">Alexander Ulizko</a>
+		<br />
+		<a href="http://github.com/aulizko">github</a>
+		<br />
+		<a href="https://code.google.com/u/aulizko/">Google Code</a>
+	</div><!-- close:sb-2 -->
+</div><!-- close:sidebar -->
+    </div><!-- close:content -->
+<div id="footer">
+    <p>&copy;2008&nbsp;&mdash;&nbsp;2014 <a href="http://ulizko.com">Alexander Ulizko</a></p>
+	<p>Powered by <a href="https://pages.github.com/">Github Pages</a> | generated by <a href="https://github.com/mojombo/jekyll">jekyll</a> | powered by <a href="http://disqus.com">disqus</a> | themed by <a href="http://www.vostoktheme.com" hreflang="en">Vostok Theme</a></p>
+</div><!-- close:footer -->
+</div><!-- close:wrapper -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-4326533-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</body>
+</html>

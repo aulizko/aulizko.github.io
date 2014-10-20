@@ -1,0 +1,76 @@
+---
+layout: post
+title: "Невпопад"
+permalink: /posts/360/index.html
+tags:
+  - JavaScript
+---
+Хочу в отпуск. Так хочу, что меня все раздражает.
+
+GC в ruby в сто раз примитивнее того, что используется в jvm. Ц-ц-ц.
+
+И еще меня начинает раздражать "мусорность" javascript. Я имею ввиду, что, в целом, многие ништяки из ФЯП можно реализовать  и в javascript, но на java-подобный синтакс такие штуки не очень хорошо ложатся:
+
+{% highlight javascript linenos %}
+// пусть ArrayUtils - это специальная утилита для работы с массивами, 
+// реализующая for…each, map/reduce для всех браузеров, включая ie6. 
+// Что-то наподобие YUI.Array
+var A = window.ArrayUtils = {
+    map : (Array.prototype.map) ?
+        function (a, fn, c) {
+            return a.map(fn, c || window);
+        } :
+        function (a, fn, c) {
+            var result = [], i = a.length;
+            while(i--) {
+                result[i] = fn.call(c || window, a[i]);
+            }
+            return result;
+        },
+    filter : (Array.prototype.filter) ?
+        function (a, fn, c) {
+            return a.filter(fn, c || window);
+        } :
+        function (a, func, c) {
+            var result = [], i = a.length;
+            while(i--) {
+                if (i in a && fn.call(c || window, a[i], i, a)) result.push(a[i]);
+            }
+            return result;
+        }
+};
+
+// получим новый массив, получаемый из исходного путем умножения каждого элемента на два.
+// уже немножко "weird", не так ли?
+var data = [1, 2, 3, 4];
+A.map(data, function (item) { return item * 2; }); // 2, 4, 6, 8
+
+// а теперь пример повеселее:
+var persons = [
+	{
+		name : 'John', 
+		lastName : 'Doe',
+		address : 'California, Los Angeles'
+	},
+	{
+		name : 'Ivan',
+		lastName : 'Ivanov',
+		address : 'Moscow'
+	},
+	{
+		name : 'Abraham',
+		lastName : 'Smith',
+		address : 'California, San Francisco'
+	}
+];
+
+// Получим массив, состоящий только из полных имен пользователей, проживающих в калифорнии
+var townRegex = /california/i;
+A.map(A.filter(persons, function (person) {
+    return townRegex.test(person.address);
+}), function (person) {
+    return person.name + ' ' + person.lastName;
+}); // John Doe, Abraham Smith
+{% endhighlight %}
+
+Чрезвычайно избыточный и непонятный с непривычки код, особенно в сравнении с аналогичным в ruby или python.

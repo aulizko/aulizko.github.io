@@ -1,0 +1,23 @@
+---
+layout: post
+title: "Quick tip for Intellij Idea users: manage your dependencies order"
+permalink: /posts/379/index.html
+---
+Recently I was developing project on top of Servlet API 3.0 and GWT 2.1 and faced the following problem:
+When I wanted to use async support from Servlet 3.0, [Idea](http://www.jetbrains.com/idea/) was unable to resolve method startAsync for HttpServletRequest.
+
+Like this:
+
+<img title="Resolving method failure" src="/images/idea_dependencies/resolving_method_failure.png" alt="Resolving method failure" width="344" height="31" />
+
+It turns out that gwt-dev-2.1.0.jar contains Servlet API 2.4 (looks like it comes with jetty or tomcat gwt dependencies) and [Idea](http://www.jetbrains.com/idea/) uses it for inspections and autocomplete.
+
+Solution is simple:
+Check if servlet api 3.0 jar comes after gwt-dev-2.1.0.jar in yout project module dependencies (meta+; shortcut), like this:
+
+<img title="Wrong dependency order" src="/images/idea_dependencies/wrong_dependency_order.png" alt="Wrong dependency order" width="481" height="34" />
+
+And swap them using "Move Up"|"Move Down" keys, than hit OK button.
+After that Idea will resolve Servlet API as expected:
+
+<img title="Resolving method success" src="/images/idea_dependencies/resolving_method_success.png" alt="Resolving method success" width="619" height="169" />

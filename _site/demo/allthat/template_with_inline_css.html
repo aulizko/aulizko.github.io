@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+	
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title></title>
+</head>
+
+<body>
+
+<div id="allthat-wish" class="allthat-wish" style="background: #add5fd url(style/images/bg.gif) repeat-x top; width: 286px; padding: 4px 14px 20px 14px; position: absolute; color: black; font: 11px Arial, sans-serif; border: 2px solid #2C385C; top: 30px; right: 30px;">
+	<div class="allthat-saving" id="allthat-throbber" style="right: 24px; bottom: 60px; background: url(style/images/ajax-loader-blue.gif) no-repeat left; padding-left: 20px; position: absolute;">saving...</div>	
+	<div id="allthat-logo" style="width: 63px; height: 11px; background: url(@/images/bookmark/logo.gif) no-repeat; position: absolute; top: 8px; right: 14px;"><span style="display: none;">AllThat</span></div>
+	<button title="close" id="allthat-close" style="background: url(@/images/bookmark/button-close.gif); width: 26px; height: 26px; border: none; position: absolute; top: -14px; left: -14px; cursor: pointer;"><span style="display: none;">close</span></button>
+	<h1 style="padding: 0; margin: 0; width: 210px; height: 46px; background: url(@/images/bookmark/add-to-wishlist.gif) no-repeat; margin-left: -10px;"><span style="display: none;">Add To Wishlist</span></h1>
+	<form action="" style="padding: 0; margin: 0;">
+		<div class="allthat-field" style="width: 100%; padding: 8px 0;">
+			<label for="allthat-product" style="font-weight: bold;">Product Name:</label>
+			<br />
+			<input type="text" name="product" value="(Ex: Black iPhone Adapter)" class="allthat-sample-value" id="allthat-product" style="height: 19px; width: 279px; padding: 7px 0 7px 7px; font-size: 1.4em; border: 1px solid #c2c2c2; border-top-color: #7c7c7c; border-bottom-color: #dddddd; color: #999999;" />
+		</div>	
+		<div class="allthat-field" style="width: 100%; padding: 8px 0;">
+			<label for="allthat-wishlist" style="font-weight: bold;">Add to List:</label>
+			<br />
+			<select name="wishlist" id="allthat-wishlist" style="font-size: 1em; width: 100%;"></select>
+		</div>
+		
+		<fieldset id="allthat-low-price" style="border: none; padding: 0; margin: 0;">	
+			<h2 style="padding: 0; margin: 0; font-size: 1em; border-bottom: 1px solid black; padding-top: 10px;">Low Price Alerts!</h2>			
+			<div class="allthat-field" id="allthat-range" style="vertical-align: middle; width: 100%; padding: 8px 0;">
+				<label for="allthat-minprice" style="font-weight: bold;">How much would you like to pay?</label><br />
+				<input type="text" name="minprice" value="(min)" class="allthat-sample-value" id="allthat-minprice" style="border: 1px solid #c2c2c2; border-top-color: #7c7c7c; border-bottom-color: #dddddd; width: 52px; height: 16px; padding: 4px 0 4px 13px; font-size: 1.2em; vertical-align: middle; margin: 3px 0; margin-right: 0.5em; color: #999999;" />
+				to
+				<input type="text" name="maxprice" value="(max)" class="allthat-sample-value" id="allthat-maxprice" style="border: 1px solid #c2c2c2; border-top-color: #7c7c7c; border-bottom-color: #dddddd; width: 52px; height: 16px; padding: 4px 0 4px 13px; font-size: 1.2em; vertical-align: middle; margin: 3px 0; margin-left: 0.5em; color: #999999;" />
+			</div>
+			<h3 style="padding: 0; margin: 0; font-size: 1em; font-weight: normal;">Alert me via:</h3>
+			<fieldset id="allthat-alerts" style="background: white; width: 145px; padding: 10px 7px; border: 2px solid #2C385C; margin: 0;">				
+				
+				<input type="checkbox" name="email" id="allthat-email" style="border: none; vertical-align: middle; margin: 3px 0;" />
+				<label for="allthat-email" id="allthat-email-label" style="font-weight: normal; padding-left: 18px; background: url(@/images/bookmark/icons-alert.gif) no-repeat left top;">Email</label>
+				<br />				
+				
+				
+				<input type="checkbox" name="sms" id="allthat-sms" style="border: none; vertical-align: middle; margin: 3px 0;" />
+				<label for="allthat-sms" id="allthat-sms-label" style="font-weight: normal; padding-left: 18px; background: url(@/images/bookmark/icons-alert.gif) no-repeat left top; background-position: 0 -44px;">SMS</label>				
+				<br />
+				
+				<input type="checkbox" name="twitter" id="allthat-twitter" style="border: none; vertical-align: middle; margin: 3px 0;" />
+				<label for="allthat-twitter" id="allthat-twitter-label" style="font-weight: normal; padding-left: 18px; background: url(@/images/bookmark/icons-alert.gif) no-repeat left top; background-position: 0 -87px; ">Twitter</label>
+				<br />
+				
+				<select name="frequency" id="allthat-frequency" style="font-size: 1em;">
+					<option>-- Alert Frequency --</option>
+				</select>
+			</fieldset>		
+		</fieldset>
+				
+		<button title="Add" id="allthat-add" style="width: 75px; height: 35px; border: none; background: #ff5400 url(@/images/bookmark/button-add.png) no-repeat; position: absolute; bottom: 20px; right: 14px; cursor: pointer;"><span style="display: none;">Add</span></button>
+	</form>
+</div>
+
+</body>
+</html>

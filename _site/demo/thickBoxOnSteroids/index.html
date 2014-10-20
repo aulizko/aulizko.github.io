@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+	"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+		<title>ThickBox Demo</title>
+		<link rel="stylesheet" href="thickbox.compressed.css" type="text/css" media="screen" charset="utf-8">
+	</head>
+	<body>
+		<a class="thickbox" href="iframe.html?TB_iframe=true&amp;height=240&amp;width=500" title="Название окна указывается в атрибуте title у ссылки">Iframe with scroll example</a>
+		<br />
+		<a class="thickbox" href="ajax.php?height=200&amp;width=250">Ajax example</a>
+		
+		
+		<script type="text/javascript" charset="utf-8" src="jquery-1.4.compressed.js"></script>
+		<script type="text/javascript" charset="utf-8" src="ThickBoxOnSteroids.compressed.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			// Теперь вызывать этот плагин надо вот так:
+			/* Передаем, на клик по каким элементам показывать окно */
+			$('a.thickbox').thickbox({
+				loaderImagePath : 'loadingAnimation.gif', // если нужно, меняем путь до картинки-загрузчика, по умолчанию установлен в "images/loadingAnimation.gif"
+				closeLinkTitle : 'Закрыть', // название ссылки "закрыть" (по умолчанию "Close")
+				closeLinkHint : 'или нажмите Esc' // подсказка к ссылке, закрывающей окно. Может быть пустой. По умолчанию "or Esc Key"
+			});
+		</script>
+	</body>
+</html>

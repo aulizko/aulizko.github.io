@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Alexander's Ulizko blog</title>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" />
+</head>
+<body>
+<div id="wrapper">
+	<div id="header">
+    	<h1><a href="/">Alexander's Ulizko blog</a></h1>
+	</div><!-- close:header -->
+    <div id="content">
+		<div id="main-content">
+
+            
+	<div class="post" id="post-/posts/323/323">
+		<h2><a href="/posts/323/index.html" rel="bookmark" title="И еще про синтаксис JavaScript">И еще про синтаксис JavaScript</a></h2>
+		<span class="date">2009 / 02 / 06</span>
+		<div class="entry">
+			<p>Кто о чем, а <span style='text-decoration: line-through;'>вшивый о бане</span> я о синтаксе в javascript.</p>
+
+<p>Дело в том, что часто внутри функции нужно проверить, переданы ли правильные параметры и переданы ли вообще. Ну и вот один из самых коротких способов это сделать. Ничего фантастического тут нет, старый и проверенный способ. Кто может что сказать о достоинствах и недостатках этого метода?</p>
+<div class='highlight'><pre><code class='javascript'><span class='lineno'>1</span> <span class='kd'>function</span> <span class='nx'>destroyTheWorld</span> <span class='p'>(</span><span class='nx'>when</span><span class='p'>,</span> <span class='nx'>byWhom</span><span class='p'>)</span> <span class='p'>{</span>
+<span class='lineno'>2</span>     <span class='k'>if</span> <span class='p'>(</span><span class='o'>!</span><span class='nx'>when</span><span class='o'>||!</span><span class='nx'>byWhom</span><span class='p'>)</span> <span class='k'>return</span> <span class='s1'>&#39;fuck off&#39;</span><span class='p'>;</span>
+<span class='lineno'>3</span> <span class='p'>};</span>
+</code></pre></div>
+<p>Если кто не знает, оператор логического отрицания <code>!</code> в JavaScript вернет <code>true</code> если ему передан <code>false</code>, <code>''</code> (пустая строка), <code>0</code>, <code>null</code>, <code>undefined</code>. Во всех остальных случаях оператор логического отрицания вернет false. На всякий случай, проиллюстрирую:</p>
+<div class='highlight'><pre><code class='javascript'><span class='o'>!</span><span class='mi'>0</span> <span class='o'>===</span> <span class='o'>!</span><span class='s1'>&#39;&#39;</span> <span class='o'>===</span> <span class='o'>!</span><span class='kc'>null</span> <span class='o'>===</span> <span class='o'>!</span><span class='kc'>undefined</span> <span class='o'>===</span> <span class='o'>!</span><span class='kc'>false</span> <span class='o'>===</span> <span class='kc'>true</span><span class='p'>;</span>
+</code></pre></div>
+<p>Таким образом, если мы не передали никакого объекта или передали <code>null</code>, то функция завершит свою работу и вернет в качестве результата нехорошее слово.</p>
+
+<p>Внимательные люди могут спросить&#160;&#8212; а&#160;что, если передать <code>true</code>? Функция завершит работу при вполне валидном параметре? Я&#160;могу на&#160;это ответить примерно так: если вы&#160;передаете в&#160;функцию булевую переменную, то&#160;почти наверняка эта переменная&#160;&#8212; рычаг, т.е. в&#160;зависимости от&#160;нее меняется поведение функции. И&#160;обработка аргументов, таким образом, будет вестить несколько другая. Скажем, такая:</p>
+<div class='highlight'><pre><code class='javascript'><span class='lineno'>1</span> <span class='kd'>function</span> <span class='nx'>shouldWeDestroyTheWorld</span> <span class='p'>(</span><span class='nx'>acceptance</span><span class='p'>)</span> <span class='p'>{</span>
+<span class='lineno'>2</span>     <span class='k'>if</span> <span class='p'>(</span><span class='nx'>acceptance</span><span class='p'>)</span> <span class='p'>{</span>
+<span class='lineno'>3</span>         <span class='nx'>World</span><span class='p'>.</span><span class='nx'>getInstance</span><span class='p'>().</span><span class='nx'>destroy</span><span class='p'>();</span>
+<span class='lineno'>4</span>     <span class='p'>}</span> <span class='k'>else</span> <span class='p'>{</span>
+<span class='lineno'>5</span>         <span class='nx'>World</span><span class='p'>.</span><span class='nx'>getInstance</span><span class='p'>().</span><span class='nx'>armageddon</span> <span class='o'>=</span> <span class='s1'>&#39;stopped&#39;</span><span class='p'>;</span>
+<span class='lineno'>6</span>         <span class='nx'>World</span><span class='p'>.</span><span class='nx'>getInstance</span><span class='p'>().</span><span class='nx'>destructionTimer</span><span class='p'>.</span><span class='nx'>stop</span><span class='p'>();</span>
+<span class='lineno'>7</span>     <span class='p'>}</span>
+<span class='lineno'>8</span> <span class='p'>}</span>
+</code></pre></div>
+<p>И если вы опустите этот аргумент, то по эффекту это будет равнозначно передачи <code>false</code>.</p>
+		</div>
+	</div><!-- close:post -->
+
+	<div class="post" id="post-/posts/287/287">
+		<h2><a href="/posts/287/index.html" rel="bookmark" title="Обзор книги: Том Питерс. «Основы. Тренды.»">Обзор книги: Том Питерс. «Основы. Тренды.»</a></h2>
+		<span class="date">2009 / 01 / 27</span>
+		<div class="entry">
+			<p>Выполняя данное самому себе обещание&#160;&#8212; а&#160;именно, читать в&#160;день не&#160;меньше 50&#160;страниц полезной книги, я&#160;вчера я&#160;дочитал книгу <a href='http://www.tompeters.com/'>Тома Питерса</a> &#171;Основы. Тренды&#187;.</p>
+
+<p>Если вы читали мою <a href='http://ulizko.com/posts/221/index.html'>предыдущую рецензию</a> одной из его книг, то вы наверное в курсе, что я являюсь его яростным поклонником, поэтому при чтении этой рецензии стоит иметь это ввиду.</p>
+
+<p>Как известно, немалую долю в&#160;арсенале фирменных приемчиков Тома Питерса занимает такая штука, как эпатаж&#160;&#8212; в&#160;данном случае под этим словом я&#160;понимаю манеру выкопать какой-нибудь неизвестный факт или неизвестную трактовку факта и&#160;сунуть ее&#160;под нос читателю. У&#160;читателя, который никогда и&#160;не&#160;слышал про такое, произойдет слом шаблона, и&#160;он&#160;станет гораздо податливее для убеждения и&#160;для усвоения того, что говорит сверх-гуру<sup><a href='#footnotes_super_guru'>1</a></sup>.</p>
+
+<p>К&#160;сожалению, а&#160;может быть и&#160;к&#160;счастью, я&#160;уже достаточно давно прочитал замечательную книгу Алана и&#160;Барбары Пиз &#171;Язык взаимоотношений&#187;, поэтому информация о&#160;том, что мужчины и&#160;женщины&#160;&#8212; разные, для меня не&#160;оказалась новостью. Я&#160;и&#160;так в&#160;курсе, что половинки человечества по&#160;разному живут, стареют, воспринимают окружающую действительность, по&#160;разному думают, говорят и&#160;слушают. Ну&#160;и,&#160;что важно знать всем людям, так или иначе завязанным на&#160;бизнес (то&#160;есть всем людям :), они по&#160;разному покупают. Так как я&#160;все это уже знал и,&#160;более того, с&#160;этим уже смирился и,&#160;можно сказать, &#171;грокнул<sup><a href='#footnotes_grokh'>2</a></sup>&#187; это знание, то&#160;главы, написанные Мартой Барлетта<sup><a href='#footnotes_marta_barletta'>3</a></sup>, для меня оказались довольно-таки скучным повторением пройденного. Поэтому всех интересующихся почему женщины поступают вот так, а&#160;не&#160;иначе, как с&#160;ними разговаривать и&#160;как они покупают, я&#160;отсылаю на&#160;озон за&#160;книгой &#171;<a href='http://www.ozon.ru/context/detail/id/126499/?partner=aulizko'>Язык взаимоотношений</a>&#187;.</p>
+
+<p>Остальные&#160;же главы обращают внимание читателя на&#160;достаточно интересные тенденции, изменяющие облик рынков в&#160;развитых странах. К&#160;моему большому сожалению, еще далеко не&#160;всегда то,&#160;о&#160;чем старина Том пишет, работает для нашей страны, так что чтение скорее даст представление о&#160;том, что надо <em>будет</em> делать, а&#160;не&#160;о&#160;том, что надо делать <em>сейчас</em>.</p>
+
+<p>Ну&#160;и&#160;по&#160;устоявшейся традиции выкладываю те&#160;выписки, которые я&#160;сделал, читая эту книгу. Как обычно, мысли&#160;&#8212; автора, формат&#160;&#8212; мой: <ul>
+<li>Мы (мужчины) подшучиваем над склонностью женщин покупать, при этом мы&nbsp;ведем себя (строим маркетинговую политику, рекламируем, упаковываем, продаем товар) так, будто покупатель&nbsp;&#8212; мужчина.</li>
+<li>Очень часто, даже если женщина не&nbsp;присутствует лично при покупке какой-либо вещи (автомобиля, к&nbsp;примеру), она все равно незримо присутствует&nbsp;&#8212; (она подбивала мужа сходить именно в&nbsp;эти выходные, обсуждала с&nbsp;ним цвет, марку, количество мест и&nbsp;прочее). Так что очень и&nbsp;очень глупо пытаться игнорировать женщин даже в&nbsp;очень и&nbsp;очень &laquo;мужских&raquo; товарах. А&nbsp;уж&nbsp;в&nbsp;остальных товарах прежде всего надо ориентироваться на&nbsp;то,&nbsp;чтобы они понравились женщине. И,&nbsp;кстати, это касается не&nbsp;только товаров, но&nbsp;и&nbsp;услуг, и&nbsp;всего прочего.</li>
+<li>Население в&nbsp;развитых странах стареет. В&nbsp;развитых странах средний возраст непрерывно увеличивается. При этом, эти &laquo;новые старики&raquo;, в&nbsp;отличии от&nbsp;предыдущих поколений, вовсе не&nbsp;настроены пассивно доживать последние годы своей жизни&nbsp;&#8212; напротив, выйдя на&nbsp;пенсию, они только начинают жить и&nbsp;тратить. Следует помнить, что их&nbsp;все больше, что у&nbsp;них активная жизненная позиция, и&nbsp;у&nbsp;них дохрена денег (и&nbsp;их&nbsp;будет все больше). Кстати, женщин среди них тоже больше (мужчины живут меньше), причем богатых женщин (эти женщины как сами заработали состояния, так и&nbsp;унаследовали состояния мужей).</li>
+</ul></p>
+<a href='http://www.ozon.ru/context/detail/id/2752879/?partner=aulizko'><img alt='купить на Озоне книгу Тома Питерса &amp; Марты Барлетта «Основы. Тренды»' height='376' width='200' src='http://www.ozon.ru/multimedia/books_covers/1000369660.jpg' title='книга Тома Питерса &amp; Марты Барлетта «Основы. Тренды»' /></a><a href='http://www.ozon.ru/context/detail/id/126499/?partner=aulizko'><img alt='купить на Озоне книгу Аллана и Барбары Пиз «Язык взаимоотношений мужчина-женщина»' height='374' width='200' src='http://www.ozon.ru/multimedia/books_covers/sd148_05_09_01.jpg' title='книга Аллана и Барбары Пиз «Язык взаимоотношений мужчина-женщина»' /></a>
+<p><strong>Примечания</strong>: <ul class='footnotes'>
+<li id='footnotes_super_guru'>сверх-гуру&nbsp;&#8212; это Том Питерс. По&nbsp;крайней мере его так называют некоторые издания и&nbsp;критики.</li>
+<li id='footnotes_grokh'>грокинг&nbsp;&#8212; термин, придуманный Робертом Хайнлайном. Означает что-то вроде &laquo;впитать знание&raquo;. Подробнее можно прочитать здесь: <a href='http://alternativereality-alias.blogspot.com/2008/01/blog-post_26.html'>http://alternativereality-alias.blogspot.com/2008/01/blog-post_26.html</a></li>
+<li id='footnotes_marta_barletta'>Марта Барлетта&nbsp;&#8212; соавтор книги, о&nbsp;которой я&nbsp;тут распинаюсь. Часть глав написана ею.</li>
+</ul></p>
+		</div>
+	</div><!-- close:post -->
+
+	<div class="post" id="post-/posts/267/267">
+		<h2><a href="/posts/267/index.html" rel="bookmark" title="В программисты бы пошел, пусть меня научат">В программисты бы пошел, пусть меня научат</a></h2>
+		<span class="date">2009 / 01 / 26</span>
+		<div class="entry">
+			<p>Думаю, я&#160;стал программистом в&#160;основном потому, что в&#160;Нерюнгринской гимназии, в&#160;которой я&#160;учился, был компьютерный класс. И&#160;учительница по&#160;информатике разрешала ребятам оставаться после уроков и&#160;играть в&#160;Duke Nukem 3D,&#160;WarCraft 2&#160;и&#160;прочие времяубивалки. Но&#160;разрешалось посещать кабинет информатики (и&#160;оставаться после уроков) только тем, кто посещал факультет информатики и&#160;решал на&#160;basic&#146;e&#160;разные задачки&#160;&#8212; например, вывести числа от&#160;1&#160;до&#160;256, раскрашенные в&#160;разные цвета спектра, и&#160;прочие чудовищно сложные и&#160;безумно полезные штуки.</p>
+
+<p>Разумеется, это далеко не&#160;единственная причина и&#160;даже не&#160;причина вовсе&#160;&#8212; это первый толчок в&#160;направлении IT,&#160;и&#160;кто знает, возможно, не&#160;будь его, я&#160;бы стал экономистом, юристом, пекарем, токарем, военным или еще кем-нибудь.</p>
+
+<p>А&#160;у&#160;вас, дорогие читатели, что повлияло на&#160;выбор будущей профессии?</p>
+		</div>
+	</div><!-- close:post -->
+
+<div class="pagination clearfix">
+    
+    		
+    		    <div class="prev"><a href="/page3/">&laquo; Newer</a></div>
+    		
+
+    		
+    		    <div class="next"><a href="/page5/">Older &raquo;</a></div>
+    		
+    
+</div>
+	
+    
+		</div><!-- close:main-content -->
+		<div id="sidebar" class="clearfix">
+    <div id="sb-1">
+        <a href="/about.html">About</a>
+        <ul id="rss">
+            <li><a href="http://feeds.feedburner.com/ulizko-com">RSS Feed of the articles</a></li>
+        </ul>
+    </div>
+	<div id="sb-2">
+		<a href="mailto:alexander@ulizko.com" class="email">alexander@ulizko.com</a>
+		<br />
+		<a href="http://twitter.com/aulizko" class="twitter">@aulizko</a>
+		<br />
+		<a href="http://http://www.facebook.com/profile.php?id=1002139259" class="facebook">Alexander Ulizko</a>
+		<br />
+		<a href="http://github.com/aulizko">github</a>
+		<br />
+		<a href="https://code.google.com/u/aulizko/">Google Code</a>
+	</div><!-- close:sb-2 -->
+</div><!-- close:sidebar -->
+	    </div><!-- close:content -->
+<div id="footer">
+    <p>&copy;2008&nbsp;&mdash;&nbsp;2014 <a href="http://ulizko.com">Alexander Ulizko</a></p>
+	<p>Powered by <a href="https://pages.github.com/">Github Pages</a> | generated by <a href="https://github.com/mojombo/jekyll">jekyll</a> | powered by <a href="http://disqus.com">disqus</a> | themed by <a href="http://www.vostoktheme.com" hreflang="en">Vostok Theme</a></p>
+</div><!-- close:footer -->
+</div><!-- close:wrapper -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-4326533-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</body>
+</html>

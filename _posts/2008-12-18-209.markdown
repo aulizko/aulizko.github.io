@@ -1,0 +1,31 @@
+---
+layout: post
+title: А как вам такой синтакс?
+permalink: /posts/209/index.html
+tags:
+  - JavaScript
+  - feature-detection
+---
+Все знают, что пользоваться browser-detection&nbsp;&mdash; неправильно. Подозреваю, эти&nbsp;же все знают, что правильно пользоваться так называемым feature-detection. Если вы&nbsp;еще не&nbsp;входите в&nbsp;число этих &laquo;всех&raquo;, сходите к&nbsp;<a href="http://quirksmode.org/js/support.html">Peter-Paul Koch&rsquo;y</a>, он&nbsp;подробно расписал, чем одно хуже другого.
+
+Предположим, мы&nbsp;пишем класс ArrayUtilites, который удачно сочетает в&nbsp;себе разные вкусняшки для работы с&nbsp;массивами. И&nbsp;мы&nbsp;хотим, чтобы у&nbsp;нас был кроссбраузерный метод <code>each</code>. Мой вариант написания, сам алгоритм взят с&nbsp;<a href="https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Global_Objects/Array/forEach#Compatibility">MDC:forEach#compability</a>:
+
+{% highlight javascript linenos %}
+if (typeof ArrayUtilites == "undefined" || !ArrayUtilites) {
+    var ArrayUtilites = {};
+}
+
+ArrayUtilites.each = (Array.prototype.forEach) ?
+    function (a, f, o) {
+        Array.prototype.forEach.call(a, f, o || A);
+        return ArrayUtilites;
+    } :
+    function (a, f, o) {
+        for (var i = 0, it; it = a[i]; i=i+1) {
+            f.call(o || A, it, i, a);
+        }
+        return ArrayUtilites;
+    };
+{% endhighlight %}
+
+Как уважаемые любители JavaScript воспринимают такой синтакс для feature-detection, когда проверка наличия функционала проводится лишь раз, при старте скрипта, а не во время выполнения, как обычно?

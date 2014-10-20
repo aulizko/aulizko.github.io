@@ -1,0 +1,222 @@
+---
+layout: post
+title: "Автоматизируем клиентскую оптимизацию"
+permalink: /posts/145
+---
+
+## Предыстория
+
+Как известно, перед тем, как выложить сайт в нет, мы его разрабатываем. И делаем мы это, как ни странно, на машине разработчика. И давно замечено, что javascript, а в некоторых случаях и css удобнее при разработке держать в нескольких файлах.
+
+Проблема в том, что, согласно принципам, описанным в статье <a href="http://developer.yahoo.com/performance/rules.html">Best Practices for Speeding Up Your Web Site</a> (перевод доступен на сайте <a href="http://webo.in/articles/habrahabr/15-yahoo-best-practices/">webo.in</a>), для ускорения загрузки сайта нам нужно произвести следующие манипуляции над javascript и css файлами:
+
+1. Слить весь javascript в один файл, причем, желательно так, чтобы сохранился нужный порядок - т.е., скажем, библиотека jQuery - была ближе к началу, а функции и объекты, которые ее используют - после нее.
+2. Слить весь css в один файл
+3. Сжать эти большие файлы с помощью какой-нибудь утилиты вроде yui-compressor (за исключением css-файлов, название которых начинается, скажем, с префикса ie_,  которые содержат data:URL, и поэтому критично относятся к переходам со строки на строку, так что их для собственного спокойствия лучше не сжимать)
+4. Расположить их в таком порядке - css-файл как можно ближе к открывающему тэгу head, а js-файл - как можно ближе к закрывающему тэгу body.
+5. Выставить HTTP-заголовок expires на подольше, чтобы браузер пользователя их закешировал. Ну а для того, чтобы при следующем билде у пользователя обновился js и css надо этим файлам дать какое-нибудь уникальное имя.
+6. Перед отдачей файлов клиенту сжимать их с помощью gzip
+
+## К чему это я?
+
+Пункты 5 и 6 уже подробно расписаны в <a href="http://webo.in/articles/all/http-caching/">других</a> <a href="http://webo.in/articles/all/mod-gzip-minify-on-fly/">местах</a>.
+
+Я же хочу рассмотреть в этой статье вопрос автоматизации пунктов 1,2,3,4. А точнее, я хочу предложить инструмент, с помощью которого одним (ну, максимум - двумя-тремя :) нажатием кнопки можно выполнить пункты 1, 2, 3, 4 настоящего списка и получить готовые к заливке на сервер javascript и css файлы.
+
+## Инструментарий
+
+* Apache <a href="http://ant.apache.org/">Ant</a> в качестве сборщика. Выбор пал на него за скорость работы, доступность, кроссплатформенность, а также то соображение, что получившийся скрипт легко включить в более общий скрипт выкладывания проекта на production, который будет выполнять какой-нибудь CI-tool, скажем, <a href="http://www.jetbrains.com/teamcity/">teamcity</a>.
+* В качестве утилиты сжатия js и css файлов <a href="http://developer.yahoo.com/yui/compressor/">YUI Compressor</a>. Взят за кроссплатформенность, адекватность, хорошую скорость работы
+* В качестве валидатора javascript <a href="http://code.google.com/p/jslint4java/">JSLint4Java</a> (порт JSLint на java). Мы же не хотим выкладывать нерабочий код на продакшен, верно? Кстати, фраза, написанная на офф. сайте, "JSLint may hurt your feelings" очень даже справедлива :)
+
+## Алгоритм работы скрипта
+
+1. Скачиваем и распаковываем JSLint4Java и YUI Compressor, кладем их в папочку tools внутри проекта. Правильнее, конечно, ложить ее куда-нибудь в место, определенное системной переменной, что-нибудь вроде $TOOLS_LOCATION, но в демонстрационном скрипте и так сойдет, а уж вы для себя поправьте скрипт, как вам нужно.
+2. Натравливаем JSLint4Java на все js-файлы. Если JSLint находит какую-нибудь ошибку, выводим ее на экран и останавливаем выполнение скрипта.
+3. Сливаем все js-файлы, за исключением тех, в имени которых есть фраза test, в один файл с уникальным именем, при этом сохраняем порядок следования файлов, который мы где-нибудь в другом месте определим. В качестве уникального имени давайте возьмем такую конструкцию: main.hh.dd.MM.yy.js, где hh, dd, MM, yy, соответственно, текущие час, день, месяц, год.
+4. Сливаем все css-файлы, за исключением тех, имя которых начинается с ie_ в один файл с уникальным именем (имя такое же, как и в предыдущем пункте, только расширение сменится на `css`). Порядок следования в данном случае не важен.
+5. Натравливаем на получившиеся файлы YUI Compressor. Если при сжатии произошла ошибка, выводим на экран ошибку и останавливаем выполнение скрипта.
+6. В html-темплейте, который подключает все файлы стилей, удаляем все тэги link, кроме тех, в src которых прописаны файлы ie_ и тех, которые содержат правила стилей, а не подключают внешний css-файл при помощи атрибута src.
+7. В том же темплейте удаляем все тэги скрипт, кроме тех, которые содержат javascript-код (а не подключают внешний файл скрипта через атрибут src).
+8. В том же темплейте прописываем получившийся css-файл как можно ближе к открывающему тэгу head.
+9. В том же темплейте прописываем получившийся js-файл как можно ближе к закрывающему тэгу body или открывающему тэгу script получившийся js-файл.. Такое странное поведение нужно вот для чего: предположим, что мы в js-файле прописали какие-то библиотечные функции, а прямо в html-файле инициализируем прямо в server-side коде js-объекты какими-то данными. Вот для этого-то нам и нужно сохранить script-тэг, а также подключить получившийся js-файл  до него.
+10. Выкладываем получившиеся js, css, html файлы в какую-нибудь директорию.
+
+## Пример реализации
+{% highlight xml linenos %}
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="production-build" default="build" basedir=".">
+    <!-- место, куда будем складывать свежескачанные yui-compressor и jslint4java -->
+    <property name="tools.location" value="tools/"/>
+    <!-- какую версию yui compressor'а и откуда качать, а также, какое имя будет у получившегося jar-файла -->
+    <property name="yuicompressor-version" value="2.4.2"/>
+    <property name="yuicompressor-zip" value="yuicompressor-${yuicompressor-version}.zip"/>
+    <property name="yuicompressor-unzip-dir" value="yuicompressor-${yuicompressor-version}"/>
+    <property name="yuicompressor-location" value="http://www.julienlecomte.net/yuicompressor/"/>
+    <property name="yuicompressor-jar" value="yuicompressor-${yuicompressor-version}.jar"/>
+    <!-- какую версию jslint4java и откуда будем качать, а также, какое имя будет у получившегося jar-файла -->
+    <property name="jslint-version" value="1.2.1"/>
+    <property name="jslint-location" value="http://jslint4java.googlecode.com/files/"/>
+    <property name="jslint-zip" value="jslint4java-${jslint-version}.zip"/>
+    <property name="jslint-jar" value="jslint4java-${jslint-version}+rhino.jar"/>
+    <property name="jslint-unzip-dir" value="jslint4java-${jslint-version}"/>
+    <!-- откуда мы будем брать js-файлы, css-файлы, html-темплейт -->
+    <property environment="env"/>
+    <property name="js.src" value="js/"/>
+    <property name="css.src" value="css/"/>
+    <property name="template.name" value="index.html"/>
+    <property name="template" value="${template.name}"/>
+    
+
+    <!-- и куда мы будем их все складывать -->
+    <property name="output.dir" value="build/"/>
+    <property name="js.out" value="${output.dir}/js/"/>
+    <property name="css.out" value="${output.dir}/css/"/>
+    <property name="template.out" value="${output.dir}/${template.name}"/>
+
+    <!-- порядок конкатенации js-файлов. Указанные файлы будут расположены в начале общего js-файла в указанном порядке -->
+    <!-- все оставшиеся файлы будут присоединены в конец файла -->
+    <property name="js-required-file-order" value="jquery-1.2.6.js, some_object.js"/>
+    
+    <!-- эта задача всегда выполнится первой -->
+    <target name="init">
+        <tstamp>
+            <!-- запомним в качестве переменной текущее время в формате mm-hh-MM-dd-yyyy -->
+            <format property="build-time" pattern="mm-hh-MM-dd-yyyy"/>
+        </tstamp>
+        <!-- создаем директорию, содержащую yui compressor и jslint4java -->
+        <mkdir dir="${tools.location}"/>
+    </target>
+
+    <target name="prepare-tools" depends="init">
+        <!-- скачаем и распакуем jslint и yui compressor -->
+        <antcall target="prepare-yuicompressor"/>
+        <antcall target="prepare-jslint"/>
+    </target>
+
+    <!-- скачаем и подготовим к работе jslint -->
+    <target name="prepare-jslint" depends="check-if-jslint-exists" unless="jslint.exist">
+        <get src="${jslint-location}${jslint-zip}" dest="${tools.location}${jslint-zip}" verbose="true"/>
+        <unzip src="${tools.location}${jslint-zip}" dest="${tools.location}" />
+        <copy file="${tools.location}${jslint-unzip-dir}/${jslint-jar}" todir="${tools.location}"/>
+        <delete dir="${tools.location}${jslint-unzip-dir}"/>
+        <delete file="${tools.location}${jslint-zip}"/>
+    </target>
+
+    <!-- удостоверимся, что jslint скачан и готов к работе - эта задача выполняется непосредственно перед проверкой js-файлов -->
+    <target name="check-if-jslint-exists">
+        <condition property="jslint.exist">
+            <and>
+                <available file="${tools.location}${jslint-jar}"/>
+            </and>
+        </condition>
+    </target>
+    
+    <!-- скачаем и подготовим к работе jslint -->
+    <target name="prepare-yuicompressor" depends="check-if-yuicompressor-exists" unless="yuicompressor.exist">
+        <get src="${yuicompressor-location}${yuicompressor-zip}" dest="${tools.location}${yuicompressor-zip}" verbose="true"/>
+        <unzip src="${tools.location}${yuicompressor-zip}" dest="${tools.location}" />
+        <copy file="${tools.location}${yuicompressor-unzip-dir}/build/${yuicompressor-jar}" todir="${tools.location}"/>
+        <delete dir="${tools.location}${yuicompressor-unzip-dir}"/>
+        <delete file="${tools.location}${yuicompressor-zip}"/>
+    </target>
+
+    <!-- удостоверимся, что jslint скачан и готов к работе - эта задача выполняется непосредственно перед сжатием js/css-файлов -->
+    <target name="check-if-yuicompressor-exists">
+        <condition property="yuicompressor.exist">
+            <and>
+                <available file="${tools.location}${yuicompressor-jar}"/>
+            </and>
+        </condition>
+    </target>
+    
+    <!-- валидируем javascript -->
+    <target name="validate-javascript" depends="prepare-tools">
+        <apply executable="java" parallel="false" failonerror="false">
+            <fileset dir="${js.src}">
+                <include name="**/*.js"/>
+                <!-- файлы библиотек тестировать не нужно, их и другие люди уже оттестировали -->
+                <exclude name="**/jquery-1.2.6.js"/>
+            </fileset>
+            <arg value="-jar" />
+            <arg file="${tools.location}${jslint-jar}" />
+            <arg value="--bitwise" />
+            <arg value="--browser" />
+            <arg value="--undef" />
+            <arg value="--widget" />
+            <srcfile />
+        </apply>
+    </target>
+
+    <!-- сжимаем js/css-файлы -->
+    <target name="compress" depends="prepare-tools, concatenate-files">
+        <apply executable="java" parallel="false" failonerror="true" dest="${js.out}" verbose="true" force="true">
+            <fileset dir="${js.out}" includes="*.js"/>
+            <arg line="-jar"/>
+            <arg path="${tools.location}${yuicompressor-jar}"/>
+            <arg line="--line-break 8000"/>
+            <arg line="-o"/>
+            <targetfile/>
+            <srcfile/>
+            <mapper type="glob" from="*.js" to="*.js"/>
+        </apply>
+        <apply executable="java" parallel="false" failonerror="true" dest="${css.out}" verbose="true" force="true">
+            <fileset dir="${css.out}" includes="*.css" excludes="ie_*.css"/>
+            <arg line="-jar"/>
+            <arg path="${tools.location}${yuicompressor-jar}"/>
+            <arg line="--line-break 0"/>
+            <srcfile/>
+            <arg line="-o"/>
+            <mapper type="glob" from="*.css" to="*.css"/>
+            <targetfile/>
+        </apply>
+    </target>
+
+    <!-- удаляем все старые css и js файлы в темплейте, а затем вставляем ссылки на наши сжатые файлы -->
+    <target name="update-tags" depends="prepare-tools">
+        <copy file="${template}" tofile="${template.out}" overwrite="true"/>
+
+        <replaceregexp file="${template.out}" match="&lt;script\s+type=&quot;text/javascript&quot;\s+src=&quot;[A-Za-z0-9._\-/]*&quot;&gt;&lt;/script&gt;" flags="igm" replace=""/>
+
+        <replaceregexp file="${template.out}" match="(&lt;script*|&lt;/body&gt;)" flags="im" replace="&lt;script type=&quot;text/javascript&quot; src=&quot;js/main-${build-time}.js&quot;&gt;&lt;/script&gt;${line.separator}\1"/>
+
+        <replaceregexp file="${template.out}" match="&lt;link[^&gt;]*href=&quot;css/[^i&gt;]{1}[^e&gt;]{1}[^_&gt;]{1}[^&gt;]*/&gt;" flags="igm" replace=""/>
+
+        <replaceregexp file="${template.out}" match="&lt;/head&gt;" flags="im" replace="&lt;link rel=&quot;stylesheet&quot; href=&quot;css/main-${build-time}.css&quot; type=&quot;text/css&quot; /&gt;&lt;/head&gt;"/>
+    </target>
+
+    <!-- конкатенация файлов -->
+    <target name="concatenate-files" depends="update-tags">
+        <concat destfile="${js.out}/main-${build-time}.js" fixlastline="true">
+            <filelist dir="${js.src}"
+                files="${js-required-file-order}"/>
+            <fileset dir="${js.src}"
+                includes="**/*.js"
+                excludes="${js-required-file-order}"/>
+        </concat>
+
+        <copy todir="${css.out}">
+            <fileset dir="${css.src}" includes="**/ie_*.css"/>
+        </copy>
+        <concat destfile="${css.out}/main-${build-time}.css" fixlastline="true">
+            <fileset dir="${css.src}"
+                includes="**/*.css"
+                excludes="**/ie_*.css"/>
+        </concat>
+    </target>
+
+    <target name="build">
+        <mkdir dir="${output.dir}"/>
+        <antcall target="validate-javascript"/>
+        <antcall target="compress"/>
+    </target>
+</project>
+{% endhighlight %}
+
+На всякий случай, <a href="/download/clientSideAuthomatisation/ant.zip">пример</a>.
+
+## TODO
+
+1. Не слишком красивым является указание порядка конкатенации js-файлов прямо в скрипте. Гораздо лучше было бы, если бы мы писали прямо в html что-нибудь вроде . При development build'е скрипт бы заменял эту строку на несколько script-tag'ов (удобно для debug-a), а на продакшене сливал бы файлы в один в указанном порядке.
+2. Скачивание файлов при помощи ant-а не сказать, чтобы очень удобное - а что, если выйдет новая версия или изменится ссылка на скачивание? Гораздо удобнее пользоваться <a href="http://maven.apache.org/">maven</a>'ом для таких случаев.
+3. Дополняйте :)

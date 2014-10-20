@@ -1,0 +1,1413 @@
+/* TODO line-height in ems everywhere */
+body {
+    background: #001623 url(images/background.jpg) no-repeat left top;
+    font-size: 80%;
+	line-height: 1.5em;
+	margin: 0;
+}
+body, input, textarea, select {
+	font-family: Tahoma, Helvetica, sans-serif;	
+}
+p {
+	padding: 0;
+	margin: 10px 0;	
+}
+h2 {
+	font-weight: normal;
+	font-size: 1.3em;
+}
+h3 {
+	font-size: 1em;
+}
+a img {
+	border: none;
+}
+a {
+	color: #1FA6BF;
+	text-decoration: underline;
+}
+form {
+	margin: 0;
+	padding: 0;
+}
+table, td {
+	border: 1px solid silver;
+	border-collapse: collapse;
+}
+td {
+	padding: 5px 10px;
+}
+table.grid, table.grid td {
+	border: none;
+}
+button.icon {
+	border: none;
+	background: transparent no-repeat;
+}
+
+/* highlight [begin] */
+/*.dashboard .column.left {*/
+/*    background: red;*/
+/*}*/
+/*.dashboard .column.right {*/
+/*    background: pink;*/
+/*}*/
+/*.dashboard .topcenter .column, .dashboard .bottomcenter .column {*/
+/*	background: yellow;*/
+/*}*/
+/*.community .column.left {*/
+/*    background: red;*/
+/*}*/
+/*.community .topcenter .column {*/
+/*	background: yellow;*/
+/*}*/
+/*.community .column.right {*/
+/*	background: pink;*/
+/*}*/
+/*.community .bottomcenter .column {*/
+/*	background: yellow;*/
+/*}*/
+/* highlight [end] */
+
+/* grid [begin] */
+.supercontainer {
+	width: 82%;
+	margin-left: 9%;
+	min-width: 960px;
+}
+.supercontainer {
+	width: 960px;
+	min-width: 960px;
+	margin: auto;
+}
+.mid-res .supercontainer {
+	width: 82%;
+	margin-left: 9%;
+}
+.lo-res .supercontainer {
+	width: 96%;
+	margin-left: 2%;
+}
+.xlo-res .supercontainer {
+	width: 960px;
+	margin: 0 auto;
+}
+.hi-res .supercontainer {
+	width: 1100px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.area {
+    padding: 10px;
+}
+.area.dashboard, .area.twocolumn {
+    background: #C2CDCD;
+	margin-bottom: 5px;
+	-webkit-border-bottom-left-radius: 14px;
+	-webkit-border-bottom-right-radius: 14px;
+	-moz-border-radius-bottomleft: 14px;
+	-moz-border-radius-bottomright: 14px;
+}
+.column {
+    padding: 5px;
+}
+.dashboard .tier {
+    clear: both;
+}
+.dashboard .column.left, .twocolumn .column.left {
+    width: 220px;
+    float: left;
+}
+.dashboard .topcenter.wrapper, .twocolumn .right.wrapper {
+    margin-left: 230px;
+}
+.dashboard .topcenter .subwrapper, .twocolumn .right .subwrapper  {
+    width: 100%;
+    float: left;
+}
+.dashboard .topcenter .subwrapper {
+    margin-right: -250px;
+}
+.dashboard .topcenter .column {
+    margin-right: 250px;
+}
+.dashboard .column.right {
+    width: 240px;
+    float: right;
+}
+.dashboard .wrapper.bottomcenter  {
+    margin-left: 230px;
+}
+.dashboard .bottomcenter .subwrapper  {
+    float: left;
+    width: 100%;
+}
+.area.community {
+    background: #1B4455;
+	-webkit-border-radius: 14px;
+	-moz-border-radius: 14px;
+}
+.area.community, .area.twocolumn {
+	margin-bottom: 15px;
+}
+.community .column.left {
+    width: 400px;
+	float: left;
+}
+.community .wrapper.topcenter, .community .wrapper.bottomcenter  {
+    margin-left: 410px;
+}
+.community .topcenter .subwrapper, .community .bottomcenter .subwrapper {
+	float: left;
+    width: 100%;
+}
+.community .topcenter .subwrapper {
+	margin-right: -190px;
+}
+.community .topcenter .column {
+	margin-right: 190px;
+}
+.community .column.right {
+	width: 180px;
+	float: right;
+}
+.twocolumn .supermenu, .twocolumn .box.tip, .twocolumn .carfilter {
+	margin-bottom: 10px;
+}
+.twocolumn .maintext {
+	min-height: 840px;
+	height: 840px;
+}
+.twocolumn .results {
+	min-height: 930px;
+	height: 930px;
+}
+.twocolumn .column > .maintext, .twocolumn .column > .results  {
+	height: auto;
+}
+/* grid [end] */
+
+
+/* common [begin] */
+.box {
+	background: white url(images/box_bottom.png) repeat-x bottom;
+}
+.box h2 {
+	margin: 0 0 0.6em 0;
+}
+.box .content, dl.tabset dd {
+	padding: 15px 20px 25px 20px;
+}
+
+.floater {
+	display: none;
+	position: absolute;
+	background: url(images/floater.gif) no-repeat left bottom;
+	width: 210px;
+	padding: 15px 20px 25px 20px;
+	z-index: 2;
+}
+.down {
+	width: 9px;
+	height: 5px;
+	background-image: url(images/down_tick.gif);
+}
+.breaker {
+	clear: both; 
+}
+.hidden {
+	display: none;
+}
+.icon {
+	cursor: pointer;
+}
+.tick {
+	font-size: 1px;
+}
+.tick.expand, .tick.collapse {
+	background: no-repeat;
+	width: 7px;
+	height: 7px;
+}
+.tick.expand {
+	background-image: url(images/tick_expand.gif);
+}
+.tick.collapse {
+	background-image: url(images/tick_collapse.gif);
+}
+.button .tick.expand {
+	vertical-align: baseline;
+	padding-top: 9px;
+	background-position: bottom;
+}
+.icon.popup {
+	background: url(images/icon_popup.gif) no-repeat right top;
+	width: 16px;
+	height: 13px;
+}
+.longtext {
+	line-height: 1.7em;
+}
+/* common [end] */
+
+
+/* header [begin] */
+.superheader {
+	background: url(images/header_right.gif) no-repeat right bottom;
+	position: relative;
+	height: 165px;
+	margin-top: 10px;
+}
+.superheader .logo {
+	width: 678px;
+	height: 83px;
+	background: url(images/logo.gif) no-repeat;
+	position: absolute;
+	top: 20px;
+	right: 0;
+}
+
+.superheader .logo, .superheader .logo a {
+	display: block;
+}
+.superheader .logo a {
+	width: 678px;
+	height: 83px;
+}
+.superheader .motto {
+	width: 160px;
+	height: 20px;
+	background: url(images/motto.gif) no-repeat;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+.superheader .logo h1, .superheader .motto span {
+	display: none;
+}
+.superheader .deco {
+	width: 311px;
+	height: 118px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader (src='file:///C:/projects/css/automaximum/css/images/dashboard.png', sizingMethod='crop');
+}
+.superheader > .deco {
+	background: url(images/dashboard.png) no-repeat;
+}
+.superheader .panel {
+	height: 43px;
+	padding: 122px 0 0 305px;
+	background: url(images/header.gif) repeat-x bottom;
+	margin: 0 22px 0 20px;
+}
+.superheader .search {
+	padding-top: 10px;
+	float: left;
+}
+.superheader .search .text {
+	width: 280px;
+}
+.superheader .search .go {
+	margin-left: 5px;
+}
+.superheader .authenticate {
+	float: right;
+	font-size: 0.85em;
+	padding-top: 6px;
+	width: 240px;
+	position: relative;
+}
+.superheader .authenticate, .superheader .authenticate a {
+	color: white;
+}
+.superheader .authenticate .floater, .superheader .authenticate .floater a {
+	color: black;
+}
+.superheader .authenticate .floater {
+	color: black;
+	font-size: 1.1em;
+	width: 145px;
+	padding-top: 10px;
+	top: 40px;
+	left: -20px;
+}
+.superheader .authenticate .floater label {
+	display: block;
+	margin-bottom: 10px;
+}
+.superheader .authenticate .floater input {
+	width: 140px;
+}
+.signin {
+	height: 30px;
+	background: url(images/signin_right.gif) no-repeat right;
+	font-size: 1.1em;
+	margin-right: 5px;
+}
+.signin a {
+	background: url(images/signin_left.gif) no-repeat left;
+	color: white;
+	padding: 0 10px;
+	height: 30px;
+	text-decoration: none;
+	line-height: 28px;
+}
+.hover {
+	cursor: pointer;
+}
+/* header [end] */
+
+
+/* footer [begin] */
+.superfooter, .superfooter .helper {
+	height: 68px;
+}
+.superfooter {
+	background: white url(images/footer.jpg) repeat-x;
+}
+.superfooter .helper {
+	background: url(images/footer_right.jpg) no-repeat right;
+}
+.superfooter .meta {
+	list-style: none;
+	margin: 0;
+	height: 43px;
+	padding: 25px 0 0 100px;
+	background: url(images/footer_left.jpg) no-repeat left;
+}
+.superfooter .meta li {
+	display: inline;
+	padding: 7px 10px;
+	margin: 0 40px 0 0;
+}
+.superfooter .meta li a {
+	text-decoration: none;
+}
+.superfooter .feedback, .superfooter .contacts {
+	/*background: url(images/icon_popup.gif) no-repeat right top;*/
+	position: relative;
+}
+.superfooter .feedback.hover .icon.popup,
+.superfooter .contacts.hover .icon.popup {
+	background-image: none;
+}	
+.superfooter .meta li .floater  {
+	width: 260px;
+	bottom: 60px;
+	left: 100px;
+}
+.superfooter .meta li > .floater  {
+	bottom: 1.6em;
+	right: -260px;
+}
+.superfooter .meta li.hover .floater {
+	display: block;
+}
+.superfooter .feedback .floater textarea {
+	height: 160px;
+	width: 98%;
+	overflow: auto;
+}
+.superfooter .feedback .floater .memo {
+	font-size: 0.85em;
+}
+.superfooter .feedback .floater .email {
+	width: 160px;
+	float: right;
+	display: none;
+}
+/* footer [end] */
+
+
+/* tabs [begin] */
+.tabhead {
+	background: #275564 url(images/tabhead_right.gif) no-repeat right top;
+	height: 37px;
+	min-height: 37px;
+}
+.box > .tabhead {
+	height: auto;
+}
+.box .tabhead h2 {
+	color: white;
+	background: url(images/tabhead_left.gif) no-repeat left top;
+	padding: 8px 20px 0 20px;
+	margin: 0;
+	float: left;
+}
+.tabhead .tabs {
+	margin-top: 7px;
+}
+.tabs {
+	float: left;
+	/*width: 100%;*/
+}	
+.tabs, .tabs li, .tabset, .tabset dt, .tabset dd {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.tabs li, .tabset dt {
+	float: left;
+	background: url(images/tab_right.gif) no-repeat right top;
+}
+.tabs li a, .tabset dt a {
+	display: block;
+	padding: 0 20px 0 10px;
+	background: url(images/tab_left.gif) no-repeat left top;
+	/* IE active zone fix */
+	width: 0.1em;
+	text-decoration: none;
+	color: black;
+	white-space: nowrap;
+}
+.tabs li, .tabs li a, .tabset dt, .tabset dt a {	
+	height: 30px;
+	min-height: 30px;
+	line-height: 30px;
+}
+.tabs > li, .tabs li > a, .tabset > dt, .tabset dt > a {	
+	height: auto;
+}
+.tabs li > a, .tabset dt > a {
+	width: auto;
+}
+
+.tabs li.current, .tabset dt.current {
+	background-image: url(images/tab_current_right.gif);
+}
+.tabs li.current a, .tabset dt.current a {
+	background-image: url(images/tab_current_left.gif);
+}
+.tabs li.hover, .tabset dt.hover {
+	background-image: url(images/tab_hover_right.gif);
+}
+.tabs li.hover a, .tabset dt.hover a {
+	background-image: url(images/tab_hover_left.gif);
+}
+/* tabs [end] */
+
+
+/* tabset [begin] */
+.box .tabset {
+	top: -30px;
+}
+dl.tabset {
+	margin: 0;
+	padding: 0;
+	position: relative;
+}
+dl.tabset dt {
+	display: inline;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+dl.tabset dd {
+	display: none;
+	position: relative;
+	top: 30px;
+}
+dl.tabset dd.current	{
+	display: block;
+}
+/* tabset [end] */
+
+
+/* menu [begin] */
+.supermenu {
+	margin: -5px -5px 0 -5px;
+	padding: 0 5px;
+	position: relative;
+	z-index: 1;
+}
+.supermenu, .supermenu li, .supermenu ul {
+	list-style: none;
+}
+.supermenu li {
+	height: 55px;
+	min-height: 55px;
+	background: #A0B6BB url(images/menu_item.gif) no-repeat bottom;
+	position: relative;
+	margin: 0 -5px;
+}
+.supermenu li a {
+	text-decoration: none;
+	padding: 8px 0 0 17px;
+	display: block;
+	font-size: 1.3em;
+	height: 46px;
+	min-height: 46px;
+	line-height: 110%;
+	border-top: 1px solid #C2CED0;
+	margin: 0 5px;
+}
+.supermenu li a, .supermenu .current li a {
+	color: #102C33;	
+}
+.supermenu .current a {
+	background: #183943 url(images/menu_tick.gif) no-repeat left center;
+	color: white;
+}
+.supermenu > li, .supermenu ul > li, .supermenu li > a {
+	height: auto;
+}
+.supermenu li .verbose {
+	font-size: 0.6em;
+	color: #557279;
+}
+
+.supermenu li.hover.top, .supermenu li.current.hover.top {
+	background-image: url(images/menu_item_top_hover.gif);
+}
+.supermenu li.current.top {
+	background-image: url(images/menu_item_top_current.gif);
+}
+ul.supermenu li.hover_top {
+	background-image: url(images/menu_item_top_hover.gif);
+}
+.supermenu li.top {
+	height: 60px;
+	min-height: 60px;
+	background: url(images/menu_item_top.gif) no-repeat top;
+}
+
+.supermenu > li.top, .supermenu > li.top > a {
+	height: auto;
+}
+.supermenu li.top a.top {
+	padding-top: 14px;
+	border-top: none;
+}
+.supermenu li.hover.top a.top, .supermenu li.current.top a {
+	background-color: transparent;
+}
+.supermenu li.hover a, .supermenu li.hover li.hover a {
+	background: #AEC1C5 url(images/dropdown_tick.gif) no-repeat right center;
+}
+.supermenu li.hover li a {
+	background: none;
+}
+.supermenu li.stub a, .supermenu li.hover li.hover a {
+	background-image: none;
+}
+.supermenu li.first a {
+	border-top: none;
+	padding-top: 9px;
+}
+.supermenu li ul {
+	display: none;
+	background: #C6D5D7;
+	position: absolute;
+	top: 0;
+	right: -215px;
+	padding: 0;
+	margin: 0;
+	width: 220px;
+	z-index: 2;
+}
+.supermenu li.top ul {
+	top: 5px;
+}
+.supermenu li.hover ul {
+	display: block;
+}
+.supermenu li li {
+	background: none;
+	margin: 0;
+}
+.supermenu li li a {
+	border-top-color: #8FB5BC;
+	margin: 0;
+}
+/* menu [end] */
+
+
+/* forms & buttons [begin] */
+input, textarea {
+	font-size: 1em;
+}
+input.text, textarea {
+	border: 1px solid #303B3B;
+	border-bottom-color: #C5CFCF;	
+	border-right-color: #C5CFCF;
+	padding: 2px 0 3px 4px;
+}
+input.example {
+	color: #A9B9BD;
+}
+input.checkbox {
+	vertical-align: middle;
+}
+span.button {
+	background: url(images/button_left.gif) no-repeat left;
+	padding-left: 7px;
+}
+span.button a {
+	background: url(images/button_right.gif) no-repeat right;
+	padding: 0 10px 0 3px;
+	text-decoration: none;
+	color: black;
+	white-space: nowrap;
+}
+span.button, span.button a {
+	line-height: 22px;
+	height: 24px;
+}
+	
+/* cross-browser inline-block */
+span.button, span.button a, span.twoliner, span.twoliner a,
+span.jumbo, span.jumbo a, .tick, span.signin, span.signin a, .icon {
+	display: -moz-inline-stack;
+	display: inline-block;
+	zoom: 1;
+	*display: inline;
+}
+ul.controls, .controls li {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.controls li {
+	float: left;
+}
+.controls .previous, .controls .next {
+	height: 20px;
+	width: 34px;
+	cursor: pointer;
+}
+.controls .previous {
+	background: url(images/button_previous.gif) no-repeat;
+}
+.controls .next {
+	background: url(images/button_next.gif) no-repeat;
+	margin-left: 7px;
+}
+/* forms & buttons [end] */
+
+
+/* carfinder widget [begin] */
+.carfinder {
+	min-height: 225px;
+	height: 225px;
+}
+.column .carfinder {
+	height: auto;
+}
+.carfinder dd {
+	min-height: 148px;
+	height: 148px;
+}
+.carfinder dl > dd {
+	height: auto;
+}
+.carfinder .search {
+	margin: 6px 0 0 0;
+	padding: 0 20px 0 0;
+	float: right;
+	position: relative;
+	z-index: 2;
+}
+.carfinder .search .go {
+	margin-left: 5px;
+}
+.carfinder .column, .carfilter .column {
+	list-style: none;
+	padding: 0;
+	float: left;
+}
+.carfinder .column {
+	width: 20%;
+	margin: 0 20px 0 0;
+}
+.carfinder .column li, .carfilter .column li {
+	margin: 0;
+	padding: 0.25em 0;
+}
+.carfinder .count, .carfilter .count {
+	color: #728C92;
+}
+.carfinder .tabset dt.make {
+	left: 110px;
+}
+.carfinder .tabset dt.price {
+	left: 177px;
+}
+.carfinder .tabset dt.body {
+	left: 237px;
+}
+.carfinder .tabset dt.age {
+	left: 332px;
+}
+.twoliner {
+	height: 60px;
+	background: #499DAB url(images/twoliner_right.gif) no-repeat right;
+}
+.twoliner a {
+	background: url(images/twoliner_left.gif) no-repeat left;
+	font-size: 0.85em;
+	color: white;
+	text-decoration: none;
+	height: 42px;
+	padding: 8px 12px 10px 12px;
+}
+.twoliner a em {
+	font-style: normal;
+	font-size: 1.6em;
+}
+.carfinder .advertize {
+	margin-top: 5.7em;
+	float: right;
+}
+.jumbo {
+	height: 50px;
+	background: url(images/jumbo_right.gif) no-repeat right;
+}
+.jumbo a {
+	background: url(images/jumbo_left.gif) no-repeat left;
+	font-size: 1.35em;
+	color: black;
+	text-decoration: none;
+	height: 50px;
+	line-height: 46px;
+	padding: 0 12px;
+}
+.carfinder label, .carfilter .price label, .carfilter .age label {
+	padding: 15px;
+	display: block;
+	float: left;
+	clear: left;
+	margin: 5px 0;
+}
+.carfinder .price .go, .carfinder .age .go {
+	margin: 10px 0 0 15px;
+}
+.carfinder .price label.maximum, .carfinder .age label.year,
+.carfilter .price label.maximum, .carfilter .age label.year {
+	background: #DFE5E7;
+}
+.carfinder .price .maximum input, .carfinder .age .year input,
+.carfilter .price .maximum input, .carfilter .age .year input
+{
+	font-size: 1.3em;
+}
+.carfinder .price input, .carfilter .price input {
+	text-align: right;
+}
+.carfinder .price input, .carfinder .age .year input,
+.carfilter .price input, .carfilter .age .year input {
+	width: 3em;
+}
+/* carfinder widget [end] */
+
+
+/* carfinder [begin] */
+.carfilter {
+	background: #275564;
+}
+.carfilter .tabhead h2 {
+	padding-right: 15px;
+	padding-left: 15px;
+}
+.carfilter .content {
+	padding: 10px 15px;
+	background: white;
+}
+.carfilter .criteria {
+	margin-bottom: 10px;
+}
+.carfilter .criteria h3 {
+	background: #A9B9BD no-repeat right bottom;
+	height: 20px;
+	line-height: 18px;
+	margin: 0;
+	padding: 5px 5px 5px 15px;
+	cursor: pointer;
+}
+.carfilter .criteria h3 .tick {
+	width: 7px;
+	height: 7px;
+	background: url(images/tick_collapse.gif) no-repeat;
+	float: right;
+}
+.carfilter .criteria.collapsed h3 .tick {
+	background-image: url(images/tick_expand.gif);
+	margin-top: 13px;
+}
+.carfilter .criteria.collapsed .content {
+	display: none;
+}
+.carfilter .make .content, .carfilter .body .content {
+	padding-right: 10px;
+	padding-left: 10px;
+}
+.carfilter .seller label, .carfilter .age label.new {
+	display: block;
+	padding: 1px 5px 2px 30px;
+	background: url(images/checkbox.gif) no-repeat 5px center;
+	margin: 5px 0;
+}
+.carfilter .seller label.illustrated {
+	margin-bottom: 20px;
+}
+.carfilter .seller label.hover, .carfilter .column li.hover, .carfilter .age label.hover {
+	background-color: #DFE5E7;
+}
+.carfilter .seller label.checked, .carfilter .age label.checked {
+	background-image: url(images/checkbox_checked.gif);
+}
+.carfilter .seller label.wantads {
+	background-color: #CBF132;
+}
+.carfilter .seller label.dealers {
+	background-color: #F34F78;
+}
+.carfilter .column {
+	margin: 0 5px 0 0;
+	width: 95px;
+}
+.carfilter .column.last {
+	margin-right: 0;
+	width: 100px;
+}
+.carfilter .column li {
+	margin: 0 0 5px 0;
+	padding: 0.15em 5px; 
+}
+.carfilter .column li.checked, .carfilter .seller .checked, .carfilter .age label.checked {
+	background-color: #B9C5CB;
+}
+.carfilter .body .column {
+	width: auto;
+}
+.carfilter .body .column li {
+	padding-right: 5px;
+}
+.carfilter .age label {
+	float: none;
+}
+table.cars {
+	border: 8px solid #B9C5CB;
+	width: 100%;
+	clear: both;
+}
+.cars tr td {
+	padding: 8px;
+	border-bottom: 8px solid #B9C5CB;
+}
+.cars tr.box {
+	background: #CCD7D8 url(images/car_box.jpg) repeat-x top;
+}
+.cars tr.hover .floater {
+	display: block;
+}
+.cars tr.hover .icon.popup {
+	background-image: none;
+}
+.cars td.thumbnail {
+	width: 130px;
+	vertical-align: top;
+	font-size: 1px;
+}
+.cars td.details {
+	padding-left: 12px;
+	vertical-align: top;
+}
+.cars .helper {
+	position: relative;
+}
+.cars td.wantad, .cars td.dealer {
+	width: 8px;
+}
+.cars td.wantad {
+	background: #CBF132;
+}
+.cars td.dealer {
+	background: #F34F78;
+}
+.cars td.price, .cars td.when {
+	white-space: nowrap;
+}
+.cars td.price {
+	width: 80px;
+}
+.cars td.when {
+	width: 100px;
+}
+/*.cars .icon.popup {*/
+/*	position: relative;*/
+/*}*/
+.cars .floater {
+	left: 130px;
+	bottom: 110px;
+}
+.cars .helper > .floater {
+	bottom: 10px;
+}
+.cars .floater ul, .cars .floater li {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.cars .details .contacts {
+	display: none;
+}
+.results .banner, .longtext .banner {
+	float: right;
+	margin: 0 0 20px 20px;
+}
+.results .restrictions, .results .total {
+	margin-bottom: 10px;
+	padding-right: 320px;
+}
+/*.results .total {*/
+/*	float: left;*/
+/*}*/
+.results .advertize {
+	float: right;
+}
+.results .restrictions p, .results .total p {
+	margin: 0;
+	padding: 15px;
+	background: #DFE5E7;	
+}
+.results .restrictions em, .results .total em {
+	font-size: 1.3em;
+	font-style: normal;
+	display: block;
+}
+/* carfinder [end] */
+
+
+/* whatsnew [begin] */
+.whatsnew {
+	min-height: 495px;
+	height: 495px;
+}
+.column > .whatsnew {
+	height: auto;
+}
+dt.news a, dt.events a, dt.articles a {
+	color: white;
+}
+dl dt.current a {
+	color: black;
+}
+.whatsnew .tabset dt.all {
+	left: 105px;
+}
+dl dt.news {
+	left: 155px;
+	background-image: url(images/tab_news_right.gif);
+}
+dl dt.news a {
+	background-image: url(images/tab_news_left.gif);
+}
+dl dt.events {
+	left: 233px;
+	background-image: url(images/tab_events_right.gif);
+}
+dl dt.events a {
+	background-image: url(images/tab_events_left.gif);
+}
+dl dt.articles {
+	background-image: url(images/tab_articles_right.gif);
+	left: 314px;
+}
+dl dt.articles a {
+	background-image: url(images/tab_articles_left.gif);
+}
+.recent .first {
+	float: none;
+	font-size: 1em;
+	width: 100%;
+	min-height: 135px;
+	height: 135px;
+	display: block;
+}
+.recent .first .date {
+	font-size: 0.85em;
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	line-height: 120%;
+}
+.recent > .first {
+	height: auto;
+}
+.recent, .recent li {
+	list-style: none;
+}
+.recent {
+	margin: 0;
+	padding: 0;
+}
+.recent .thumbnail {
+	float: left;
+	margin-right: 20px;
+}
+.recent li {
+	float: left;
+	width: 48.5%;
+	position: relative;
+	line-height: 155%;
+	margin: 5px -5px;
+	padding: 5px;
+	/* IE6 double margin float fix */
+	display: inline;font-size: 0.85em;
+}
+.recent > li {
+	display: block;
+}
+.recent li.odd {
+	margin-left: 1%;
+}
+.recent li.even {
+	clear: left;
+}
+.recent li.hover {
+	background: #DFE5E7;
+}
+.recent h3 {
+	padding: 0;
+	margin: 0 0 10px 0;
+}
+.recent a {
+	text-decoration: none;
+	color: black;
+	display: block;
+}
+.recent .date {
+	padding: 0 7px 2px 7px;
+}
+.recent .breaker {
+	float: none;
+	margin: 0 !important;
+	padding: 0 !important;
+	overflow: hidden;
+	height: 1px;
+	font-size: 1px;
+	background: red;
+}
+.news .date, .event .date, .article .date {
+	color: white;
+}
+.news .date {
+	background: #8C2157;
+}
+.event .date {
+	background: #B7A971;
+}
+.article .date {
+	background: #3A7DA1;
+}
+/* whatsnew [end] */
+
+
+/* ads [begin] */
+.ad240x400, .ad180x150 {
+	/* IE6 extra height fix */
+	font-size: 1px;
+}
+.ad240x400, .ad180x150.first {
+	margin-bottom: 10px;
+}
+/* ads [end] */
+
+
+/* car parts [begin] */
+.carParts {
+	background: #7C2752 url(images/car_parts.gif) no-repeat right;
+	height: 85px;
+	min-height: 85px;
+	color: white;
+	line-height: 110%;
+}
+.column > .carParts {
+	height: auto;
+}
+.box.carParts .content {
+	font-size: 0.85em;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-right: 50px;
+}
+.carParts .content h2 {
+	font-size: 1.6em;
+	margin-bottom: 0.4em;
+}
+/* car parts [end] */
+
+
+/* poll [begin] */
+.box.poll {
+	min-height: 315px;
+	height: 315px;
+}
+.column > .box.poll {
+	height: auto;
+}
+.answers, .answers li {
+	list-style: none;
+}
+.answers {
+	/*padding: 0;*/
+	margin: 0 -5px;
+	width: 195px;
+	padding: 0 5px;
+}
+.answers li {
+	padding: 5px 10px 5px 28px;
+	margin: 10px -5px;
+	background: #DFE5E7 url(images/button_radio.gif) no-repeat 9px 7px;
+	cursor: pointer;
+	font-size: 0.85em;
+	line-height: 140%;
+}
+.answers li.hover {
+	background-color: #B6C4C8;
+	background-image: url(images/button_radio_checked.gif);
+}
+.poll .note {
+	font-size: 0.85em;
+	float: right;
+	width: 140px;
+	padding-top: 0.5em;
+}
+/* poll [end] */
+
+
+/* spotlight [begin] */
+/* TODO Spotlight fixed height and overflow */
+.spotlight {
+	min-height: 310px;
+	height: 310px;
+}
+.column > .spotlight {
+	height: auto;
+}
+/* spotlight [end] */
+
+/* tip [begin] */
+.tip {
+	width: 220px;
+	background: white url(images/tip_bottom.gif) no-repeat bottom;
+	/*margin-bottom: -10px;
+	padding-bottom: 10px;*/
+}
+.tip .content {
+	background: url(images/tip_top.gif) no-repeat top;
+	font-size: 0.85em;
+	line-height: 1.6em;
+	padding-bottom: 10px;
+}
+.tip .controls {
+	padding: 0 0 25px 20px;
+	height: 20px;
+}
+/* tip [end] */
+
+
+/* gallery [begin] */
+.box.gallery {
+	margin-bottom: 10px;
+	height: 380px;
+	position: relative;
+}
+.gallery .content {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+.gallery .content h2 {
+	margin-left: 10px;
+}
+.gallery .controls {
+	float: right;
+}
+.gallery .entry {
+	width: 160px;
+	height: 290px;
+	padding: 10px;
+	background: #DFE5E7;
+	font-size: 0.85em;
+	line-height: 1.3em;
+	float: left;
+}
+.gallery .entry.even {
+	margin-left: 10px;
+}
+.gallery .enlarge {
+	width: 21px;
+	height: 21px;
+	background: #DFE5E7 url(images/icon_expand.gif) no-repeat right bottom;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+}
+.gallery .frame {
+	position: relative;
+	margin-bottom: 10px;
+	height: 120px;
+	width: 160px;
+	/* IE6 extra height fix */
+	font-size: 1px;
+}
+.gallery .description {
+	height: 155px;
+	overflow: hidden;	
+}
+/* gallery [end] */
+
+
+/* slideshow [begin] */
+.slideshow {
+	width: 380px;
+	height: 364px;
+	background: white;
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 10px 10px 6px 10px;
+	display: none;
+}
+.slideshow .viewport {
+	margin-bottom: 6px;
+}
+.slideshow .thumbnails, .slideshow .thumbnails li {
+	list-style: none;
+}
+.slideshow .thumbnails {
+	padding: 0;
+	margin: 0;
+	background: black;
+	/* TODO: determine dynamically */
+	width: 9999px;
+}
+.slideshow .thumbnails li {
+	float: left;
+	margin-right: 2px;
+	padding: 4px;
+	cursor: pointer;
+}
+.slideshow .previous, .slideshow .next, .slideshow .close {
+	width: 40px;
+	height: 40px;
+	position: absolute;
+}
+.slideshow .previous, .slideshow .next {
+	top: 132px;
+}
+.slideshow .previous {
+	background: url(images/slideshow_previous.gif) no-repeat;
+	left: 0
+}
+.slideshow .next {
+	background: url(images/slideshow_next.gif) no-repeat;
+	right: 0;
+}
+.slideshow .close {
+	background: url(images/slideshow_close.gif) no-repeat;
+	top: 0;
+	right: 0;	
+}
+.slideshow .thumbnails li.hover  {
+	background: #C4C4C4;
+}
+.slideshow .thumbnails .current {
+	background: white;
+}
+.slideshow .filmstrip, .slideshow .thumbnails {
+	height: 72px;
+}	
+.slideshow .filmstrip {
+	width: 380px;
+	overflow: hidden;
+	position: relative;
+}
+.slideshow .filmstrip .left, .slideshow .filmstrip .right {
+	width: 40px;
+	height: 72px;
+	position: absolute;
+	top: 0;
+}
+.slideshow .filmstrip .left {
+	left: 0;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader (src='file:///C:/projects/css/automaximum/css/images/slideshow_left.png', sizingMethod='crop');
+}
+.slideshow .filmstrip > .left {	
+	background: url(images/slideshow_left.png) no-repeat;
+}
+.slideshow .filmstrip .right {
+	right: 0;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader (src='file:///C:/projects/css/automaximum/css/images/slideshow_right.png', sizingMethod='crop');
+}
+.slideshow .filmstrip > .right {
+	background: url(images/slideshow_right.png) no-repeat;
+}
+/* slideshow [end] */
+
+/* forum [begin] */
+.box.forum {
+	min-height: 385px;
+	height: 385px;
+}
+.column > .box.forum {
+	height: auto;
+}
+.forum .posts {
+	margin: 0 -10px;
+	width: 100%;
+}
+.forum .posts td {
+	padding: 6px 10px;
+}
+.forum .posts td.topic {
+	width: 55%;
+}
+.forum .posts td.author {
+	width: 22%;
+}
+.forum .posts td.time {
+	width: 23%;
+}
+.forum .posts td.time {
+	color: #728C92;
+	font-size: 0.85em;
+}
+.forum .posts .helper {
+	position: relative;
+	/*width: 0;
+	height: 0;*/
+}
+.forum .topic a {
+	position: relative;
+}
+.forum .posts tr {
+	position: relative;
+}
+.forum .posts tr.hover {
+	background: #DFE5E7;
+}
+.forum .posts tr.hover .floater {
+	display: block;
+}
+.forum .post.floater {
+	left: 160px;
+	bottom: 25px;
+	width: 210px;
+	padding: 10px 20px 15px 20px;
+}
+.forum .helper > .post.floater {
+	bottom: 13px;
+}
+.forum .post.floater .author {
+	display: block;
+	font-weight: bold;
+	padding-top: 0.5em;
+}
+.forum .post.floater .reply {
+	float: right;
+}
+/* forum [end] */

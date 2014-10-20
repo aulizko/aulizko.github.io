@@ -1,0 +1,39 @@
+---
+layout: post
+title: "И еще про синтаксис JavaScript"
+permalink: /posts/323/index.html
+tags:
+  - JavaScript
+---
+Кто о чем, а <span style="text-decoration: line-through;">вшивый о бане</span> я о синтаксе в javascript.
+
+Дело в том, что часто внутри функции нужно проверить, переданы ли правильные параметры и переданы ли вообще. Ну и вот один из самых коротких способов это сделать. Ничего фантастического тут нет, старый и проверенный способ. Кто может что сказать о достоинствах и недостатках этого метода?
+
+{% highlight javascript linenos %}
+function destroyTheWorld (when, byWhom) {
+    if (!when||!byWhom) return 'fuck off';
+};
+{% endhighlight %}
+
+Если кто не знает, оператор логического отрицания <code>!</code> в JavaScript вернет <code>true</code> если ему передан <code>false</code>, <code>''</code> (пустая строка), <code>0</code>, <code>null</code>, <code>undefined</code>. Во всех остальных случаях оператор логического отрицания вернет false. На всякий случай, проиллюстрирую:
+{% highlight javascript %}
+!0 === !'' === !null === !undefined === !false === true;
+{% endhighlight %}
+
+Таким образом, если мы не передали никакого объекта или передали <code>null</code>, то функция завершит свою работу и вернет в качестве результата нехорошее слово. 
+
+Внимательные люди могут спросить&nbsp;&mdash; а&nbsp;что, если передать <code>true</code>? Функция завершит работу при вполне валидном параметре? 
+Я&nbsp;могу на&nbsp;это ответить примерно так: если вы&nbsp;передаете в&nbsp;функцию булевую переменную, то&nbsp;почти наверняка эта переменная&nbsp;&mdash; рычаг, т.е. в&nbsp;зависимости от&nbsp;нее меняется поведение функции. И&nbsp;обработка аргументов, таким образом, будет вестить несколько другая. Скажем, такая:
+
+{% highlight javascript linenos %}
+function shouldWeDestroyTheWorld (acceptance) {
+    if (acceptance) {
+        World.getInstance().destroy();
+    } else {
+        World.getInstance().armageddon = 'stopped';
+        World.getInstance().destructionTimer.stop();
+    }
+}
+{% endhighlight %}
+
+И если вы опустите этот аргумент, то по эффекту это будет равнозначно передачи <code>false</code>.

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Ускоряем wordpress</title>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" />
+</head>
+<body>
+<div id="wrapper">
+	<div id="header">
+    	<h1><a href="/">Alexander's Ulizko blog</a></h1>
+	</div><!-- close:header -->
+    <div id="content">
+		<div id="main-content">
+
+			<div class="post" id="post-">
+				<h2>Ускоряем wordpress</h2>
+				<span class="date"></span>
+				<div class="entry">
+					<p><strong>Внимание</strong>: <em>этот пост слегка устарел, да и вордпрессом я уже не пользуюсь. Тем не менее, базовые принципы оптимизации остались теми же, так что теоретическая часть поста и большая часть практики должны быть актуальны. Советую всем сходить на сайт <a href='http://webo.in'>webo.in</a> за свежачком</em>.</p>
+
+<p>Привет. Думаю, среди читателей моего блога немало тех, кто имеет stand-alone blog на движке wordpress.</p>
+
+<p>Так вот, для вас, дорогие мои, у меня есть две новости, как водится, плохая и хорошая. Плохая состоит в том, что wordpress - довольно-таки тормознутая штука. Виноваты в этом в основном криворукие производители тем и, особенно, криворукие производители плагинов.</p>
+<p class='outright'>Особенно кривой плагин, на мой вкус, <a href='http://www.raproject.com/ajax-edit-comments/'>wp-ajax-edit-comments</a>, который является  образцом быдлокодинга. </p>
+<p>Хорошая - в том, что это можно поправить. Сейчас дядя Саша научит вас, как.</p>
+
+<h2 id='id1'>Теория</h2>
+
+<p>Сначала немного теории. Уже довольно давно умные люди из компании Yahoo провели исследования на тему &#8220;как же нам ускорить наши сайты&#8221;. И выяснили, что на скорость сайта <em>с точки зрения пользователя</em> в основном влияет оптимизация front-end&#8217;a, а не server-side. Подробнее об этом можно почитать на сайте <a href='http://webo.in/articles/habrahabr/15-yahoo-best-practices/'>webo.in</a> (кстати, отличный ресурс, посвященный оптимизации времени загрузки веб-сайтов) на русском и на сайте <a href='http://developer.yahoo.com/performance/rules.html'>yahoo</a> на английском, я же просто опишу несколько простых шагов, которые позволят существенно ускорить скорость работы своего блога.</p>
+<p class='outright'>Хотя я и старался максимально упростить текст, сведя его к набору инструкций, все же большинство шагов можно выполнить только имея опыт разработки веб-сайтов, так что, если вы не программист, то лучше попросите знакомого программиста выполнить эти шаги за вас. Да, и на всякий случай, не забудьте забэкапиться :)</p>
+<p>Перед тем, как мы перейдем к практике, я напомню нашу основную цель: блог на движке wordpress должен работать с точно тем же функционалом, что и раньше, но, с <em>точки зрения пользователя</em>, работать быстрее. Итак, погнали:</p>
+
+<h2 id='id2'>Практика</h2>
+
+<h4 id='_'>Оптимизируем тему</h4>
+
+<p>Да, открытость платформы Wordpress - это очевидное благо. Я серьезно. Множество прекрасных дизайнеров, верстальщиков, программистов с горящими от энтузиазма глазами вдохновенно, вдумчиво создают темы и плагины для всех, для всего человечества, не требуя ничего взамен. Это действительно прекрасно.</p>
+
+<p>К сожалению, не обошлось и без ложки дегтя - далеко не все верстальщики и программисты одинаково опытны и талантливы и далеко не все они в достаточной степени усердны и ответственны, чтобы на общественно-добровольных началах вылизать тему, которую они предоставляют. Еще большее сожаление прогрессивно мыслящей части человечества вызывает тот факт, что уебанов больше, чем титанов духа, и в связи с этим сеть полна бесплатного говна. Таким образом, нам надо исправить недостатки, которые (возможно) присущи вашей любимой теме от рождения и поправить ее код.</p>
+
+<p>Итак, для того, чтобы тема стала работать быстрее, надо сделать следующее:</p>
+
+<p>1. Если тема сверстана на таблицах, переверстать ее на дивы. Я не буду касаться давнего спора &#8220;как вестать - дивами и таблицами&#8221;, замечу только, что точки зрения поставленной перед нами цели (быстро работающий с точки зрения пользователя блог) таблицы проигрывают дивам - потому что таблица отрисовывается браузером только после того, как будет полностью загружена, тогда как дивы отрисовываются сразу, как только браузер получит их с сервера. А значит, если страница сверстана в дивах, пользователь быстрее увидит контент сайта, что нам и нужно, не так ли?</p>
+
+<ol>
+<li>Вы будет смеяться, но нужно убрать все стилевые правила во внешние файлы. И JavaScript - тоже. Это настолько очевидно, что я даже не буду пояснять, зачем это нужно.</li>
+
+<li>Внешний стилевой файл прописываем в блоке head, а JavaScript файл подключаем как можно ближе к закрывающему тэгу &#8220;body&#8221;. И все скрипты google analytics и прочие счетчики располагаем еще ниже.</li>
+
+<li>Сжимаем js и css. Для этого мы будем использовать yui-comressor. Делается это примерно так: качаем последний стабильный релиз YUICompressor&#8217;a с <a href='http://www.julienlecomte.net/yuicompressor/'>официального сайта</a>, устанавливаем, если еще не установлено JRE и выполняем на css/js файл команду следующего вида:</li>
+</ol>
+<div class='highlight'><pre><code class='bash'>java -jar /path/to/yuicompressor-*.*.*.jar -o <span class='s2'>&quot;output_filename&quot;</span> <span class='nv'>$file</span>
+</code></pre></div>
+<p>можно использовать флаг <code>-type</code>, который указывает, какой тип файла. Если флаг не указан, то тип файла определяется по расширению.</p>
+
+<h4 id='__'>Уменьшаем количество файлов</h4>
+
+<p>Так как мы можем серьезно ускорить скорость загрузки файлов, уменьшив число этих файлов (удивительно, правда? :), то разумнее всего будет слить все css-файлы и js-файлы в один. Если эти файлы размером больше ~70 килобайт, то лучше разбить их на два куска. Если нужно уменьшить количество картинок, используя технику <a href='http://webo.in/articles/habrahabr/08-all-about-css-sprites/'>css спрайтов</a> и технику <a href='http://www.alistapart.com/articles/imagemap/'>image map</a>.</p>
+
+<p>Тут надо отдельно заметить, что у многих (практически у всех) плагинов есть совершенно идиотская особенность - прописывать свои js и css файлы. Идиотизм заключается в том, что очень часто разные плагины используют одну и ту же, скажем библиотеку, и подключают ее по нескольку раз. И пользователь, просматривающий ваш блог, вынужден по два-три раза грузить, к примеру, prototype или jquery. Лишние ~30-160 KB. Неслабо, прадва?</p>
+<p class='outright'>Тех. заметка: при этом совершенно непонятно, что мешало создателям wordpress сделать контроль надо всеми ресурсами, что прописывают плагины. К примеру, если один плагин, которому нужен jQuery, прописывает тэг script с jQuery и рапортует - "Вот мол, подгрузил, все, кому надо, могут использовать", а другой, которому тоже нужен jQuery уже знает об этом и не подгружает свой вариант</p>
+<p>Лечится это так - все скрипты, что подгружают плагины слейте с теми, что написали сами и воткните в футер, а плагинам запретите их подгружать. Тоже самое сделайте с css, только воткните в header.</p>
+
+<h4 id='_'>Оптимизируем графику</h4>
+
+<p>Картинки в png и jpg форматах довольно часто неоптимизированы и хранят много лишней информации. Было бы неплохо избавиться от этой лишней информации и таким образом сжать файлы. Делается это с помощью специальных утилит. Это позволит нам уменьшить их размер в отдельных случаях на 50 процентов. Неслабо, правда? При этом сами картинки не изменятся и все так же будут радовать глаз пользователей. Информацию об этих утилитах и команду я позаимствовал у <a href='http://www.jstoolbox.com/2008/08/13/effektivnoe-szhatie-izobrazhenij/'>Дмитрия Ищенко</a>. Надеюсь, он не в обиде :)</p>
+
+<p>Итак, для оптимизации всего png картинок мы будем использовать <a href='http://pmt.sourceforge.net/pngcrush/'>pngcrush</a>. Я затрудняюсь ответить, как ее инсталлировать на windows или linux, но я на своем mac&#8217;e без проблем установил эту утилиту из портов. Чтобы сжать png-файлы без потери качества, используйте следующую команду:</p>
+<div class='highlight'><pre><code class='bash'>pngcrush -rem alla -reduce -brute image.png result.png
+</code></pre></div>
+<p>Для сжатия jp(e)g-файлов используйте <a href='http://sylvana.net/jpegcrop/jpegtran/'> jpegtran</a>, которая входит в пакет libjpg, который я также установил из портов. Команда для сжатия jp(e)g-файлов без потери качества:</p>
+<div class='highlight'><pre><code class='bash'>jpegtran -copy none -optimize -perfect src.jpg dest.jpg
+</code></pre></div>
+<p>Я тут набросал shell-скрипт, который рекурсивно пройдет по директории и оптимизирует все png/jp(e)g картинки в ней:</p>
+<div class='highlight'><pre><code class='bash'><span class='lineno'> 1</span> <span class='k'>for </span>file in <span class='sb'>`</span>find . -iname <span class='s2'>&quot;*.jpg&quot;</span> -or -iname <span class='s2'>&quot;*.png&quot;</span> -or -iname <span class='s2'>&quot;*.jpeg&quot;</span><span class='sb'>`</span>;<span class='k'>do</span>
+<span class='lineno'> 2</span> <span class='k'>    </span><span class='nv'>ext</span><span class='o'>=</span><span class='k'>${</span><span class='nv'>file</span><span class='p'>##*.</span><span class='k'>}</span>
+<span class='lineno'> 3</span> 	<span class='k'>if</span> <span class='o'>[</span> -n <span class='s2'>&quot;$ext&quot;</span> <span class='o'>]</span>; <span class='k'>then</span>
+<span class='lineno'> 4</span> <span class='k'>		if</span> <span class='o'>[</span> <span class='s2'>&quot;$ext&quot;</span> <span class='o'>=</span> <span class='s2'>&quot;jpg&quot;</span> <span class='o'>]</span>; <span class='k'>then</span>
+<span class='lineno'> 5</span> <span class='k'>            </span><span class='nb'>echo</span> <span class='s2'>&quot;optimizing ${file} as jpeg file with jpegtran&quot;</span>
+<span class='lineno'> 6</span>             jpegtran -copy none -optimize -perfect -outfile temp_abracadabra_filename.jpg <span class='nv'>$file</span>
+<span class='lineno'> 7</span>             mv -f temp_abracadabra_filename.jpg <span class='nv'>$file</span>;
+<span class='lineno'> 8</span>         <span class='k'>fi</span>
+<span class='lineno'> 9</span> <span class='k'>        if</span> <span class='o'>[</span> <span class='s2'>&quot;$ext&quot;</span> <span class='o'>=</span> <span class='s2'>&quot;jpeg&quot;</span> <span class='o'>]</span>; <span class='k'>then</span>
+<span class='lineno'>10</span> <span class='k'>            </span><span class='nb'>echo</span> <span class='s2'>&quot;optimizing ${file} as jpeg file with jpegtran&quot;</span>
+<span class='lineno'>11</span>             jpegtran -copy none -optimize -perfect -outfile temp_abracadabra_filename.jpeg <span class='nv'>$file</span>
+<span class='lineno'>12</span>             mv -f temp_abracadabra_filename.jpeg <span class='nv'>$file</span>;
+<span class='lineno'>13</span>         <span class='k'>fi</span>
+<span class='lineno'>14</span> <span class='k'>        if</span> <span class='o'>[</span> <span class='s2'>&quot;$ext&quot;</span> <span class='o'>=</span> <span class='s2'>&quot;png&quot;</span> <span class='o'>]</span>; <span class='k'>then</span>
+<span class='lineno'>15</span> <span class='k'>            </span><span class='nb'>echo</span> <span class='s2'>&quot;optimizing ${file} as png file with pngcrush&quot;</span>
+<span class='lineno'>16</span>             pngcrush -rem alla -reduce -brute <span class='s2'>&quot;$file&quot;</span> temp_abracadabra_filename.png;
+<span class='lineno'>17</span>             mv -f temp_abracadabra_filename.png <span class='nv'>$file</span>;
+<span class='lineno'>18</span>         <span class='k'>fi</span>
+<span class='lineno'>19</span> <span class='k'>	fi</span>
+<span class='lineno'>20</span> <span class='k'>done</span>;
+</code></pre></div>
+<p>Просто выполните его в директории uploads что в папке wp-content и все будет хорошо. Можно даже повесить его на cron-job и больше не париться на этот счет - все вновь прибывшие файлы будут оптимизироваться. Разумеется, надо оптимизировать графику, используемую в теме, так что вот еще один shell-скрипт, который рекурсивно пройдет по директории, сожмет css, js файлы и оптимизирует jp(e)g/png файлы. На всякий случай перед его использованием не забудьте забэкапиться:</p>
+<div class='highlight'><pre><code class='bash'><span class='lineno'> 1</span> <span class='k'>for </span>file in <span class='sb'>`</span>find . -iname <span class='s2'>&quot;*.jpg&quot;</span> -or -iname <span class='s2'>&quot;*.jpeg&quot;</span> -or -iname <span class='s2'>&quot;*.png&quot;</span> -or -iname <span class='s2'>&quot;*.js&quot;</span> -or -iname <span class='s2'>&quot;*.css&quot;</span> <span class='sb'>`</span>;<span class='k'>do</span>
+<span class='lineno'> 2</span> <span class='k'>    </span><span class='nv'>ext</span><span class='o'>=</span><span class='k'>${</span><span class='nv'>file</span><span class='p'>##*.</span><span class='k'>}</span>
+<span class='lineno'> 3</span>     <span class='k'>if</span> <span class='o'>[</span> -n <span class='s2'>&quot;$ext&quot;</span> <span class='o'>]</span>; <span class='k'>then</span>
+<span class='lineno'> 4</span> <span class='k'>        if</span> <span class='o'>[</span> <span class='s2'>&quot;$ext&quot;</span> <span class='o'>=</span> <span class='s2'>&quot;css&quot;</span> <span class='o'>]</span>; <span class='k'>then</span>
+<span class='lineno'> 5</span> <span class='k'>            </span><span class='nb'>echo</span> <span class='s2'>&quot;compressing ${file} as css file with yui compressor&quot;</span>
+<span class='lineno'> 6</span>             java -jar /opt/yuicompressor/yuicompressor-2.3.5.jar --type css -o <span class='s2'>&quot;temp_abracadabra_filename.css&quot;</span> <span class='nv'>$file</span>
+<span class='lineno'> 7</span>             mv -f temp_abracadabra_filename.css <span class='nv'>$file</span>;
+<span class='lineno'> 8</span>         <span class='k'>fi</span>
+<span class='lineno'> 9</span> <span class='k'>        if</span> <span class='o'>[</span> <span class='s2'>&quot;$ext&quot;</span> <span class='o'>=</span> <span class='s2'>&quot;js&quot;</span> <span class='o'>]</span>; <span class='k'>then</span>
+<span class='lineno'>10</span> <span class='k'>            </span><span class='nb'>echo</span> <span class='s2'>&quot;compressing ${file} as js file with yui compressor&quot;</span>
+<span class='lineno'>11</span>             java -jar /opt/yuicompressor/yuicompressor-2.3.5.jar --type js -o <span class='s2'>&quot;temp_abracadabra_filename.js&quot;</span> <span class='nv'>$file</span>
+<span class='lineno'>12</span>             mv -f temp_abracadabra_filename.js <span class='nv'>$file</span>;
+<span class='lineno'>13</span>         <span class='k'>fi</span>
+<span class='lineno'>14</span> <span class='k'>        if</span> <span class='o'>[</span> <span class='s2'>&quot;$ext&quot;</span> <span class='o'>=</span> <span class='s2'>&quot;jpg&quot;</span> <span class='o'>]</span>; <span class='k'>then</span>
+<span class='lineno'>15</span> <span class='k'>            </span><span class='nb'>echo</span> <span class='s2'>&quot;optimizing ${file} as jpeg file with jpegtran&quot;</span>
+<span class='lineno'>16</span>             jpegtran -copy none -optimize -perfect -outfile temp_abracadabra_filename.jpg <span class='nv'>$file</span>
+<span class='lineno'>17</span>             mv -f temp_abracadabra_filename.jpg <span class='nv'>$file</span>;
+<span class='lineno'>18</span>         <span class='k'>fi</span>
+<span class='lineno'>19</span> <span class='k'>        if</span> <span class='o'>[</span> <span class='s2'>&quot;$ext&quot;</span> <span class='o'>=</span> <span class='s2'>&quot;jpeg&quot;</span> <span class='o'>]</span>; <span class='k'>then</span>
+<span class='lineno'>20</span> <span class='k'>            </span><span class='nb'>echo</span> <span class='s2'>&quot;optimizing ${file} as jpeg file with jpegtran&quot;</span>
+<span class='lineno'>21</span>             jpegtran -copy none -optimize -perfect -outfile temp_abracadabra_filename.jpeg <span class='nv'>$file</span>
+<span class='lineno'>22</span>             mv -f temp_abracadabra_filename.jpeg <span class='nv'>$file</span>;
+<span class='lineno'>23</span>         <span class='k'>fi</span>
+<span class='lineno'>24</span> <span class='k'>        if</span> <span class='o'>[</span> <span class='s2'>&quot;$ext&quot;</span> <span class='o'>=</span> <span class='s2'>&quot;png&quot;</span> <span class='o'>]</span>; <span class='k'>then</span>
+<span class='lineno'>25</span> <span class='k'>            </span><span class='nb'>echo</span> <span class='s2'>&quot;optimizing ${file} as png file with pngcrush&quot;</span>
+<span class='lineno'>26</span>             pngcrush -rem alla -reduce -brute <span class='s2'>&quot;$file&quot;</span> temp_abracadabra_filename.png;
+<span class='lineno'>27</span>             mv -f temp_abracadabra_filename.png <span class='nv'>$file</span>;
+<span class='lineno'>28</span>         <span class='k'>fi</span>
+<span class='lineno'>29</span> <span class='k'>    fi</span>
+<span class='lineno'>30</span> <span class='k'>done</span>;
+</code></pre></div>
+<p>Используйте меньше dns-lookups. Не выкладывайте картинки, src которых указывает на другой ресурс, лучше загрузите их к себе и пропишите ссылку на автора. Работать будет быстрее.</p>
+
+<h4 id='id3'>Сжатие</h4>
+
+<p>Все современные браузеры поддерживают сжатие, так что можно существенно уменьшить размер отдаваемых файлов (а значит, и время их загрузки) при помощи mod_deflate (для Apache 2.2 для Apache 1.3 надо использовать mod_gzip). Так что включите mod_deflate. Если же вы используете Apache 1.3, ниже приведенный код вам не не нужен, вам поможет статья <a href='http://webo.in/articles/all/mod-gzip-minify-on-fly/'>"mod_gzip — сжатие html страниц 'на лету'"</a> на сайте webo.in. Найдите файл <code>.htaccess</code> в корневой директории установки wordpress и добавьте в конец следующее:</p>
+<div class='highlight'><pre><code class='apache'><span class='nb'>AddOutputFilterByType</span> DEFLATE text/html text/plain text/xml
+<span class='nb'>SetOutputFilter</span> DEFLATE
+<span class='nb'>BrowserMatch</span> ^Mozilla/4 gzip-only-text/html
+<span class='nb'>BrowserMatch</span> ^Mozilla/4.0[678] no-gzip
+<span class='nb'>BrowserMatch</span> bMSI[E] !no-gzip !gzip-only-text/html
+<span class='nb'>SetEnvIfNoCase</span> Request_URI .(?:gif|png)$ no-gzip dont-vary
+<span class='nb'>Header</span> append Vary <span class='k'>User</span>-Agent env=!dont-vary
+</code></pre></div>
+<p>Таким способом можно добиться уменьшения js/css/html файлов на 70-80%, и примерно 10% уменьшения jpeg-файлов, что значительно ускоряет загрузку сайта. Следует, правда, помнить, что использования mod_deflate увеличивает нагрузку на сервер, так как ему нужно сжать файлы перед тем, как отдать их, так что стоит проконтролировать, что использование mod_deflate не создает чрезмерной нагрузки на сервер.</p>
+
+<h4 id='id4'>Кеширование</h4>
+
+<p>Ну и последнее - для того, чтобы ускорить серфинг по вашему сайта нужно врубить кеширование. Это не ускорит загрузку сайта у пользователя, который первый раз пришел на ваш сайт, но положит все внешние js, css файлы, картинки к нему в кеш, и в следующий раз, когда он будет бродить по вашему сайту, ресурсы будут грузиться не с сервера, а из кеша, что значительно ускорит скорость работы вашего сайта с <em>точки зрения пользователя</em>, а также значительно снизит нагрузку на ваш сервер. Помните, что закешированные у пользователя файлы берутся из кеша браузера, поэтому, если вы внесете изменения в файл, скажем, стилей, пользователь, закешировавший style.css, не увидит их. Так что лучше включать кеширование после того, как вы доработали тему. Опять же, добавьте следующие строчки в конец файла <code>.htaccess</code> и не забудьте включить mod_headers и mod_expires (или хотя бы один из них):</p>
+<div class='highlight'><pre><code class='apache'><span class='c'># используем mod_expires</span>
+
+<span class='nb'>ExpiresActive</span> <span class='k'>On</span>
+<span class='nb'>ExpiresDefault</span> A86400
+<span class='nb'>ExpiresByType</span> image/x-icon A2592000
+<span class='nb'>ExpiresByType</span> application/x-javascript A2592000
+<span class='nb'>ExpiresByType</span> text/css A2592000
+<span class='nb'>ExpiresByType</span> image/gif A604800
+<span class='nb'>ExpiresByType</span> image/png A604800
+<span class='nb'>ExpiresByType</span> image/jpeg A604800
+<span class='nb'>ExpiresByType</span> text/plain A604800
+<span class='nb'>ExpiresByType</span> application/x-shockwave-flash A604800
+<span class='nb'>ExpiresByType</span> video/x-flv A604800
+<span class='nb'>ExpiresByType</span> application/pdf A604800
+<span class='nb'>ExpiresByType</span> text/html A900
+</code></pre></div><div class='highlight'><pre><code class='apache'><span class='c'># используем mod_header</span>
+
+<span class='c'># 3 Month</span>
+
+    <span class='nb'>Header</span> set Cache-Control <span class='s2'>&quot;max-age=7257600&quot;</span>
+
+<span class='c'># 1 Week</span>
+
+    <span class='nb'>Header</span> set Cache-Control <span class='s2'>&quot;max-age=604800&quot;</span>
+
+<span class='c'># 10 Minutes</span>
+
+    <span class='nb'>Header</span> set Cache-Control <span class='s2'>&quot;max-age=600&quot;</span>
+
+<span class='c'># NONE</span>
+
+    <span class='nb'>Header</span> unset Cache-Control
+    <span class='nb'>Header</span> unset Expires
+    <span class='nb'>Header</span> unset Last-Modified
+    <span class='nb'>FileETag</span> <span class='k'>None</span>
+    <span class='nb'>Header</span> unset Pragma
+</code></pre></div>
+<h4 id='___'>Кеширование на стороне сервера</h4>
+
+<p>Есть несколько плагинов к wordpress&#8217;у, которые позволяют кешировать файлы на стороне сервера. Работают они по такому принципу: как только какая-то из ваших страниц запрашвается на сервере, она динамически строится и создается html-файл со всеми данными, который ложится в кеш. Как только приходит запрос на эту страницы, пользователю отдается html файл вместо того, чтобы динамически строить страничку, что значительно снижает нагрузку на сервер (теперь ведь не прогоняются php-скрипты и не нагружается база данных). К сожалению, все эти плагины работают как-то очень странно, во всяком случае, у меня не работали должным образом ни <a href='http://wordpress.org/extend/plugins/wp-cache/'>wp-cache</a>, ни работающий на его основе <a href='http://wordpress.org/extend/plugins/wp-super-cache/'>wp-super-cache</a>.</p>
+
+<p>Зато работает <a href='http://1blogcacher.com/'>1 Blog Cacher</a>, правда, у него достаточно сложная настройка. Надеюсь, вы разберетесь. Я использую его.</p>
+
+<h4 id='id5'>Итого</h4>
+
+<p>После того, как я провел над своим блогом ряд этих нехитрых действий, блог стал загружаться на 80% быстрее. Теперь perfomance meter моего сайта с точки зрения плагина к firebug&#8217;у YSlow равен B(85), был F(33). Думаю, неплохой результат.</p>
+				</div>
+			</div>
+		    <div id="disqus_thread"></div>
+            <script type="text/javascript">
+                var disqus_shortname = 'alexander-ulizko';
+                // var disqus_identifier = 'unique_dynamic_id_1234';
+                // var disqus_url = 'http://example.com/permalink-to-page.html';
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+		</div><!-- close:main-content -->
+		<div id="sidebar" class="clearfix">
+    <div id="sb-1">
+        <a href="/about.html">About</a>
+        <ul id="rss">
+            <li><a href="http://feeds.feedburner.com/ulizko-com">RSS Feed of the articles</a></li>
+        </ul>
+    </div>
+	<div id="sb-2">
+		<a href="mailto:alexander@ulizko.com" class="email">alexander@ulizko.com</a>
+		<br />
+		<a href="http://twitter.com/aulizko" class="twitter">@aulizko</a>
+		<br />
+		<a href="http://http://www.facebook.com/profile.php?id=1002139259" class="facebook">Alexander Ulizko</a>
+		<br />
+		<a href="http://github.com/aulizko">github</a>
+		<br />
+		<a href="https://code.google.com/u/aulizko/">Google Code</a>
+	</div><!-- close:sb-2 -->
+</div><!-- close:sidebar -->
+    </div><!-- close:content -->
+<div id="footer">
+    <p>&copy;2008&nbsp;&mdash;&nbsp;2014 <a href="http://ulizko.com">Alexander Ulizko</a></p>
+	<p>Powered by <a href="https://pages.github.com/">Github Pages</a> | generated by <a href="https://github.com/mojombo/jekyll">jekyll</a> | powered by <a href="http://disqus.com">disqus</a> | themed by <a href="http://www.vostoktheme.com" hreflang="en">Vostok Theme</a></p>
+</div><!-- close:footer -->
+</div><!-- close:wrapper -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-4326533-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</body>
+</html>

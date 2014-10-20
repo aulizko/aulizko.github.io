@@ -1,0 +1,241 @@
+---
+layout: post
+title: "widget своими руками"
+permalink: /posts/173/index.html
+tags:
+  - JavaScript
+  - widget
+---
+Привет.
+
+Наверное, многие из вас пользовались стандартными javascript-виджетами, написанными как безвестными <span style="text-decoration: line-through;">мудаками</span> разработчиками, так и маститыми профессионалами. Есть великолепные коллекции виджетов, поставляемых в качестве плагинов к известным фреймворкам (вроде <a href="http://jquery.com">jQuery</a>, <a href="http://prototypejs.org">Prototype JS</a>, <a href="http://developer.yahoo.com/yui/">YUI</a>), так и целые фреймворки, акцентирующие свое внимание на создании виджетов, вроде <a href="http://extjs.com/">Ext JS</a> или <a href="http://qooxdoo.org/">qooXdoo</a>.
+
+Но что, если вы не хотите использовать достаточно объемный фреймворк для создания простого диалогового окна, или хотите разобраться в том, как создаются такие виджеты, или даже разрабатываете собственный фреймворк?
+
+Об&nbsp;этом и&nbsp;пойдет речь в&nbsp;сегодняшнем посте&nbsp;&mdash; как сделать простейшее диалоговое окно и&nbsp;alert средствами чистого javascript, без применения каких-либо фреймворков.
+
+**Disclaimer**: должен предупредить, что код, представленный далее&nbsp;&mdash; только пример реализации, он&nbsp;предназначен только для того, чтобы показать путь, но&nbsp;это не&nbsp;конечный результат. Конечно, вы&nbsp;можете использовать получившийся виджет в&nbsp;своем проекте, но&nbsp;знайте&nbsp;&mdash; можно сделать гораздо лучше, в&nbsp;общем, есть пространство для самовыражения и&nbsp;наворачивания. Кроме того, я&nbsp;старался описывать каждый шаг, что будет полезно новичку, но, без сомнения, будет раздражать профессионала. Впрочем, если ты&nbsp;профессионал, то&nbsp;тебе вряд&nbsp;ли чем-либо поможет данная статья.
+
+Прежде всего, нам понадобится небольшая коллекция методов, облегчающих нашу работу - это, прежде всего, навешивание и удаление обработчиков событий на DOM-элементы, остальные совершенно необязательны, и просто являются хелперами, уменьшающими объем кода и увеличивающими его понятность:
+{% highlight javascript linenos %}
+// Для этого проекта мы будем использовать одну переменную с глобальной областью видимости "DEMO".
+// Для чего нужно использовать как можно меньше переменных с глобальной областью видимости?
+// По двум причинам:
+// 1. Вы можете быть уверенным, что весь ваш код надежно упрятан в безопасное место, и другой разработчик, подключив
+//      свой модуль (или свою библиотеку), не сломает вашу функцию или объект, и ваш код (и его) будет работать именно так,
+//      как вы ожидаете. Программирование - непростая штука, так зачем находить себе проблемы там, где их можно избежать?
+// 2. Объекты, являющиеся свойствами глобального объекта (в клиентском javascript'е - объекта window) иначе обрабатываются
+//      сборщиком мусора, и живут дольше, а значит, если вы для каждую мелкую функцию или временную переменную будете
+//      создавать в глобальной области видимости, использование памяти будет неоптимальным, что само по себе плохо. А если
+//      вы плохо распоряжаетесь памятью, то, по мере роста функционала, ваш проект очень скоро начнет тормозить.
+// Лично для меня любая из этих причин является достаточно веским аргументом для того,
+// чтобы упаковывать весь свой код в одну переменную с глобальной областью видимости.
+if (typeof DEMO == "undefined" || !DEMO) {
+    var DEMO = {};
+}
+
+// Lang - это утилита, содержащая удобные методы для работы с языком.
+// На самом деле, это просто синтаксический сахар - то есть, можно обойтись и без них,
+// но с ними приходится меньше печатать, да и код становится более человекопонятным.
+//
+// Обратите внимание, что перед тем, как создать объект Lang в объекте DEMO, я проверяю, не создан ли он уже
+// в рамках этой демонстрации это не является необходимым, но в случае, если ваш код будет использовать человек,
+// не слишком хорошо понимающий, что он делает (скажем, просто подключает ваш виджет к своему блогу),
+// он может и два и три раза подключить несколько ваших виджетов, имеющих те же самые объекты как свою часть - а без
+// этой проверки объект DEMO.Lang несколько раз перезапишется, причем, это будет совершенно лишняя операция.
+DEMO.Lang = typeof DEMO.Lang != 'undefined' &amp;&amp; DEMO.Lang ? DEMO.Lang : {
+    isUndefined : function (o) {
+        return typeof o === 'undefined';
+    },
+    isString : function (o) {
+        return typeof o === 'string';
+    }
+};
+
+// DOM - это ряд функций, облегчающих работу с DOM. В рамках примера мне достаточно только двух - навешивание и удаление
+// обработчиков событий, метод get вспомогательный и без него можно обойтись.
+DEMO.DOM = typeof DEMO.DOM != 'undefined' &amp;&amp; DEMO.DOM ? DEMO.DOM : {
+    get : function (el) {
+        return (el &amp;&amp; el.nodeType) ? el : document.getElementById(el);
+    },
+
+    addListener : function (el, type, fn) {
+        // если el не dom-элемент, а строка, тогда пробуем найти dom-элемент с id, равным этой строке
+        if (DEMO.Lang.isString(el)) { el = this.get(el); }
+
+        // проверка наличия необходимой функциональности в браузере перед использованием функции называется
+        // feature-testing.
+        // Подробнее об этом принципе можно прочитать, здесь: http://www.unix.com.ua/orelly/webprog/jscript/ch20_01.htm
+        // а конкретно об этом кусочке кода здесь: http://fastcoder.org/articles/?aid=17
+        if (el.addEventListener) {
+            el.addEventListener(type, fn, false);
+        } else if (el.attachEvent) {
+            el.attachEvent('on' + type, fn);
+        } else {
+            el['on' + type] = fn;
+        }
+    },
+
+    removeListener : function (el, type, fn) {
+        if (DEMO.Lang.isString(el)) { el = this.get(el); }
+
+        if (el.removeEventListener){
+            el.removeEventListener(type, fn, false);
+        } else if (el.detachEvent) {
+            el.detachEvent('on' + type, fn);
+        } else {
+            el['on' + type] = function () { return true; };
+        }
+    }
+};
+{% endhighlight %}
+
+Чтобы не&nbsp;раздувать листинг, я&nbsp;не&nbsp;включил в&nbsp;него еще две функции&nbsp;&mdash; <a href="http://www.crockford.com/javascript/memory/leak.html">purge</a> и&nbsp;setInnerHTML, по&nbsp;ссылке вы&nbsp;можете найти их&nbsp;описание и&nbsp;принцип действия. Также вы&nbsp;можете найти их&nbsp;в&nbsp;исходниках примера.
+
+Ну&nbsp;и&nbsp;теперь перейдем к&nbsp;тому, ради чего все затевалось&nbsp;&mdash; к&nbsp;созданию непосредственно диалогового окна.
+
+{% highlight javascript linenos %}
+if (typeof DEMO == "undefined" || !DEMO) {
+    var DEMO = {};
+}
+
+// Обратите внимание - объект строится по так называемому "модульному" паттерну, предложенному YAHOO!
+// подробнее: http://ajaxian.com/archives/a-javascript-module-pattern
+DEMO.Dialog = typeof DEMO.Dialog != 'undefined' && DEMO.Dialog ? DEMO.Dialog : function () {
+    // "private"-свойства
+
+    // создаем контейнер диалога и запоминаем его.
+    var dialog = document.createElement('div');
+
+    dialog.className = 'dialog';
+    document.body.appendChild(dialog);
+
+    // Главная функция. На вход может приходить как строка (в этом случае она становится текстом окна)
+    // так и объек со свойствами:
+    // body {String} - текст окна
+    // buttons {Array} - массив кнопок, при этом каждая кнопка - объект вида:
+    //   id : {String} - id кнопки
+    //   text : {String} - текст кнопки
+    //   callback : {Function | Object} - либо функция (в этом случае она будет повешена на click по кнопке), либо объект вида:
+    //     fn : {Function} непосредственно функция
+    //     type : {String} тип события, на которое будет навешена функция.
+    var render = function (o) {
+        var html, i, length = (typeof o.buttons === 'undefined') ? 0 : o.buttons.length,
+            button;
+
+        // текст диалогового окна
+        if (typeof o === 'string') {
+            html = '
+
+' + o + '
+
+';
+        } else {
+            html = '
+
+' + ((o.body) ? o.body : o) + '
+
+';
+        }
+
+        for (i = 0; i &lt; length; i++) {
+            button = o.buttons[i];
+            html += '<a id="' + button.id + '" href="#">' + button.text + '</a>';
+        }
+
+        // нам не нужно беспокоиться об утечках памяти, Дуглас Крокфорд побеспокоился за нас
+        DEMO.DOM.setInnerHTML(dialog, html);
+
+        activateListeners(o.buttons);
+    };
+
+    // навешиваем обработчики событий на кнопки. Если кнопок нет - ничего не делаем.
+    var activateListeners = function (buttons) {
+        var i, length, button, isUndefined = DEMO.Lang.isUndefined;
+
+        if (DEMO.Lang.isUndefined(buttons)) { return; }
+        length = buttons.length;
+
+        for (i = 0; i &lt; length; i++) {
+            button = buttons[i];
+            if (!isUndefined(button.callback.type) &amp;&amp; !isUndefined(button.callback.fn)) {
+                DEMO.DOM.addListener(button.id, button.callback.type, button.callback.fn);
+            } else {
+                DEMO.DOM.addListener(button.id, 'click', button.callback);
+            }
+        }
+        cached_buttons = buttons;
+    };
+
+    return {
+        // публичный функции
+        // показываем диалогове диалоговое окно
+        show : function (o) {
+            render(o);
+        },
+        // прячем диалоговое окно
+        hide : function () {
+            dialog.style.display = 'none';
+        }
+    };
+}();
+{% endhighlight %}
+
+Теперь у&nbsp;нас есть объект DEMO.Dialog, у&nbsp;которого есть два public метода&nbsp;&mdash; show и&nbsp;hide. При этом объект достаточно гибкий и&nbsp;может отрисовать как диалоговое окно, так и&nbsp;оповещение.
+
+Если мы хотим вызвать показать диалоговое окно, то мы добавим две кнопки:
+
+{% highlight javascript %}
+DEMO.Dialog.show({
+    body : 'Хотите кофе?',
+    buttons : [
+        {
+            id : 'cancel',
+            text : 'Не',
+            callback : function () { DEMO.Dialog.hide(); }
+        },
+        {
+            id : 'accept',
+            text : 'Да!',
+            callback : function () {
+                DEMO.Dialog.hide();
+                document.body.appendChild(document.createTextNode('Я тоже :)'));
+            }
+        }
+    ]
+});
+{% endhighlight %}
+
+Если мы хотим оповестить пользователя о чем-то, то достаточно одной кнопки "Закрыть":
+
+{% highlight javascript %}
+DEMO.Dialog.show({
+    body : 'Э... кхм... ваше кофе сбежало!',
+    buttons : [
+        {
+            id : 'accept',
+            text : 'Куда?! o_O',
+            callback : function () { DEMO.Dialog.hide(); }
+        }
+    ]
+});
+{% endhighlight %}
+
+Думаю, css-код, используемый для примера, не важен.
+
+[Демонстрация](/demo/dialog/)
+
+Вес javascript кода после склейки:
+
+1. не&nbsp;сжатый: 6.4&nbsp;KB
+2. сжатый с&nbsp;помощью YUI Compressor&rsquo;а: 2.2&nbsp;KB
+3. сжатый с&nbsp;помощью YUI Compressor&rsquo;а и&nbsp;gzip-а: 931&nbsp;B
+
+Разумеется, это лишь пример, в реальном проекте нужно было добавить следующее:
+
+1. кнопку &laquo;закрыть&raquo;, чтобы которая скрывает окно
+2. обработка события resize объекта window&nbsp;&mdash; чтобы располагать диалоговое окно всегда по&nbsp;центру
+3. динамическое создание id&nbsp;у&nbsp;кнопок и&nbsp;самого диалогового окна, и&nbsp;запоминание конкретных instance&rsquo;ов этих объектов
+4. передачу контекста, т.е. this вместе с&nbsp;обработчиком, навешиваемым на&nbsp;кнопку
+5. дополняйте :)
+

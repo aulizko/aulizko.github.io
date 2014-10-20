@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Alexander's Ulizko blog</title>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" />
+</head>
+<body>
+<div id="wrapper">
+	<div id="header">
+    	<h1><a href="/">Alexander's Ulizko blog</a></h1>
+	</div><!-- close:header -->
+    <div id="content">
+		<div id="main-content">
+
+            
+	<div class="post" id="post-/posts/129/129">
+		<h2><a href="/posts/129/index.html" rel="bookmark" title="Занимательная задачка">Занимательная задачка</a></h2>
+		<span class="date">2008 / 11 / 24</span>
+		<div class="entry">
+			<p>Небольшой вопрос-тренировка:</p>
+<div class='highlight'><pre><code class='javascript'><span class='lineno'> 1</span> <span class='kd'>var</span> <span class='nx'>Queue</span> <span class='o'>=</span> <span class='kd'>function</span> <span class='p'>()</span> <span class='p'>{</span>
+<span class='lineno'> 2</span>     <span class='kd'>var</span> <span class='nx'>me</span> <span class='o'>=</span> <span class='k'>this</span> <span class='k'>instanceof</span> <span class='nx'>Queue</span> <span class='o'>?</span> <span class='k'>this</span> <span class='o'>:</span> <span class='k'>new</span> <span class='nx'>Queue</span><span class='p'>();</span>
+<span class='lineno'> 3</span>     <span class='nx'>me</span><span class='p'>.</span><span class='nx'>p</span> <span class='o'>=</span> <span class='p'>[];</span>
+<span class='lineno'> 4</span>     <span class='k'>return</span> <span class='nx'>me</span><span class='p'>.</span><span class='nx'>add</span><span class='p'>.</span><span class='nx'>apply</span><span class='p'>(</span><span class='nx'>me</span><span class='p'>,</span> <span class='nx'>arguments</span><span class='p'>);</span>
+<span class='lineno'> 5</span> <span class='p'>};</span>
+<span class='lineno'> 6</span> 
+<span class='lineno'> 7</span> <span class='nx'>Queue</span><span class='p'>.</span><span class='nx'>prototype</span> <span class='o'>=</span> <span class='p'>{</span>
+<span class='lineno'> 8</span>     <span class='nx'>add</span> <span class='o'>:</span> <span class='kd'>function</span> <span class='p'>()</span> <span class='p'>{</span>
+<span class='lineno'> 9</span>         <span class='kd'>var</span> <span class='nx'>callbacks</span> <span class='o'>=</span> <span class='nx'>A</span><span class='p'>.</span><span class='nb'>Array</span><span class='p'>(</span><span class='nx'>arguments</span><span class='p'>,</span> <span class='mi'>0</span><span class='p'>,</span> <span class='kc'>true</span><span class='p'>);</span>
+<span class='lineno'>10</span>         <span class='k'>this</span><span class='p'>.</span><span class='nx'>p</span><span class='p'>.</span><span class='nx'>splice</span><span class='p'>.</span><span class='nx'>apply</span><span class='p'>(</span><span class='k'>this</span><span class='p'>.</span><span class='nx'>p</span><span class='p'>,[</span><span class='k'>this</span><span class='p'>.</span><span class='nx'>p</span><span class='p'>.</span><span class='nx'>length</span><span class='p'>,</span><span class='mi'>0</span><span class='p'>].</span><span class='nx'>concat</span><span class='p'>(</span><span class='nx'>callbacks</span><span class='p'>));</span>
+<span class='lineno'>11</span>         <span class='k'>return</span> <span class='k'>this</span><span class='p'>;</span>
+<span class='lineno'>12</span>     <span class='p'>}</span>
+<span class='lineno'>13</span> <span class='p'>};</span>
+</code></pre></div>
+<p>Внимание, вопрос: что именно делает вторая строка метода add (10-я строка примера) и зачем нужна ее запись именно в таком виде. Ну а также, было бы здорово услышать, зачем, по вашему мнению, нужна такая функция-конструктор и для чего предназначен этот класс.</p>
+		</div>
+	</div><!-- close:post -->
+
+	<div class="post" id="post-/posts/125/125">
+		<h2><a href="/posts/125/index.html" rel="bookmark" title="Накипело #2. XML.">Накипело #2. XML.</a></h2>
+		<span class="date">2008 / 10 / 20</span>
+		<div class="entry">
+			<p>Ну, как я&#160;и&#160;обещал, пришло время рассказать еще об&#160;одной &#171;состоявшейся технологии&#187;, которую лично я&#160;терпеть не&#160;могу. Думаю, вы&#160;поняли из&#160;названия, что речь пойдет про XML.</p>
+
+<p>Итак, что такое XML? Это язык разметки документов. Точка. Имею&#160;ли я&#160;против &#171;расширяемого языка разметки&#187;? Нет. Если он&#160;применяется именно для того, для чего он&#160;предназначен.</p>
+
+<p>К&#160;сожалению, куча людей считает, что XML&#160;&#8212; это круто. Это, сука, крайне удобная и&#160;надежная технология. Так давайте&#160;же пихать его везде, куда можно и&#160;нельзя! Давайте пихать его в&#160;API сервисов, в&#160;конфигурационные файлы, сделаем его &#171;стандартом&#187; обмена данными между сервером и&#160;клиентом (в&#160;случае RIA).</p>
+
+<p>Знаете, что я&#160;думаю? Я&#160;думаю, что XML повсеместно внедрили какие-то человеконенавистники. По&#160;прямому заказу какого-нибудь Люцифера. Ага.</p>
+
+<p>Почему я&#160;так думаю? Потому что, блядь, тяжело придумать более тупую хуйню, чем XML&#160;в качестве формата хранения и&#160;передачи данных. Блядь, <strong>любой</strong> другой формат будет в&#160;тысячу раз лучше!</p>
+
+<p>XML предназначен для разметки документов. Документов, сука. Которые обрабатывает специальная программа, а&#160;потом выводит в&#160;красивом и&#160;понятном человеку виде. Нахуя использовать XML&#160;в передаче данных лично мне непонятно, лишние телодвижения ради лишних телодвижений: берем данные, превращаем их&#160;в&#160;документ, передаем на&#160;клиент, превращаем документ в&#160;данные и&#160;пользуемся ими. Охуеть. Не&#160;проще&#160;ли взять данные, передать их&#160;и&#160;использовать данные на&#160;клиенте? Наверное, проще. Наверное, именно поэтому JSON вытесняет XML.</p>
+
+<p>Те, кто работал с&#160;java-фреймворками, поймут меня&#160;&#8212; XML это зло. И&#160;чем больше XML&#8217;a в&#160;проекте, тем больше зла. Особенно отличились на&#160;поприще распространения зла appfuse и&#160;tapestry. Ну, java вообще в&#160;этом смысле отличный язык&#160;&#8212; в&#160;смысле поебаться на&#160;пустом месте.</p>
+
+<p>Я&#160;так понимаю, началось все с&#160;того, что какой-то идиот придумал, что XML легко читать человеку. И&#160;легко править. Ебанаврот! Это чисто машинно-ориентированный формат, и&#160;чтобы его прочитать, надо пять раз уебаться башкой об&#160;стену, чтобы голова напоминала по&#160;форме системный блок&#160;&#8212; вот тогда, наверное, можно будет читать этот &#171;документ&#187; свободно.</p>
+
+<p>Или он&#160;подумал, что круто будет задавать property в&#160;виде XML, потому что так можно в&#160;сам формат зашить, какие именно свойства можно объявлять и&#160;какие они могут иметь значения. В&#160;данном случае, по&#160;моему мнению, нужно немножко больше верить в&#160;человека. Наверное, не&#160;совсем уебаны работают на&#160;должностях программистов и&#160;администраторов, и&#160;уж&#160;как-нибудь прочитают документацию, перед тем как что-то писать в&#160;конфиги. А&#160;не&#160;прочитают&#160;&#8212; ну&#160;так и&#160;XML&#160;им не&#160;поможет, это клиника. Лично я&#160;думаю, что гораздо проще и&#160;естественнее писать конфиги в&#160;формате .property:</p>
+<div class='highlight'><pre><code class='properties'><span class='na'>названиеСвойства</span> <span class='o'>=</span> <span class='s'>значениеСвойства</span>
+</code></pre></div>
+<p>Или посмотрите в&#160;сторону YAML, который используется в&#160;рельсах&#160;&#8212; руки от&#160;зависти можно сгрызть, как все просто и&#160;понятно.</p>
+
+<p>Как&#160;бы то&#160;ни&#160;было, мы, java-программисты, имеем&#160;то, что имеем. Уебанские, нечитаемые и&#160;сложные в&#160;написании конфигурационные файлы.</p>
+
+<p>К&#160;счастью, ситуация начинает меняться в&#160;лучшую сторону, и&#160;здравый смысл побеждает&#160;&#8212; XML постепенно уступает место более вменяемым форматам.</p>
+
+<p>Резюмируя: я&#160;не&#160;против XML. Это отличная технология, которая хороша на&#160;своем месте. Но. Я&#160;считаю, что затыкать каждую дырку XML смешно и&#160;глупо. И&#160;поэтому использование XML надо ограничить.</p>
+		</div>
+	</div><!-- close:post -->
+
+	<div class="post" id="post-/posts/118/118">
+		<h2><a href="/posts/118/index.html" rel="bookmark" title="Накипело. RegExp.">Накипело. RegExp.</a></h2>
+		<span class="date">2008 / 10 / 19</span>
+		<div class="entry">
+			<p>Я&#160;считаю, что регулярные выражения надо законодательно запретить. Наряду с&#160;xml. Хотя нет, xml не&#160;нужно запрещать, надо только ограничить область его использования. Но&#160;об&#160;этом я&#160;как-нибудь в&#160;другой раз напишу. А&#160;пока вернемся к&#160;регулярным выражениям.</p>
+
+<p>Взгляните, к&#160;примеру, на&#160;это уебище:</p>
+<div class='highlight'><pre><code class='javascript'><span class='err'>/(^|[n ])((www|ftp).[w#$%&amp;amp;~/.-;:=?@[]+]*)/is</span>
+</code></pre></div>
+<p>Ни&#160;один, сука, человек в&#160;здравом уме не&#160;сможет сказать с&#160;первого взгляда, что делает эта поебень, и, главное, правильно&#160;ли она это свое дело делает.</p>
+
+<p>Надо, блять, копаться, посимвольно разбирая, что ловит каждая группа, чтобы только понять, что это регулярное выражение находит в&#160;тексте url и&#160;разбирает его на&#160;части.</p>
+
+<p>Но&#160;это еще хуйня. Самый секс с&#160;regexp&#8217;ами&#160;&#8212; отладка. Блядь, у&#160;меня в&#160;башке звенит, когда я&#160;пытаюсь понять, что в&#160;этой каше надо изменить, чтобы эта хуйня работала правильно. Кстати, приведенный пример бажный&#160;&#8212; он&#160;не&#160;учитывает, что в&#160;строке параметров может быть запятая.</p>
+
+<p>Еще охуенно можно поебаться с&#160;поддержкой кода, написанного другими людьми&#160;&#8212; после отладки вот таких вот иероглифов как никогда проникаешься любовью к&#160;человечеству вообще и&#160;коллегам в&#160;частности.</p>
+
+<p>Короче. Программирование&#160;&#8212; тяжелая штука. Лучшие умы бьются над тем, чтобы упростить написание программ, чтобы минимизировать затраты времени на&#160;получение работающего, безбажного, легкоподдерживаемого и&#160;расширяемого кода. В&#160;принципе, <strong>все</strong>, что происходит в&#160;мире программирования (_и всякие там ООП_, <em>и&#160;паттерны проектирования</em>, <em>и&#160;всякие гибкие методики разработки</em>, <em>и&#160;новые языки</em>, <em>и&#160;фреймворки</em>) нацелено на&#160;решение именно этой задачи&#160;&#8212; &#171;<em>Как&#160;бы нам так изъебнуться, чтобы поменьше ебаться</em>?&#187;. И&#160;я&#160;искренне надеюсь, что в&#160;какую-нибудь светлую голову ( <em>вроде моей</em> :) стукнет идея, чем можно заменить, не&#160;потеряв в&#160;мощности и&#160;гибкости, регулярные выражения. А&#160;для того, чтобы эта идея поскорее катапультировалась с&#160;далекой звезды и&#160;ебнула кого-нибудь по&#160;темечку я&#160;предлагаю пока что законодательно ограничить использование regexp&#8217;ов&#160;&#8212; ну&#160;там, к&#160;примеру, не&#160;больше одной регулярки на&#160;приложение&#160;&#8212; если больше, то&#160;плати штраф. Если клиент настаивает&#160;&#8212; пускай закладывает в&#160;бюджет размер штрафа. Как-то так, рублем подгонять исследовательскую мысль.</p>
+		</div>
+	</div><!-- close:post -->
+
+<div class="pagination clearfix">
+    
+    		
+    		    <div class="prev"><a href="/page9/">&laquo; Newer</a></div>
+    		
+
+    		
+    		    <div class="next"><a href="/page11/">Older &raquo;</a></div>
+    		
+    
+</div>
+	
+    
+		</div><!-- close:main-content -->
+		<div id="sidebar" class="clearfix">
+    <div id="sb-1">
+        <a href="/about.html">About</a>
+        <ul id="rss">
+            <li><a href="http://feeds.feedburner.com/ulizko-com">RSS Feed of the articles</a></li>
+        </ul>
+    </div>
+	<div id="sb-2">
+		<a href="mailto:alexander@ulizko.com" class="email">alexander@ulizko.com</a>
+		<br />
+		<a href="http://twitter.com/aulizko" class="twitter">@aulizko</a>
+		<br />
+		<a href="http://http://www.facebook.com/profile.php?id=1002139259" class="facebook">Alexander Ulizko</a>
+		<br />
+		<a href="http://github.com/aulizko">github</a>
+		<br />
+		<a href="https://code.google.com/u/aulizko/">Google Code</a>
+	</div><!-- close:sb-2 -->
+</div><!-- close:sidebar -->
+	    </div><!-- close:content -->
+<div id="footer">
+    <p>&copy;2008&nbsp;&mdash;&nbsp;2014 <a href="http://ulizko.com">Alexander Ulizko</a></p>
+	<p>Powered by <a href="https://pages.github.com/">Github Pages</a> | generated by <a href="https://github.com/mojombo/jekyll">jekyll</a> | powered by <a href="http://disqus.com">disqus</a> | themed by <a href="http://www.vostoktheme.com" hreflang="en">Vostok Theme</a></p>
+</div><!-- close:footer -->
+</div><!-- close:wrapper -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-4326533-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</body>
+</html>

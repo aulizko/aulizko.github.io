@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Занимательная задачка</title>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" />
+</head>
+<body>
+<div id="wrapper">
+	<div id="header">
+    	<h1><a href="/">Alexander's Ulizko blog</a></h1>
+	</div><!-- close:header -->
+    <div id="content">
+		<div id="main-content">
+
+			<div class="post" id="post-">
+				<h2>Занимательная задачка</h2>
+				<span class="date"></span>
+				<div class="entry">
+					<p>Небольшой вопрос-тренировка:</p>
+<div class='highlight'><pre><code class='javascript'><span class='lineno'> 1</span> <span class='kd'>var</span> <span class='nx'>Queue</span> <span class='o'>=</span> <span class='kd'>function</span> <span class='p'>()</span> <span class='p'>{</span>
+<span class='lineno'> 2</span>     <span class='kd'>var</span> <span class='nx'>me</span> <span class='o'>=</span> <span class='k'>this</span> <span class='k'>instanceof</span> <span class='nx'>Queue</span> <span class='o'>?</span> <span class='k'>this</span> <span class='o'>:</span> <span class='k'>new</span> <span class='nx'>Queue</span><span class='p'>();</span>
+<span class='lineno'> 3</span>     <span class='nx'>me</span><span class='p'>.</span><span class='nx'>p</span> <span class='o'>=</span> <span class='p'>[];</span>
+<span class='lineno'> 4</span>     <span class='k'>return</span> <span class='nx'>me</span><span class='p'>.</span><span class='nx'>add</span><span class='p'>.</span><span class='nx'>apply</span><span class='p'>(</span><span class='nx'>me</span><span class='p'>,</span> <span class='nx'>arguments</span><span class='p'>);</span>
+<span class='lineno'> 5</span> <span class='p'>};</span>
+<span class='lineno'> 6</span> 
+<span class='lineno'> 7</span> <span class='nx'>Queue</span><span class='p'>.</span><span class='nx'>prototype</span> <span class='o'>=</span> <span class='p'>{</span>
+<span class='lineno'> 8</span>     <span class='nx'>add</span> <span class='o'>:</span> <span class='kd'>function</span> <span class='p'>()</span> <span class='p'>{</span>
+<span class='lineno'> 9</span>         <span class='kd'>var</span> <span class='nx'>callbacks</span> <span class='o'>=</span> <span class='nx'>A</span><span class='p'>.</span><span class='nb'>Array</span><span class='p'>(</span><span class='nx'>arguments</span><span class='p'>,</span> <span class='mi'>0</span><span class='p'>,</span> <span class='kc'>true</span><span class='p'>);</span>
+<span class='lineno'>10</span>         <span class='k'>this</span><span class='p'>.</span><span class='nx'>p</span><span class='p'>.</span><span class='nx'>splice</span><span class='p'>.</span><span class='nx'>apply</span><span class='p'>(</span><span class='k'>this</span><span class='p'>.</span><span class='nx'>p</span><span class='p'>,[</span><span class='k'>this</span><span class='p'>.</span><span class='nx'>p</span><span class='p'>.</span><span class='nx'>length</span><span class='p'>,</span><span class='mi'>0</span><span class='p'>].</span><span class='nx'>concat</span><span class='p'>(</span><span class='nx'>callbacks</span><span class='p'>));</span>
+<span class='lineno'>11</span>         <span class='k'>return</span> <span class='k'>this</span><span class='p'>;</span>
+<span class='lineno'>12</span>     <span class='p'>}</span>
+<span class='lineno'>13</span> <span class='p'>};</span>
+</code></pre></div>
+<p>Внимание, вопрос: что именно делает вторая строка метода add (10-я строка примера) и зачем нужна ее запись именно в таком виде. Ну а также, было бы здорово услышать, зачем, по вашему мнению, нужна такая функция-конструктор и для чего предназначен этот класс.</p>
+				</div>
+			</div>
+		    <div id="disqus_thread"></div>
+            <script type="text/javascript">
+                var disqus_shortname = 'alexander-ulizko';
+                // var disqus_identifier = 'unique_dynamic_id_1234';
+                // var disqus_url = 'http://example.com/permalink-to-page.html';
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+		</div><!-- close:main-content -->
+		<div id="sidebar" class="clearfix">
+    <div id="sb-1">
+        <a href="/about.html">About</a>
+        <ul id="rss">
+            <li><a href="http://feeds.feedburner.com/ulizko-com">RSS Feed of the articles</a></li>
+        </ul>
+    </div>
+	<div id="sb-2">
+		<a href="mailto:alexander@ulizko.com" class="email">alexander@ulizko.com</a>
+		<br />
+		<a href="http://twitter.com/aulizko" class="twitter">@aulizko</a>
+		<br />
+		<a href="http://http://www.facebook.com/profile.php?id=1002139259" class="facebook">Alexander Ulizko</a>
+		<br />
+		<a href="http://github.com/aulizko">github</a>
+		<br />
+		<a href="https://code.google.com/u/aulizko/">Google Code</a>
+	</div><!-- close:sb-2 -->
+</div><!-- close:sidebar -->
+    </div><!-- close:content -->
+<div id="footer">
+    <p>&copy;2008&nbsp;&mdash;&nbsp;2014 <a href="http://ulizko.com">Alexander Ulizko</a></p>
+	<p>Powered by <a href="https://pages.github.com/">Github Pages</a> | generated by <a href="https://github.com/mojombo/jekyll">jekyll</a> | powered by <a href="http://disqus.com">disqus</a> | themed by <a href="http://www.vostoktheme.com" hreflang="en">Vostok Theme</a></p>
+</div><!-- close:footer -->
+</div><!-- close:wrapper -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-4326533-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</body>
+</html>

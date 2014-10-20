@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+        <title>Browser Plus Demo</title>
+        <link rel="stylesheet" href="/demo/dialog/css/main.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
+    </head>
+    <body>
+        <ul><li><a href="#" id="dialog">Показать диалоговое окно</a></li>
+        <li><a href="#" id="notification">Показать оповещение</a></li></ul>
+        <script type="text/javascript" charset="utf-8" src="/demo/dialog/js/helpers.js"></script>
+        <script type="text/javascript" charset="utf-8" src="/demo/dialog/js/dialog.js"></script>
+        <script type="text/javascript" charset="utf-8">
+            DEMO.DOM.addListener('dialog', 'click', function () {
+                DEMO.Dialog.show({
+                    body : 'Хотите кофе?',
+                    buttons : [
+                        {
+                            id : 'cancel',
+                            text : 'Не',
+                            callback : function () { DEMO.Dialog.hide(); }
+                        },
+                        { 
+                            id : 'accept',
+                            text : 'Да!',
+                            callback : function () { 
+                                DEMO.Dialog.hide(); 
+                                document.body.appendChild(document.createTextNode('Я тоже :)')); 
+                            }
+                        }
+                    ]
+                });
+            });
+            
+            DEMO.DOM.addListener('notification', 'click', function () {
+                DEMO.Dialog.show({
+                    body : 'Э... кхм... ваше кофе сбежало!',
+                    buttons : [
+                        {
+                            id : 'accept',
+                            text : 'Куда?! o_O',
+                            callback : function () { DEMO.Dialog.hide(); }
+                        }
+                    ]
+                });
+            });
+        </script>
+    </body>
+</html>

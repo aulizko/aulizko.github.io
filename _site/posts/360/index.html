@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Невпопад</title>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" />
+</head>
+<body>
+<div id="wrapper">
+	<div id="header">
+    	<h1><a href="/">Alexander's Ulizko blog</a></h1>
+	</div><!-- close:header -->
+    <div id="content">
+		<div id="main-content">
+
+			<div class="post" id="post-">
+				<h2>Невпопад</h2>
+				<span class="date"></span>
+				<div class="entry">
+					<p>Хочу в отпуск. Так хочу, что меня все раздражает.</p>
+
+<p>GC в ruby в сто раз примитивнее того, что используется в jvm. Ц-ц-ц.</p>
+
+<p>И еще меня начинает раздражать &#8220;мусорность&#8221; javascript. Я имею ввиду, что, в целом, многие ништяки из ФЯП можно реализовать и в javascript, но на java-подобный синтакс такие штуки не очень хорошо ложатся:</p>
+<div class='highlight'><pre><code class='javascript'><span class='lineno'> 1</span> <span class='c1'>// пусть ArrayUtils - это специальная утилита для работы с массивами, </span>
+<span class='lineno'> 2</span> <span class='c1'>// реализующая for…each, map/reduce для всех браузеров, включая ie6. </span>
+<span class='lineno'> 3</span> <span class='c1'>// Что-то наподобие YUI.Array</span>
+<span class='lineno'> 4</span> <span class='kd'>var</span> <span class='nx'>A</span> <span class='o'>=</span> <span class='nb'>window</span><span class='p'>.</span><span class='nx'>ArrayUtils</span> <span class='o'>=</span> <span class='p'>{</span>
+<span class='lineno'> 5</span>     <span class='nx'>map</span> <span class='o'>:</span> <span class='p'>(</span><span class='nb'>Array</span><span class='p'>.</span><span class='nx'>prototype</span><span class='p'>.</span><span class='nx'>map</span><span class='p'>)</span> <span class='o'>?</span>
+<span class='lineno'> 6</span>         <span class='kd'>function</span> <span class='p'>(</span><span class='nx'>a</span><span class='p'>,</span> <span class='nx'>fn</span><span class='p'>,</span> <span class='nx'>c</span><span class='p'>)</span> <span class='p'>{</span>
+<span class='lineno'> 7</span>             <span class='k'>return</span> <span class='nx'>a</span><span class='p'>.</span><span class='nx'>map</span><span class='p'>(</span><span class='nx'>fn</span><span class='p'>,</span> <span class='nx'>c</span> <span class='o'>||</span> <span class='nb'>window</span><span class='p'>);</span>
+<span class='lineno'> 8</span>         <span class='p'>}</span> <span class='o'>:</span>
+<span class='lineno'> 9</span>         <span class='kd'>function</span> <span class='p'>(</span><span class='nx'>a</span><span class='p'>,</span> <span class='nx'>fn</span><span class='p'>,</span> <span class='nx'>c</span><span class='p'>)</span> <span class='p'>{</span>
+<span class='lineno'>10</span>             <span class='kd'>var</span> <span class='nx'>result</span> <span class='o'>=</span> <span class='p'>[],</span> <span class='nx'>i</span> <span class='o'>=</span> <span class='nx'>a</span><span class='p'>.</span><span class='nx'>length</span><span class='p'>;</span>
+<span class='lineno'>11</span>             <span class='k'>while</span><span class='p'>(</span><span class='nx'>i</span><span class='o'>--</span><span class='p'>)</span> <span class='p'>{</span>
+<span class='lineno'>12</span>                 <span class='nx'>result</span><span class='p'>[</span><span class='nx'>i</span><span class='p'>]</span> <span class='o'>=</span> <span class='nx'>fn</span><span class='p'>.</span><span class='nx'>call</span><span class='p'>(</span><span class='nx'>c</span> <span class='o'>||</span> <span class='nb'>window</span><span class='p'>,</span> <span class='nx'>a</span><span class='p'>[</span><span class='nx'>i</span><span class='p'>]);</span>
+<span class='lineno'>13</span>             <span class='p'>}</span>
+<span class='lineno'>14</span>             <span class='k'>return</span> <span class='nx'>result</span><span class='p'>;</span>
+<span class='lineno'>15</span>         <span class='p'>},</span>
+<span class='lineno'>16</span>     <span class='nx'>filter</span> <span class='o'>:</span> <span class='p'>(</span><span class='nb'>Array</span><span class='p'>.</span><span class='nx'>prototype</span><span class='p'>.</span><span class='nx'>filter</span><span class='p'>)</span> <span class='o'>?</span>
+<span class='lineno'>17</span>         <span class='kd'>function</span> <span class='p'>(</span><span class='nx'>a</span><span class='p'>,</span> <span class='nx'>fn</span><span class='p'>,</span> <span class='nx'>c</span><span class='p'>)</span> <span class='p'>{</span>
+<span class='lineno'>18</span>             <span class='k'>return</span> <span class='nx'>a</span><span class='p'>.</span><span class='nx'>filter</span><span class='p'>(</span><span class='nx'>fn</span><span class='p'>,</span> <span class='nx'>c</span> <span class='o'>||</span> <span class='nb'>window</span><span class='p'>);</span>
+<span class='lineno'>19</span>         <span class='p'>}</span> <span class='o'>:</span>
+<span class='lineno'>20</span>         <span class='kd'>function</span> <span class='p'>(</span><span class='nx'>a</span><span class='p'>,</span> <span class='nx'>func</span><span class='p'>,</span> <span class='nx'>c</span><span class='p'>)</span> <span class='p'>{</span>
+<span class='lineno'>21</span>             <span class='kd'>var</span> <span class='nx'>result</span> <span class='o'>=</span> <span class='p'>[],</span> <span class='nx'>i</span> <span class='o'>=</span> <span class='nx'>a</span><span class='p'>.</span><span class='nx'>length</span><span class='p'>;</span>
+<span class='lineno'>22</span>             <span class='k'>while</span><span class='p'>(</span><span class='nx'>i</span><span class='o'>--</span><span class='p'>)</span> <span class='p'>{</span>
+<span class='lineno'>23</span>                 <span class='k'>if</span> <span class='p'>(</span><span class='nx'>i</span> <span class='k'>in</span> <span class='nx'>a</span> <span class='o'>&amp;&amp;</span> <span class='nx'>fn</span><span class='p'>.</span><span class='nx'>call</span><span class='p'>(</span><span class='nx'>c</span> <span class='o'>||</span> <span class='nb'>window</span><span class='p'>,</span> <span class='nx'>a</span><span class='p'>[</span><span class='nx'>i</span><span class='p'>],</span> <span class='nx'>i</span><span class='p'>,</span> <span class='nx'>a</span><span class='p'>))</span> <span class='nx'>result</span><span class='p'>.</span><span class='nx'>push</span><span class='p'>(</span><span class='nx'>a</span><span class='p'>[</span><span class='nx'>i</span><span class='p'>]);</span>
+<span class='lineno'>24</span>             <span class='p'>}</span>
+<span class='lineno'>25</span>             <span class='k'>return</span> <span class='nx'>result</span><span class='p'>;</span>
+<span class='lineno'>26</span>         <span class='p'>}</span>
+<span class='lineno'>27</span> <span class='p'>};</span>
+<span class='lineno'>28</span> 
+<span class='lineno'>29</span> <span class='c1'>// получим новый массив, получаемый из исходного путем умножения каждого элемента на два.</span>
+<span class='lineno'>30</span> <span class='c1'>// уже немножко &quot;weird&quot;, не так ли?</span>
+<span class='lineno'>31</span> <span class='kd'>var</span> <span class='nx'>data</span> <span class='o'>=</span> <span class='p'>[</span><span class='mi'>1</span><span class='p'>,</span> <span class='mi'>2</span><span class='p'>,</span> <span class='mi'>3</span><span class='p'>,</span> <span class='mi'>4</span><span class='p'>];</span>
+<span class='lineno'>32</span> <span class='nx'>A</span><span class='p'>.</span><span class='nx'>map</span><span class='p'>(</span><span class='nx'>data</span><span class='p'>,</span> <span class='kd'>function</span> <span class='p'>(</span><span class='nx'>item</span><span class='p'>)</span> <span class='p'>{</span> <span class='k'>return</span> <span class='nx'>item</span> <span class='o'>*</span> <span class='mi'>2</span><span class='p'>;</span> <span class='p'>});</span> <span class='c1'>// 2, 4, 6, 8</span>
+<span class='lineno'>33</span> 
+<span class='lineno'>34</span> <span class='c1'>// а теперь пример повеселее:</span>
+<span class='lineno'>35</span> <span class='kd'>var</span> <span class='nx'>persons</span> <span class='o'>=</span> <span class='p'>[</span>
+<span class='lineno'>36</span> 	<span class='p'>{</span>
+<span class='lineno'>37</span> 		<span class='nx'>name</span> <span class='o'>:</span> <span class='s1'>&#39;John&#39;</span><span class='p'>,</span> 
+<span class='lineno'>38</span> 		<span class='nx'>lastName</span> <span class='o'>:</span> <span class='s1'>&#39;Doe&#39;</span><span class='p'>,</span>
+<span class='lineno'>39</span> 		<span class='nx'>address</span> <span class='o'>:</span> <span class='s1'>&#39;California, Los Angeles&#39;</span>
+<span class='lineno'>40</span> 	<span class='p'>},</span>
+<span class='lineno'>41</span> 	<span class='p'>{</span>
+<span class='lineno'>42</span> 		<span class='nx'>name</span> <span class='o'>:</span> <span class='s1'>&#39;Ivan&#39;</span><span class='p'>,</span>
+<span class='lineno'>43</span> 		<span class='nx'>lastName</span> <span class='o'>:</span> <span class='s1'>&#39;Ivanov&#39;</span><span class='p'>,</span>
+<span class='lineno'>44</span> 		<span class='nx'>address</span> <span class='o'>:</span> <span class='s1'>&#39;Moscow&#39;</span>
+<span class='lineno'>45</span> 	<span class='p'>},</span>
+<span class='lineno'>46</span> 	<span class='p'>{</span>
+<span class='lineno'>47</span> 		<span class='nx'>name</span> <span class='o'>:</span> <span class='s1'>&#39;Abraham&#39;</span><span class='p'>,</span>
+<span class='lineno'>48</span> 		<span class='nx'>lastName</span> <span class='o'>:</span> <span class='s1'>&#39;Smith&#39;</span><span class='p'>,</span>
+<span class='lineno'>49</span> 		<span class='nx'>address</span> <span class='o'>:</span> <span class='s1'>&#39;California, San Francisco&#39;</span>
+<span class='lineno'>50</span> 	<span class='p'>}</span>
+<span class='lineno'>51</span> <span class='p'>];</span>
+<span class='lineno'>52</span> 
+<span class='lineno'>53</span> <span class='c1'>// Получим массив, состоящий только из полных имен пользователей, проживающих в калифорнии</span>
+<span class='lineno'>54</span> <span class='kd'>var</span> <span class='nx'>townRegex</span> <span class='o'>=</span> <span class='sr'>/california/i</span><span class='p'>;</span>
+<span class='lineno'>55</span> <span class='nx'>A</span><span class='p'>.</span><span class='nx'>map</span><span class='p'>(</span><span class='nx'>A</span><span class='p'>.</span><span class='nx'>filter</span><span class='p'>(</span><span class='nx'>persons</span><span class='p'>,</span> <span class='kd'>function</span> <span class='p'>(</span><span class='nx'>person</span><span class='p'>)</span> <span class='p'>{</span>
+<span class='lineno'>56</span>     <span class='k'>return</span> <span class='nx'>townRegex</span><span class='p'>.</span><span class='nx'>test</span><span class='p'>(</span><span class='nx'>person</span><span class='p'>.</span><span class='nx'>address</span><span class='p'>);</span>
+<span class='lineno'>57</span> <span class='p'>}),</span> <span class='kd'>function</span> <span class='p'>(</span><span class='nx'>person</span><span class='p'>)</span> <span class='p'>{</span>
+<span class='lineno'>58</span>     <span class='k'>return</span> <span class='nx'>person</span><span class='p'>.</span><span class='nx'>name</span> <span class='o'>+</span> <span class='s1'>&#39; &#39;</span> <span class='o'>+</span> <span class='nx'>person</span><span class='p'>.</span><span class='nx'>lastName</span><span class='p'>;</span>
+<span class='lineno'>59</span> <span class='p'>});</span> <span class='c1'>// John Doe, Abraham Smith</span>
+</code></pre></div>
+<p>Чрезвычайно избыточный и непонятный с непривычки код, особенно в сравнении с аналогичным в ruby или python.</p>
+				</div>
+			</div>
+		    <div id="disqus_thread"></div>
+            <script type="text/javascript">
+                var disqus_shortname = 'alexander-ulizko';
+                // var disqus_identifier = 'unique_dynamic_id_1234';
+                // var disqus_url = 'http://example.com/permalink-to-page.html';
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+		</div><!-- close:main-content -->
+		<div id="sidebar" class="clearfix">
+    <div id="sb-1">
+        <a href="/about.html">About</a>
+        <ul id="rss">
+            <li><a href="http://feeds.feedburner.com/ulizko-com">RSS Feed of the articles</a></li>
+        </ul>
+    </div>
+	<div id="sb-2">
+		<a href="mailto:alexander@ulizko.com" class="email">alexander@ulizko.com</a>
+		<br />
+		<a href="http://twitter.com/aulizko" class="twitter">@aulizko</a>
+		<br />
+		<a href="http://http://www.facebook.com/profile.php?id=1002139259" class="facebook">Alexander Ulizko</a>
+		<br />
+		<a href="http://github.com/aulizko">github</a>
+		<br />
+		<a href="https://code.google.com/u/aulizko/">Google Code</a>
+	</div><!-- close:sb-2 -->
+</div><!-- close:sidebar -->
+    </div><!-- close:content -->
+<div id="footer">
+    <p>&copy;2008&nbsp;&mdash;&nbsp;2014 <a href="http://ulizko.com">Alexander Ulizko</a></p>
+	<p>Powered by <a href="https://pages.github.com/">Github Pages</a> | generated by <a href="https://github.com/mojombo/jekyll">jekyll</a> | powered by <a href="http://disqus.com">disqus</a> | themed by <a href="http://www.vostoktheme.com" hreflang="en">Vostok Theme</a></p>
+</div><!-- close:footer -->
+</div><!-- close:wrapper -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-4326533-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</body>
+</html>

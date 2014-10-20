@@ -1,0 +1,49 @@
+---
+layout: post
+title: "Strip firebug console api calls"
+permalink: /posts/371/index.html
+---
+**Update**: После [обсуждения](http://habrahabr.ru/blogs/webdev/71586/) на хабре и продолжительных размышлений на тему, решил отказаться от подобного метода. Думаю пересесть на [Google Closure Compiler](http://code.google.com/closure/compiler/) и с его помощью обрезать debug-код, как расписано в [статье](http://javascript.ru/optimize/google-closure-compiler/define) у Ильи Кантора. Так что этот пост подустарел и оставляю я его чисто для истории. 
+
+На днях надо было сходить показать представителю заказчика, как пользоваться одной свежевстроенной в проект фичей.
+За полчаса до выхода подготовил новый билд, протестировал.
+
+По приезду оказалось, что у заказчика фича не работает. Неприятно получилось, в общем.
+
+Но радость ваша, мои дорогие читатели, была бы не полной, если бы я не сообщил вам, что там случилось и что я по этому поводу предпринял.
+
+Оказалось, что я забыл удалить в функции-обработчике события вызов firebug'овской консоли (<code>console.log</code>… и т.п.) Со мной вообще часто бывает такое, что я то какой-то символ, случайно ткнув на клавиатуру, допишу, то, наоборот, удалю - короче, использование редакторов без подсветки синтакса и (желательно) анализа структуры кода мне противопоказаны.
+
+Так как я использую apache ant для развертывания приложения на боевой сервер, я дописал маленький скриптик, который уберет все вызовы <code lang="javascript">console.log(/* something */)</code> или <code lang="javascript">console.dir(/* something */)</code> из вашего кода.
+
+Собственно, вот он:
+
+{% highlight xml linenos %}
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="deploy" default="stripFirebugConsoleCalls" basedir=".">
+    <!-- место, где сложены наши еще не сжатые и не слитые в один js-скрипты -->
+    <property name="js" value="js/"/>
+
+    <!-- регулярка для отлова нездоровых элементов (беззастенчиво утянута с yui builder'a, и слегка доведена напильником)
+        http://github.com/yui/builder/blob/master/componentbuild/shared/properties.xml 79-я строка -->
+    <property name="firebug.console.regex" value="^.*?(?:console.log|console.dir).*?(?:;|\).*;|(?:\r?\n.*?)*?\).*;).*;?.*?\r?\n" />
+    <property name="firebug.console.regex.flags" value="mg" />
+    <property name="firebug.console.regex.byline" value="false" />
+    <property name="firebug.console.regex.replace" value="" />
+
+    <!-- Сам таргет тоже без затей "вдохновен" YUI Builder'ом, оригинал тут:
+        http://github.com/yui/builder/blob/master/componentbuild/3.x/module.xml 19-я строка -->
+    <target name="stripFirebugConsoleCalls" description="Replace firebug console calls">
+        <replaceregexp byline="${firebug.console.regex.byline}"
+                       match="${firebug.console.regex}"
+                       replace="${firebug.console.regex.replace}"
+                       flags="${firebug.console.regex.flags}">
+            <fileset dir="${js}" includes="*.js" />
+        </replaceregexp>
+    </target>
+</project>
+{% endhighlight %}
+
+Использовать так: создать xml-файл с удобным вам именем (например, boom.xml) и скопипастить в него этот код. Разумеется, стоит поправить значение переменной js, которая указывает на папку с еще не сжатыми js-скриптами. После этого запускаем адскую машину такой командой (для \*nix):
+{% highlight bash %}ant stripFirebugConsoleCalls -buildfile /path/to/boom.xml{% endhighlight %}
+Вот и все. Засим я откланиваюсь до следующего ЧП или конца проекта.

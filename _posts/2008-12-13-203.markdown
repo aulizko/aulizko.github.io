@@ -1,0 +1,73 @@
+---
+layout: post
+title: "YUI.Lang is buggy?"
+permalink: /posts/203/index.html
+tags:
+  - JavaScript
+  - YUI
+---
+Сижу я, значит, никого не трогаю, <span style="text-decoration: line-through;">починяю примус</span> пишу один модуль, и тут выясняется неприятное: оказывается, в <a href="http://developer.yahoo.com/yui/3/">YUI 3.0.0.pr2</a>, модуле <a href="http://developer.yahoo.com/yui/3/yui/">Lang</a> методы <a href="http://developer.yahoo.com/yui/3/api/Lang.html#method_isNumber">isNumber</a> и <a href="http://developer.yahoo.com/yui/3/api/Lang.html#method_isBoolean">isBoolean</a> того. Не этого. В смысле, бажные:
+
+{% highlight javascript %}
+alert(YUI.Lang.isNumber(new Number(1))); // false
+alert(YUI.Lang.isBoolean(new Boolean(true))) // false
+{% endhighlight %}
+
+Неприятно.
+
+Лезу в код, и вижу:
+
+{% highlight javascript linenos %}
+// для простоты восприятия я выкинул все лишнее, относящееся только к YUI
+isBoolean = function(o) {
+    return typeof o === 'boolean';
+};
+
+isNumber = function(o) {
+    return typeof o === 'number' && isFinite(o);
+};
+{% endhighlight %}
+
+Придется править ручками.
+
+Как известно, typeof объекта Boolean возвращает <code>object</code>. Лезу в <a href="http://www.w3schools.com/jsref/jsref_obj_boolean.asp">Boolean Reference</a>, что на w3schools, и вижу, что у Boolean есть метод, который мне поможет - valueOf. Правлю isBoolean на что-то вроде:
+
+{% highlight javascript linenos %}
+isBoolean = function(o) {
+    return (typeof o === 'boolean' || (o !== null && typeof o === 'object' && (typeof o.valueOf() === 'boolean')));
+};
+{% endhighlight %}
+
+Тесты прогоняются на ура. Идем дальше. Смотрим в <a href="http://www.w3schools.com/jsref/jsref_obj_number.asp">Number Reference</a>, и по накатанной правлю и <code>isNumber</code>:
+
+{% highlight javascript linenos %}
+isNumber = function(o) {
+    return ((typeof o === 'number') || (o !== null && typeof o === 'object' && (typeof o.valueOf() === 'number')) && isFinite(o);
+};
+{% endhighlight %}
+
+Казалось бы, все круто? Не совсем.
+{% highlight javascript %}
+alert(isNumber(new Date())); // return true;
+{% endhighlight %}
+
+Хм. Ну, давайте еще добавлю проверку на то, что это не Date.
+{% highlight javascript linenos %}
+isNumber = function(o) {
+    return ((typeof o === 'number') || (o !== null && typeof o === 'object' && !(o instanceof Date))) && (typeof o.valueOf() === 'number')) && isFinite(o);
+};
+{% endhighlight %}
+
+Теперь все работает нормально, но какой монстрик-то жуткий получается. Ладно, в идиота я наигрался, пора и голову включить:
+
+{% highlight javascript linenos %}
+isBoolean = function(o) {
+    return typeof o === 'boolean' || o instanceof Boolean;
+};
+
+isNumber = function(o) {
+    return (typeof o === 'number' || o instanceof Number) && isFinite(o);
+};
+{% endhighlight %}
+
+Вуаля. Пойду на форум YUI рапортовать о баге. Всем спасибо за внимание.

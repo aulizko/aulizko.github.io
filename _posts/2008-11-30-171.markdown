@@ -1,0 +1,10 @@
+---
+layout: post
+title: "merb 4 ninjas"
+permalink: /posts/171/index.html
+---
+[Сабж](http://merb.4ninjas.org/ "Merb 4 ninjas") читать лучше так:
+
+{% highlight javascript %}document.getElementById('warning').style.display = 'none';{% endhighlight %}
+
+Ну и хочется заметить, что для "Living on the edge" очень многое устарело.

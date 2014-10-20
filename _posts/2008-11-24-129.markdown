@@ -1,0 +1,30 @@
+---
+layout: post
+title: "Занимательная задачка"
+permalink: /posts/129/index.html
+tags:
+  - JavaScript
+  - Quiz
+---
+Небольшой вопрос-тренировка:
+
+{% highlight javascript linenos %}
+var Queue = function () {
+    var me = this instanceof Queue ? this : new Queue();
+    me.p = [];
+    return me.add.apply(me, arguments);
+};
+
+Queue.prototype = {
+    add : function () {
+        var callbacks = A.Array(arguments, 0, true);
+        this.p.splice.apply(this.p,[this.p.length,0].concat(callbacks));
+        return this;
+    }
+};
+{% endhighlight %}
+
+
+Внимание, вопрос:
+что именно делает вторая строка метода add (10-я строка примера) и зачем нужна ее запись именно в таком виде.
+Ну а также, было бы здорово услышать, зачем, по вашему мнению, нужна такая функция-конструктор и для чего предназначен этот класс.

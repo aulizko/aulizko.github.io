@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Java. Сборщики мусора. Часть вторая.</title>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" />
+</head>
+<body>
+<div id="wrapper">
+	<div id="header">
+    	<h1><a href="/">Alexander's Ulizko blog</a></h1>
+	</div><!-- close:header -->
+    <div id="content">
+		<div id="main-content">
+
+			<div class="post" id="post-">
+				<h2>Java. Сборщики мусора. Часть вторая.</h2>
+				<span class="date"></span>
+				<div class="entry">
+					<p>Это продолжение <a href='http://ulizko.com/posts/44/index.html'>вчерашнего поста</a> про сборщики мусора в Java<sup>TM</sup>. Напоминаю, что все эту бодягу я начал с целью разобраться, что такое ошибка PermGenSpace: OutOfMemory exception.</p>
+
+<p>Прежде чем рассказать о том, как работает сборка мусора в современной JVM (1.4, 1.5), давайте поговорим о поколениях объектов. В динамической памяти приложения некоторые объекты становятся мусором вскоре после создания, некоторые живут в течение долгого времени и только затем становятся мусором, другие могут остаться в живых в течение всего времени работы программы. Как показывает практика, в большинстве объектно-ориентированных языков, включая Java, огромное количество объектов, приблизительно 98 % , умирают молодыми. Возраст объектов можно измерять в секундах настенных часов, в общем количестве байтов, выделенных подсистемой управления памятью, с тех пор, как объект был размещен, или в числе сборок мусора с момента размещения объекта. Но как бы Вы не измеряли, большинство исследований показывает, что объекты умирают молодыми.</p>
+
+<p>Так как мы живем в неидеальном мире, у каждого из этих алгоритмов есть как преимущества, так и недостатки. Например, копирование хорошо работает, когда большой процент объектов является мусором (потому что этот вид сборщиков мусора не посещает мертвые объкты - он просто копирует живые объекты), но плохо работает с большим количеством долгоживущих объектов (периодически выполняя их копирование). Наоборот, маркировка-сжатие вполне хорошо работает с долгоживущими объектами (копируя их только один раз), но не так хорошо с большим количеством объектов, живущих недолго. Теперь, зная это, можно сделать вывод, что лучшим вариантом сборки мусора было бы использование копирующего сборщика мусора, а для долгоживущих - маркирующе-сжимающего. На основе подобных рассуждений, в Java был введен метод сборки мусора, берущий лучшее от обоих алгоритмов и нивелирующих их недостатки: так называемая &#8220;основанная на поколениях сборка мусора&#8221;. Дополнительно он обеспечивает очень низкие затраты на размещение объектов.</p>
+
+<h2 id='____'>Сборка мусора на основе поколений</h2>
+
+<p>Сборщик мусора, основанный на поколениях, делит динамическую память на несколько поколений - youth (молодые), tenured (Дословно - выжившие. На мой взгляд, очень поэтично :), perm - вечные. Youth дополнително делится на область генерации объектов Eden (совсем поэтично) и две полузоны для работы копирующего сборщика.</p>
+
+<p>Объекты, отвечающие некоторым критериям продвижения, например, они пережили определенное число сборок мусора, затем переводятся в более старшее поколение - сначала Tenured (убирается маркирующе-сжимающим сборщиком мусора), затем и Perm (вообще не убирается).</p>
+
+<p>Одно из преимуществ сборки мусора на основе поколений заключается в том, что она может сократить паузы, не обрабатывая все поколения сразу. Если распределитель ресурсов не способен выполнить запросы на размещение, то он сначала запускает вспомогательные сборки мусора, которые обрабатывают только самое младшее поколение. Так как многие объекты в молодом поколении будут уже мертвы, а копирующему сборщику мусора совсем не надо проверять мертвые объекты, то паузы на вспомогательные сборки мусора могут быть достаточно малыми, и зачастую могут возвращать значительный объем динамической памяти. Если вспомогательная сборка мусора освобождает достаточно места в динамической памяти, то мутатор может немедленно возобновить работу. Если же она освобождает недостаточно места в динамической памяти, то сборка продолжится в более старших поколениях до тех пор, пока не будет возвращен достаточный объем памяти. (В случае если сборщик мусора не может возвратить достаточный объем памяти после полной сборки мусора, то он или расширит динамическую память, или выдаст OutOfMemoryError.)</p>
+
+<p>В принципе, уже из этого понятно, что такое PermGen, и почему у него заканчивается место при redeploy&#8217;е. Желающие узнать больше о принципах работы поколенного сборщика мусора могут обратиться к еще одной статье <a href='http://www.briangoetz.com/'>Брайна Гетца</a> &#8221;<a href='http://www.ibm.com/developerworks/ru/library/j-jtp11253/index.html'>Сборка мусора в HotSpot JVM</a>&#8221;.</p>
+
+<p>Отдельно стоит упомянуть про многопроцессорные системы. В ранних версиях JDK сборка мусора в параллельных потоках сильно замедляла работу систему. Я даже спиздел из статьи <a href='http://java.sun.com/docs/hotspot/gc5.0/gc_tuning_5.html'>Tuning Collection with the 5.0 Java[tm] Virtual Machine</a> классную картинку, которая визуализирует зависимость между временем сборки мусора и количеством процессоров:<br /><img alt='' height='377' width='500' src='/images/garbage_collector/proc_throughput_chart.png' title='Падение производительности сборщика мусора при увеличении количества процессоров' /></p>
+
+<p>К счастью, в JDK 1.4 добавили специально для таких систем еще три сборщика мусора: параллельный копирующий сборщик мусора, параллельный утилизирующий сборщик мусора и синхронизированный маркирующе-чистящий сборщик. Эти новые сборщики призваны решить проблему сборки мусора, которая является основным припятствием для решения проблемы масштабируемости на многопроцессорных системах.</p>
+
+<p>Ну и напоследок еще одна пизженная у Брайна Гетца картинка, на которой проиллюстрированы рекомендации для выбора сборщика мусора:</p>
+<img alt='' height='213' width='500' src='/images/garbage_collector/gc-options.png' title='Рекомендации выбора сборщика мусора' />
+<h2 id='_jboss_as'>Настройка JBOSS AS</h2>
+
+<p>PermGen Space : OutOfMemory exception вылетает от того, что оставшиеся от предыдущего deploy&#8217;я вечные объекты так и остаются в PermGen (это я не знаю, а предполагаю - и могу ошибаться) и PermGen Space рано или поздно переполняется. Соответственно, для решения этой проблемы нам надо как-то заставить сборщик мусора убирать более не нужные объекты в PermGen. На практике это выглядит так:</p>
+
+<ol>
+<li>открываем файл run.conf в папке bin jboss&#8217;a, находим строку, начинающуюся с JAVA_OPTS и добавляем в нее следующие параметры: 2. Разрешаем сборщику мусора убирать PermGen: <code>-XX:+CMSPermGenSweepingEnabled</code></li>
+
+<li>Так как JVM так просто не отдаст на растерзание Perm объекты, надо умилостивить ее: <code>-XX:+CMSClassUnloadingEnabled</code></li>
+
+<li>Для того, чтобы сборщик мусора не прибил нужные нам объекты, нам нужно увеличить размер PermGen: <code>-XX:MaxPermSize=128m</code></li>
+
+<li>(Опционально) Если jboss вертится на многопроцессорной системе, то не забудьте включить синхронизированный сборщик мусора: <code>-XX:+UseConcMarkSweepGC</code> Для удобства использования выложу мою строку JAVA_OPTS:</li>
+</ol>
+<div class='highlight'><pre><code class='bash'><span class='nv'>JAVA_OPTS</span><span class='o'>=</span><span class='s2'>&quot;-Xms256m -Xmx1024m -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000 -XX:+UseConcMarkSweepGC \</span>
+<span class='s2'> -XX:+CMSPermGenSweepingEnabled -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=128m&quot;</span>
+</code></pre></div>
+				</div>
+			</div>
+		    <div id="disqus_thread"></div>
+            <script type="text/javascript">
+                var disqus_shortname = 'alexander-ulizko';
+                // var disqus_identifier = 'unique_dynamic_id_1234';
+                // var disqus_url = 'http://example.com/permalink-to-page.html';
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+		</div><!-- close:main-content -->
+		<div id="sidebar" class="clearfix">
+    <div id="sb-1">
+        <a href="/about.html">About</a>
+        <ul id="rss">
+            <li><a href="http://feeds.feedburner.com/ulizko-com">RSS Feed of the articles</a></li>
+        </ul>
+    </div>
+	<div id="sb-2">
+		<a href="mailto:alexander@ulizko.com" class="email">alexander@ulizko.com</a>
+		<br />
+		<a href="http://twitter.com/aulizko" class="twitter">@aulizko</a>
+		<br />
+		<a href="http://http://www.facebook.com/profile.php?id=1002139259" class="facebook">Alexander Ulizko</a>
+		<br />
+		<a href="http://github.com/aulizko">github</a>
+		<br />
+		<a href="https://code.google.com/u/aulizko/">Google Code</a>
+	</div><!-- close:sb-2 -->
+</div><!-- close:sidebar -->
+    </div><!-- close:content -->
+<div id="footer">
+    <p>&copy;2008&nbsp;&mdash;&nbsp;2014 <a href="http://ulizko.com">Alexander Ulizko</a></p>
+	<p>Powered by <a href="https://pages.github.com/">Github Pages</a> | generated by <a href="https://github.com/mojombo/jekyll">jekyll</a> | powered by <a href="http://disqus.com">disqus</a> | themed by <a href="http://www.vostoktheme.com" hreflang="en">Vostok Theme</a></p>
+</div><!-- close:footer -->
+</div><!-- close:wrapper -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-4326533-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</body>
+</html>

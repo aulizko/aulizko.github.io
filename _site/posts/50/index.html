@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Ваш JBoss AS еще не летает? Тогда мы идем к вам :)</title>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" />
+</head>
+<body>
+<div id="wrapper">
+	<div id="header">
+    	<h1><a href="/">Alexander's Ulizko blog</a></h1>
+	</div><!-- close:header -->
+    <div id="content">
+		<div id="main-content">
+
+			<div class="post" id="post-">
+				<h2>Ваш JBoss AS еще не летает? Тогда мы идем к вам :)</h2>
+				<span class="date"></span>
+				<div class="entry">
+					<p>Я забыл рассказать еще про одну фишку, которая ускорит работу вашего JBAS&#8217;a (JBAS == JBoss AS).</p>
+
+<p>Большинство людей не знает, что такое <a href='http://java.sun.com/j2se/1.4.2/docs/api/java/rmi/dgc/package-summary.html'>RMI DGC</a>. И большинству людей не нужно знать, что такое <a href='http://java.sun.com/j2se/1.4.2/docs/api/java/rmi/dgc/package-summary.html'>RMI DGC</a>. Это я к тому, что мы с вами не входим в это большинство, так что по ссылке сходить стоит. Благо, текста там немного.</p>
+
+<p>Вне зависимости от того, используете ли вы в своем коде RMI или нет, JBAS подгружает подсистему RMI. По умолчанию, подсистема RMI запускает принудительную очистку мусора один раз в минуту. Это означает, что все потоки ставятся на паузу и проводится полное сканирование кучи. Это занимает довольно много времени, особенно, если сервер сильно нагружен.</p>
+
+<p>Короче, чтобы JBOSS работал побыстрее, вставь эту строку в run.conf (который, напоминаю, расположен в $JBOSS_HOME/bin) куда-нибудь после того IF-a, что мы изменяли в <a href='http://ulizko.com/posts/45/index.html'>предыдущей</a> статье:</p>
+<div class='highlight'><pre><code class='bash'><span class='nv'>JAVA_OPTS</span><span class='o'>=</span><span class='s2'>&quot;$JAVA_OPTS -Dsun.rmi.dgc.client.gcInterval=3600000 \</span>
+<span class='s2'>-Dsun.rmi.dgc.server.gcInterval=3600000&quot;</span>
+</code></pre></div>
+<p>(Обратный слэш в данном случае не имеет никакого значения, он просто экранирует перевод каретки, чтобы строка кода влезла в формат поста. Когда будешь вставлять эту строку, можешь просто срастить эти две строки в одну, а слэш удалить.)</p>
+
+<p>Есть еще один вариант. Можно запретить любому коду (в том числе и RMI подсистеме) запускать принудительную очистку мусора ,так что вместо вышеуказанных опций можно указать <code>XX:+DisableExplicitGC</code>. В этом случае сборка мусора будет запускаться если куча будет заполнена примерно на 70% (это дефолтное значение и оно тоже настраивается).</p>
+
+<p>Какой из двух вариантов использовать? Не знаю, пока тестирую оба, посмотрим, что получится.</p>
+
+<p>Возникает вопрос, а когда нужно это поведение-по-умолчанию RMI DGC? Никогда. Конечно, если твой код выполняет кучу вызовов удаленных объектов (remote object calls) (EJB, привет! :) и при этом не кэширует ваши LOCAL или REMOTE объекты, то тогда, <em>возможно</em>, очистки мусора раз в час будет недостаточно.</p>
+
+<p>Те, кто хотят узнать побольше про управлению памятью, могут почитать вот <a href='http://ulizko.com/posts/44/index.html'>эти</a> <a href='http://ulizko.com/posts/45/index.html'>мои</a> статьи.</p>
+				</div>
+			</div>
+		    <div id="disqus_thread"></div>
+            <script type="text/javascript">
+                var disqus_shortname = 'alexander-ulizko';
+                // var disqus_identifier = 'unique_dynamic_id_1234';
+                // var disqus_url = 'http://example.com/permalink-to-page.html';
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+		</div><!-- close:main-content -->
+		<div id="sidebar" class="clearfix">
+    <div id="sb-1">
+        <a href="/about.html">About</a>
+        <ul id="rss">
+            <li><a href="http://feeds.feedburner.com/ulizko-com">RSS Feed of the articles</a></li>
+        </ul>
+    </div>
+	<div id="sb-2">
+		<a href="mailto:alexander@ulizko.com" class="email">alexander@ulizko.com</a>
+		<br />
+		<a href="http://twitter.com/aulizko" class="twitter">@aulizko</a>
+		<br />
+		<a href="http://http://www.facebook.com/profile.php?id=1002139259" class="facebook">Alexander Ulizko</a>
+		<br />
+		<a href="http://github.com/aulizko">github</a>
+		<br />
+		<a href="https://code.google.com/u/aulizko/">Google Code</a>
+	</div><!-- close:sb-2 -->
+</div><!-- close:sidebar -->
+    </div><!-- close:content -->
+<div id="footer">
+    <p>&copy;2008&nbsp;&mdash;&nbsp;2014 <a href="http://ulizko.com">Alexander Ulizko</a></p>
+	<p>Powered by <a href="https://pages.github.com/">Github Pages</a> | generated by <a href="https://github.com/mojombo/jekyll">jekyll</a> | powered by <a href="http://disqus.com">disqus</a> | themed by <a href="http://www.vostoktheme.com" hreflang="en">Vostok Theme</a></p>
+</div><!-- close:footer -->
+</div><!-- close:wrapper -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-4326533-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</body>
+</html>

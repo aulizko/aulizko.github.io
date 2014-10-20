@@ -1,0 +1,91 @@
+---
+layout: post
+title: "MongoDB-based Backend::Store implementation for I18n gem"
+permalink: /posts/408/index.html
+---
+Currently I’m working on a web project on top of rails 3 and mongodb.
+
+Recently we faced the necessity of changing I18n backend from simple to something more dynamic (in fact, we wanted to allow the non-geeks from our team to participate in the internationalization process via web interface).
+
+I googled for  "mongodb i18n", "mongo_mapper i18n", "mongodb i18n backend", etc. and found nothing, so I wrote my own implementation of mongodb backend for I18n, called <a href="https://github.com/aulizko/mongo-i18n">mongo-i18n</a> (in fact, &laquo;wrote&raquo; is too strong a word&nbsp;&mdash; all that I needed to do was to implement three methods of the store interface:)
+
+You can grab the sources <a href="https://github.com/aulizko/mongo-i18n">here</a> or you can install the gem via command line:
+
+{% highlight bash %}
+gem install mongo-i18n
+{% endhighlight %}
+
+#### Usage:
+
+I recommend to start with <a href="https://github.com/svenfuchs/i18n/blob/master/lib/i18n/backend/chain.rb">Chain</a> backend while mongodb collection is empty, and move to entirely mongodb-based backend when you populate your database with all I18n messages.
+
+Begin with:
+
+{% highlight ruby %}
+collection = Mongo::Connection.new['my_app_related_db'].collection('i18n')
+I18n.backend = I18n::Backend::Chain.new(I18n::Backend::KeyValue.new(MongoI18n::Store.new(collection)), I18n.backend)
+{% endhighlight %}
+
+And finish with:
+{% highlight ruby %}
+collection = Mongo::Connection.new['my_app_related_db'].collection('i18n')
+I18n.backend = I18n::Backend::KeyValue.new(MongoI18n::Store.new(collection)
+{% endhighlight %}
+
+If you are already using a mongodb ORM in your project (and I suppose you are, why else would you be reading this article? :), I recommend using the existing database connection.
+
+{% highlight ruby %}
+collection = MongoMapper.database.collection('i18n')
+I18n.backend = I18n::Backend::KeyValue.new(MongoI18n::Store.new(collection))
+{% endhighlight %}
+
+Free Christmas gift, the rake file to import en.yml into mongodb:
+
+{% highlight ruby linenos %}
+# usage:
+# bundle exec rake locale:file RAILS_ENV=production
+# if you want to export a different locale (not en.yml), provide locale option, as follows:
+# bundle exec rake locale:file RAILS_ENV=production locale=ru
+
+require 'mongo-i18n'
+
+def write_to_database(sc, path, value)
+  key = path.join('.')
+  sc[key] = value.to_json
+end
+
+# traverse through hash
+def traverse(sc, obj, path)
+  case obj
+  when Hash
+    obj.each do |k,v| 
+      traverse(sc, v, path + [k]) 
+    end
+  when Array
+    obj.each {|v| traverse(sc, v) }
+  else # end values
+    write_to_database(sc, path, obj)
+  end
+end
+
+namespace :locale do
+  desc <<-eos
+    Exports $app/config/locale/$locale.yml contents to mongodb database. 
+    If locale is not specified, default (en) locale file will be exported.
+  eos
+  task :file do
+    locale = ENV['locale'] || "en"
+    environment = ENV['RAILS_ENV']   || "development"
+    # I keep mongodb connection descriptor in config/mongodb.yml
+    config = YAML::load(File.read(Rails.root.join('config/mongodb.yml')))
+    collection = Mongo::Connection.new[config["development"]["database"]].collection('i18n')
+    store = MongoI18n::Store.new(collection)
+    
+    dump = YAML::load(File.open(Rails.root.join("config","locales", "#{locale}.yml")))
+
+    traverse(store, dump, [])
+  end
+end
+{% endhighlight %}
+
+Any feedback would be welcome.

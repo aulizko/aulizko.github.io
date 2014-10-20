@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>widget своими руками</title>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" />
+</head>
+<body>
+<div id="wrapper">
+	<div id="header">
+    	<h1><a href="/">Alexander's Ulizko blog</a></h1>
+	</div><!-- close:header -->
+    <div id="content">
+		<div id="main-content">
+
+			<div class="post" id="post-">
+				<h2>widget своими руками</h2>
+				<span class="date"></span>
+				<div class="entry">
+					<p>Привет.</p>
+
+<p>Наверное, многие из вас пользовались стандартными javascript-виджетами, написанными как безвестными <span style='text-decoration: line-through;'>мудаками</span> разработчиками, так и маститыми профессионалами. Есть великолепные коллекции виджетов, поставляемых в качестве плагинов к известным фреймворкам (вроде <a href='http://jquery.com'>jQuery</a>, <a href='http://prototypejs.org'>Prototype JS</a>, <a href='http://developer.yahoo.com/yui/'>YUI</a>), так и целые фреймворки, акцентирующие свое внимание на создании виджетов, вроде <a href='http://extjs.com/'>Ext JS</a> или <a href='http://qooxdoo.org/'>qooXdoo</a>.</p>
+
+<p>Но что, если вы не хотите использовать достаточно объемный фреймворк для создания простого диалогового окна, или хотите разобраться в том, как создаются такие виджеты, или даже разрабатываете собственный фреймворк?</p>
+
+<p>Об&#160;этом и&#160;пойдет речь в&#160;сегодняшнем посте&#160;&#8212; как сделать простейшее диалоговое окно и&#160;alert средствами чистого javascript, без применения каких-либо фреймворков.</p>
+
+<p><strong>Disclaimer</strong>: должен предупредить, что код, представленный далее&#160;&#8212; только пример реализации, он&#160;предназначен только для того, чтобы показать путь, но&#160;это не&#160;конечный результат. Конечно, вы&#160;можете использовать получившийся виджет в&#160;своем проекте, но&#160;знайте&#160;&#8212; можно сделать гораздо лучше, в&#160;общем, есть пространство для самовыражения и&#160;наворачивания. Кроме того, я&#160;старался описывать каждый шаг, что будет полезно новичку, но, без сомнения, будет раздражать профессионала. Впрочем, если ты&#160;профессионал, то&#160;тебе вряд&#160;ли чем-либо поможет данная статья.</p>
+
+<p>Прежде всего, нам понадобится небольшая коллекция методов, облегчающих нашу работу - это, прежде всего, навешивание и удаление обработчиков событий на DOM-элементы, остальные совершенно необязательны, и просто являются хелперами, уменьшающими объем кода и увеличивающими его понятность:</p>
+<div class='highlight'><pre><code class='javascript'><span class='lineno'> 1</span> <span class='c1'>// Для этого проекта мы будем использовать одну переменную с глобальной областью видимости &quot;DEMO&quot;.</span>
+<span class='lineno'> 2</span> <span class='c1'>// Для чего нужно использовать как можно меньше переменных с глобальной областью видимости?</span>
+<span class='lineno'> 3</span> <span class='c1'>// По двум причинам:</span>
+<span class='lineno'> 4</span> <span class='c1'>// 1. Вы можете быть уверенным, что весь ваш код надежно упрятан в безопасное место, и другой разработчик, подключив</span>
+<span class='lineno'> 5</span> <span class='c1'>//      свой модуль (или свою библиотеку), не сломает вашу функцию или объект, и ваш код (и его) будет работать именно так,</span>
+<span class='lineno'> 6</span> <span class='c1'>//      как вы ожидаете. Программирование - непростая штука, так зачем находить себе проблемы там, где их можно избежать?</span>
+<span class='lineno'> 7</span> <span class='c1'>// 2. Объекты, являющиеся свойствами глобального объекта (в клиентском javascript&#39;е - объекта window) иначе обрабатываются</span>
+<span class='lineno'> 8</span> <span class='c1'>//      сборщиком мусора, и живут дольше, а значит, если вы для каждую мелкую функцию или временную переменную будете</span>
+<span class='lineno'> 9</span> <span class='c1'>//      создавать в глобальной области видимости, использование памяти будет неоптимальным, что само по себе плохо. А если</span>
+<span class='lineno'>10</span> <span class='c1'>//      вы плохо распоряжаетесь памятью, то, по мере роста функционала, ваш проект очень скоро начнет тормозить.</span>
+<span class='lineno'>11</span> <span class='c1'>// Лично для меня любая из этих причин является достаточно веским аргументом для того,</span>
+<span class='lineno'>12</span> <span class='c1'>// чтобы упаковывать весь свой код в одну переменную с глобальной областью видимости.</span>
+<span class='lineno'>13</span> <span class='k'>if</span> <span class='p'>(</span><span class='k'>typeof</span> <span class='nx'>DEMO</span> <span class='o'>==</span> <span class='s2'>&quot;undefined&quot;</span> <span class='o'>||</span> <span class='o'>!</span><span class='nx'>DEMO</span><span class='p'>)</span> <span class='p'>{</span>
+<span class='lineno'>14</span>     <span class='kd'>var</span> <span class='nx'>DEMO</span> <span class='o'>=</span> <span class='p'>{};</span>
+<span class='lineno'>15</span> <span class='p'>}</span>
+<span class='lineno'>16</span> 
+<span class='lineno'>17</span> <span class='c1'>// Lang - это утилита, содержащая удобные методы для работы с языком.</span>
+<span class='lineno'>18</span> <span class='c1'>// На самом деле, это просто синтаксический сахар - то есть, можно обойтись и без них,</span>
+<span class='lineno'>19</span> <span class='c1'>// но с ними приходится меньше печатать, да и код становится более человекопонятным.</span>
+<span class='lineno'>20</span> <span class='c1'>//</span>
+<span class='lineno'>21</span> <span class='c1'>// Обратите внимание, что перед тем, как создать объект Lang в объекте DEMO, я проверяю, не создан ли он уже</span>
+<span class='lineno'>22</span> <span class='c1'>// в рамках этой демонстрации это не является необходимым, но в случае, если ваш код будет использовать человек,</span>
+<span class='lineno'>23</span> <span class='c1'>// не слишком хорошо понимающий, что он делает (скажем, просто подключает ваш виджет к своему блогу),</span>
+<span class='lineno'>24</span> <span class='c1'>// он может и два и три раза подключить несколько ваших виджетов, имеющих те же самые объекты как свою часть - а без</span>
+<span class='lineno'>25</span> <span class='c1'>// этой проверки объект DEMO.Lang несколько раз перезапишется, причем, это будет совершенно лишняя операция.</span>
+<span class='lineno'>26</span> <span class='nx'>DEMO</span><span class='p'>.</span><span class='nx'>Lang</span> <span class='o'>=</span> <span class='k'>typeof</span> <span class='nx'>DEMO</span><span class='p'>.</span><span class='nx'>Lang</span> <span class='o'>!=</span> <span class='s1'>&#39;undefined&#39;</span> <span class='o'>&amp;</span><span class='nx'>amp</span><span class='p'>;</span><span class='o'>&amp;</span><span class='nx'>amp</span><span class='p'>;</span> <span class='nx'>DEMO</span><span class='p'>.</span><span class='nx'>Lang</span> <span class='o'>?</span> <span class='nx'>DEMO</span><span class='p'>.</span><span class='nx'>Lang</span> <span class='o'>:</span> <span class='p'>{</span>
+<span class='lineno'>27</span>     <span class='nx'>isUndefined</span> <span class='o'>:</span> <span class='kd'>function</span> <span class='p'>(</span><span class='nx'>o</span><span class='p'>)</span> <span class='p'>{</span>
+<span class='lineno'>28</span>         <span class='k'>return</span> <span class='k'>typeof</span> <span class='nx'>o</span> <span class='o'>===</span> <span class='s1'>&#39;undefined&#39;</span><span class='p'>;</span>
+<span class='lineno'>29</span>     <span class='p'>},</span>
+<span class='lineno'>30</span>     <span class='nx'>isString</span> <span class='o'>:</span> <span class='kd'>function</span> <span class='p'>(</span><span class='nx'>o</span><span class='p'>)</span> <span class='p'>{</span>
+<span class='lineno'>31</span>         <span class='k'>return</span> <span class='k'>typeof</span> <span class='nx'>o</span> <span class='o'>===</span> <span class='s1'>&#39;string&#39;</span><span class='p'>;</span>
+<span class='lineno'>32</span>     <span class='p'>}</span>
+<span class='lineno'>33</span> <span class='p'>};</span>
+<span class='lineno'>34</span> 
+<span class='lineno'>35</span> <span class='c1'>// DOM - это ряд функций, облегчающих работу с DOM. В рамках примера мне достаточно только двух - навешивание и удаление</span>
+<span class='lineno'>36</span> <span class='c1'>// обработчиков событий, метод get вспомогательный и без него можно обойтись.</span>
+<span class='lineno'>37</span> <span class='nx'>DEMO</span><span class='p'>.</span><span class='nx'>DOM</span> <span class='o'>=</span> <span class='k'>typeof</span> <span class='nx'>DEMO</span><span class='p'>.</span><span class='nx'>DOM</span> <span class='o'>!=</span> <span class='s1'>&#39;undefined&#39;</span> <span class='o'>&amp;</span><span class='nx'>amp</span><span class='p'>;</span><span class='o'>&amp;</span><span class='nx'>amp</span><span class='p'>;</span> <span class='nx'>DEMO</span><span class='p'>.</span><span class='nx'>DOM</span> <span class='o'>?</span> <span class='nx'>DEMO</span><span class='p'>.</span><span class='nx'>DOM</span> <span class='o'>:</span> <span class='p'>{</span>
+<span class='lineno'>38</span>     <span class='nx'>get</span> <span class='o'>:</span> <span class='kd'>function</span> <span class='p'>(</span><span class='nx'>el</span><span class='p'>)</span> <span class='p'>{</span>
+<span class='lineno'>39</span>         <span class='k'>return</span> <span class='p'>(</span><span class='nx'>el</span> <span class='o'>&amp;</span><span class='nx'>amp</span><span class='p'>;</span><span class='o'>&amp;</span><span class='nx'>amp</span><span class='p'>;</span> <span class='nx'>el</span><span class='p'>.</span><span class='nx'>nodeType</span><span class='p'>)</span> <span class='o'>?</span> <span class='nx'>el</span> <span class='o'>:</span> <span class='nb'>document</span><span class='p'>.</span><span class='nx'>getElementById</span><span class='p'>(</span><span class='nx'>el</span><span class='p'>);</span>
+<span class='lineno'>40</span>     <span class='p'>},</span>
+<span class='lineno'>41</span> 
+<span class='lineno'>42</span>     <span class='nx'>addListener</span> <span class='o'>:</span> <span class='kd'>function</span> <span class='p'>(</span><span class='nx'>el</span><span class='p'>,</span> <span class='nx'>type</span><span class='p'>,</span> <span class='nx'>fn</span><span class='p'>)</span> <span class='p'>{</span>
+<span class='lineno'>43</span>         <span class='c1'>// если el не dom-элемент, а строка, тогда пробуем найти dom-элемент с id, равным этой строке</span>
+<span class='lineno'>44</span>         <span class='k'>if</span> <span class='p'>(</span><span class='nx'>DEMO</span><span class='p'>.</span><span class='nx'>Lang</span><span class='p'>.</span><span class='nx'>isString</span><span class='p'>(</span><span class='nx'>el</span><span class='p'>))</span> <span class='p'>{</span> <span class='nx'>el</span> <span class='o'>=</span> <span class='k'>this</span><span class='p'>.</span><span class='nx'>get</span><span class='p'>(</span><span class='nx'>el</span><span class='p'>);</span> <span class='p'>}</span>
+<span class='lineno'>45</span> 
+<span class='lineno'>46</span>         <span class='c1'>// проверка наличия необходимой функциональности в браузере перед использованием функции называется</span>
+<span class='lineno'>47</span>         <span class='c1'>// feature-testing.</span>
+<span class='lineno'>48</span>         <span class='c1'>// Подробнее об этом принципе можно прочитать, здесь: http://www.unix.com.ua/orelly/webprog/jscript/ch20_01.htm</span>
+<span class='lineno'>49</span>         <span class='c1'>// а конкретно об этом кусочке кода здесь: http://fastcoder.org/articles/?aid=17</span>
+<span class='lineno'>50</span>         <span class='k'>if</span> <span class='p'>(</span><span class='nx'>el</span><span class='p'>.</span><span class='nx'>addEventListener</span><span class='p'>)</span> <span class='p'>{</span>
+<span class='lineno'>51</span>             <span class='nx'>el</span><span class='p'>.</span><span class='nx'>addEventListener</span><span class='p'>(</span><span class='nx'>type</span><span class='p'>,</span> <span class='nx'>fn</span><span class='p'>,</span> <span class='kc'>false</span><span class='p'>);</span>
+<span class='lineno'>52</span>         <span class='p'>}</span> <span class='k'>else</span> <span class='k'>if</span> <span class='p'>(</span><span class='nx'>el</span><span class='p'>.</span><span class='nx'>attachEvent</span><span class='p'>)</span> <span class='p'>{</span>
+<span class='lineno'>53</span>             <span class='nx'>el</span><span class='p'>.</span><span class='nx'>attachEvent</span><span class='p'>(</span><span class='s1'>&#39;on&#39;</span> <span class='o'>+</span> <span class='nx'>type</span><span class='p'>,</span> <span class='nx'>fn</span><span class='p'>);</span>
+<span class='lineno'>54</span>         <span class='p'>}</span> <span class='k'>else</span> <span class='p'>{</span>
+<span class='lineno'>55</span>             <span class='nx'>el</span><span class='p'>[</span><span class='s1'>&#39;on&#39;</span> <span class='o'>+</span> <span class='nx'>type</span><span class='p'>]</span> <span class='o'>=</span> <span class='nx'>fn</span><span class='p'>;</span>
+<span class='lineno'>56</span>         <span class='p'>}</span>
+<span class='lineno'>57</span>     <span class='p'>},</span>
+<span class='lineno'>58</span> 
+<span class='lineno'>59</span>     <span class='nx'>removeListener</span> <span class='o'>:</span> <span class='kd'>function</span> <span class='p'>(</span><span class='nx'>el</span><span class='p'>,</span> <span class='nx'>type</span><span class='p'>,</span> <span class='nx'>fn</span><span class='p'>)</span> <span class='p'>{</span>
+<span class='lineno'>60</span>         <span class='k'>if</span> <span class='p'>(</span><span class='nx'>DEMO</span><span class='p'>.</span><span class='nx'>Lang</span><span class='p'>.</span><span class='nx'>isString</span><span class='p'>(</span><span class='nx'>el</span><span class='p'>))</span> <span class='p'>{</span> <span class='nx'>el</span> <span class='o'>=</span> <span class='k'>this</span><span class='p'>.</span><span class='nx'>get</span><span class='p'>(</span><span class='nx'>el</span><span class='p'>);</span> <span class='p'>}</span>
+<span class='lineno'>61</span> 
+<span class='lineno'>62</span>         <span class='k'>if</span> <span class='p'>(</span><span class='nx'>el</span><span class='p'>.</span><span class='nx'>removeEventListener</span><span class='p'>){</span>
+<span class='lineno'>63</span>             <span class='nx'>el</span><span class='p'>.</span><span class='nx'>removeEventListener</span><span class='p'>(</span><span class='nx'>type</span><span class='p'>,</span> <span class='nx'>fn</span><span class='p'>,</span> <span class='kc'>false</span><span class='p'>);</span>
+<span class='lineno'>64</span>         <span class='p'>}</span> <span class='k'>else</span> <span class='k'>if</span> <span class='p'>(</span><span class='nx'>el</span><span class='p'>.</span><span class='nx'>detachEvent</span><span class='p'>)</span> <span class='p'>{</span>
+<span class='lineno'>65</span>             <span class='nx'>el</span><span class='p'>.</span><span class='nx'>detachEvent</span><span class='p'>(</span><span class='s1'>&#39;on&#39;</span> <span class='o'>+</span> <span class='nx'>type</span><span class='p'>,</span> <span class='nx'>fn</span><span class='p'>);</span>
+<span class='lineno'>66</span>         <span class='p'>}</span> <span class='k'>else</span> <span class='p'>{</span>
+<span class='lineno'>67</span>             <span class='nx'>el</span><span class='p'>[</span><span class='s1'>&#39;on&#39;</span> <span class='o'>+</span> <span class='nx'>type</span><span class='p'>]</span> <span class='o'>=</span> <span class='kd'>function</span> <span class='p'>()</span> <span class='p'>{</span> <span class='k'>return</span> <span class='kc'>true</span><span class='p'>;</span> <span class='p'>};</span>
+<span class='lineno'>68</span>         <span class='p'>}</span>
+<span class='lineno'>69</span>     <span class='p'>}</span>
+<span class='lineno'>70</span> <span class='p'>};</span>
+</code></pre></div>
+<p>Чтобы не&#160;раздувать листинг, я&#160;не&#160;включил в&#160;него еще две функции&#160;&#8212; <a href='http://www.crockford.com/javascript/memory/leak.html'>purge</a> и&#160;setInnerHTML, по&#160;ссылке вы&#160;можете найти их&#160;описание и&#160;принцип действия. Также вы&#160;можете найти их&#160;в&#160;исходниках примера.</p>
+
+<p>Ну&#160;и&#160;теперь перейдем к&#160;тому, ради чего все затевалось&#160;&#8212; к&#160;созданию непосредственно диалогового окна.</p>
+<div class='highlight'><pre><code class='javascript'><span class='lineno'> 1</span> <span class='k'>if</span> <span class='p'>(</span><span class='k'>typeof</span> <span class='nx'>DEMO</span> <span class='o'>==</span> <span class='s2'>&quot;undefined&quot;</span> <span class='o'>||</span> <span class='o'>!</span><span class='nx'>DEMO</span><span class='p'>)</span> <span class='p'>{</span>
+<span class='lineno'> 2</span>     <span class='kd'>var</span> <span class='nx'>DEMO</span> <span class='o'>=</span> <span class='p'>{};</span>
+<span class='lineno'> 3</span> <span class='p'>}</span>
+<span class='lineno'> 4</span> 
+<span class='lineno'> 5</span> <span class='c1'>// Обратите внимание - объект строится по так называемому &quot;модульному&quot; паттерну, предложенному YAHOO!</span>
+<span class='lineno'> 6</span> <span class='c1'>// подробнее: http://ajaxian.com/archives/a-javascript-module-pattern</span>
+<span class='lineno'> 7</span> <span class='nx'>DEMO</span><span class='p'>.</span><span class='nx'>Dialog</span> <span class='o'>=</span> <span class='k'>typeof</span> <span class='nx'>DEMO</span><span class='p'>.</span><span class='nx'>Dialog</span> <span class='o'>!=</span> <span class='s1'>&#39;undefined&#39;</span> <span class='o'>&amp;&amp;</span> <span class='nx'>DEMO</span><span class='p'>.</span><span class='nx'>Dialog</span> <span class='o'>?</span> <span class='nx'>DEMO</span><span class='p'>.</span><span class='nx'>Dialog</span> <span class='o'>:</span> <span class='kd'>function</span> <span class='p'>()</span> <span class='p'>{</span>
+<span class='lineno'> 8</span>     <span class='c1'>// &quot;private&quot;-свойства</span>
+<span class='lineno'> 9</span> 
+<span class='lineno'>10</span>     <span class='c1'>// создаем контейнер диалога и запоминаем его.</span>
+<span class='lineno'>11</span>     <span class='kd'>var</span> <span class='nx'>dialog</span> <span class='o'>=</span> <span class='nb'>document</span><span class='p'>.</span><span class='nx'>createElement</span><span class='p'>(</span><span class='s1'>&#39;div&#39;</span><span class='p'>);</span>
+<span class='lineno'>12</span> 
+<span class='lineno'>13</span>     <span class='nx'>dialog</span><span class='p'>.</span><span class='nx'>className</span> <span class='o'>=</span> <span class='s1'>&#39;dialog&#39;</span><span class='p'>;</span>
+<span class='lineno'>14</span>     <span class='nb'>document</span><span class='p'>.</span><span class='nx'>body</span><span class='p'>.</span><span class='nx'>appendChild</span><span class='p'>(</span><span class='nx'>dialog</span><span class='p'>);</span>
+<span class='lineno'>15</span> 
+<span class='lineno'>16</span>     <span class='c1'>// Главная функция. На вход может приходить как строка (в этом случае она становится текстом окна)</span>
+<span class='lineno'>17</span>     <span class='c1'>// так и объек со свойствами:</span>
+<span class='lineno'>18</span>     <span class='c1'>// body {String} - текст окна</span>
+<span class='lineno'>19</span>     <span class='c1'>// buttons {Array} - массив кнопок, при этом каждая кнопка - объект вида:</span>
+<span class='lineno'>20</span>     <span class='c1'>//   id : {String} - id кнопки</span>
+<span class='lineno'>21</span>     <span class='c1'>//   text : {String} - текст кнопки</span>
+<span class='lineno'>22</span>     <span class='c1'>//   callback : {Function | Object} - либо функция (в этом случае она будет повешена на click по кнопке), либо объект вида:</span>
+<span class='lineno'>23</span>     <span class='c1'>//     fn : {Function} непосредственно функция</span>
+<span class='lineno'>24</span>     <span class='c1'>//     type : {String} тип события, на которое будет навешена функция.</span>
+<span class='lineno'>25</span>     <span class='kd'>var</span> <span class='nx'>render</span> <span class='o'>=</span> <span class='kd'>function</span> <span class='p'>(</span><span class='nx'>o</span><span class='p'>)</span> <span class='p'>{</span>
+<span class='lineno'>26</span>         <span class='kd'>var</span> <span class='nx'>html</span><span class='p'>,</span> <span class='nx'>i</span><span class='p'>,</span> <span class='nx'>length</span> <span class='o'>=</span> <span class='p'>(</span><span class='k'>typeof</span> <span class='nx'>o</span><span class='p'>.</span><span class='nx'>buttons</span> <span class='o'>===</span> <span class='s1'>&#39;undefined&#39;</span><span class='p'>)</span> <span class='o'>?</span> <span class='mi'>0</span> <span class='o'>:</span> <span class='nx'>o</span><span class='p'>.</span><span class='nx'>buttons</span><span class='p'>.</span><span class='nx'>length</span><span class='p'>,</span>
+<span class='lineno'>27</span>             <span class='nx'>button</span><span class='p'>;</span>
+<span class='lineno'>28</span> 
+<span class='lineno'>29</span>         <span class='c1'>// текст диалогового окна</span>
+<span class='lineno'>30</span>         <span class='k'>if</span> <span class='p'>(</span><span class='k'>typeof</span> <span class='nx'>o</span> <span class='o'>===</span> <span class='s1'>&#39;string&#39;</span><span class='p'>)</span> <span class='p'>{</span>
+<span class='lineno'>31</span>             <span class='nx'>html</span> <span class='o'>=</span> <span class='s1'>&#39;</span>
+<span class='lineno'>32</span> 
+<span class='lineno'>33</span> <span class='s1'>&#39;</span> <span class='o'>+</span> <span class='nx'>o</span> <span class='o'>+</span> <span class='s1'>&#39;</span>
+<span class='lineno'>34</span> 
+<span class='lineno'>35</span> <span class='s1'>&#39;</span><span class='p'>;</span>
+<span class='lineno'>36</span>         <span class='p'>}</span> <span class='k'>else</span> <span class='p'>{</span>
+<span class='lineno'>37</span>             <span class='nx'>html</span> <span class='o'>=</span> <span class='s1'>&#39;</span>
+<span class='lineno'>38</span> 
+<span class='lineno'>39</span> <span class='s1'>&#39;</span> <span class='o'>+</span> <span class='p'>((</span><span class='nx'>o</span><span class='p'>.</span><span class='nx'>body</span><span class='p'>)</span> <span class='o'>?</span> <span class='nx'>o</span><span class='p'>.</span><span class='nx'>body</span> <span class='o'>:</span> <span class='nx'>o</span><span class='p'>)</span> <span class='o'>+</span> <span class='s1'>&#39;</span>
+<span class='lineno'>40</span> 
+<span class='lineno'>41</span> <span class='s1'>&#39;</span><span class='p'>;</span>
+<span class='lineno'>42</span>         <span class='p'>}</span>
+<span class='lineno'>43</span> 
+<span class='lineno'>44</span>         <span class='k'>for</span> <span class='p'>(</span><span class='nx'>i</span> <span class='o'>=</span> <span class='mi'>0</span><span class='p'>;</span> <span class='nx'>i</span> <span class='o'>&amp;</span><span class='nx'>lt</span><span class='p'>;</span> <span class='nx'>length</span><span class='p'>;</span> <span class='nx'>i</span><span class='o'>++</span><span class='p'>)</span> <span class='p'>{</span>
+<span class='lineno'>45</span>             <span class='nx'>button</span> <span class='o'>=</span> <span class='nx'>o</span><span class='p'>.</span><span class='nx'>buttons</span><span class='p'>[</span><span class='nx'>i</span><span class='p'>];</span>
+<span class='lineno'>46</span>             <span class='nx'>html</span> <span class='o'>+=</span> <span class='s1'>&#39;&lt;a id=&quot;&#39;</span> <span class='o'>+</span> <span class='nx'>button</span><span class='p'>.</span><span class='nx'>id</span> <span class='o'>+</span> <span class='s1'>&#39;&quot; href=&quot;#&quot;&gt;&#39;</span> <span class='o'>+</span> <span class='nx'>button</span><span class='p'>.</span><span class='nx'>text</span> <span class='o'>+</span> <span class='s1'>&#39;&lt;/a&gt;&#39;</span><span class='p'>;</span>
+<span class='lineno'>47</span>         <span class='p'>}</span>
+<span class='lineno'>48</span> 
+<span class='lineno'>49</span>         <span class='c1'>// нам не нужно беспокоиться об утечках памяти, Дуглас Крокфорд побеспокоился за нас</span>
+<span class='lineno'>50</span>         <span class='nx'>DEMO</span><span class='p'>.</span><span class='nx'>DOM</span><span class='p'>.</span><span class='nx'>setInnerHTML</span><span class='p'>(</span><span class='nx'>dialog</span><span class='p'>,</span> <span class='nx'>html</span><span class='p'>);</span>
+<span class='lineno'>51</span> 
+<span class='lineno'>52</span>         <span class='nx'>activateListeners</span><span class='p'>(</span><span class='nx'>o</span><span class='p'>.</span><span class='nx'>buttons</span><span class='p'>);</span>
+<span class='lineno'>53</span>     <span class='p'>};</span>
+<span class='lineno'>54</span> 
+<span class='lineno'>55</span>     <span class='c1'>// навешиваем обработчики событий на кнопки. Если кнопок нет - ничего не делаем.</span>
+<span class='lineno'>56</span>     <span class='kd'>var</span> <span class='nx'>activateListeners</span> <span class='o'>=</span> <span class='kd'>function</span> <span class='p'>(</span><span class='nx'>buttons</span><span class='p'>)</span> <span class='p'>{</span>
+<span class='lineno'>57</span>         <span class='kd'>var</span> <span class='nx'>i</span><span class='p'>,</span> <span class='nx'>length</span><span class='p'>,</span> <span class='nx'>button</span><span class='p'>,</span> <span class='nx'>isUndefined</span> <span class='o'>=</span> <span class='nx'>DEMO</span><span class='p'>.</span><span class='nx'>Lang</span><span class='p'>.</span><span class='nx'>isUndefined</span><span class='p'>;</span>
+<span class='lineno'>58</span> 
+<span class='lineno'>59</span>         <span class='k'>if</span> <span class='p'>(</span><span class='nx'>DEMO</span><span class='p'>.</span><span class='nx'>Lang</span><span class='p'>.</span><span class='nx'>isUndefined</span><span class='p'>(</span><span class='nx'>buttons</span><span class='p'>))</span> <span class='p'>{</span> <span class='k'>return</span><span class='p'>;</span> <span class='p'>}</span>
+<span class='lineno'>60</span>         <span class='nx'>length</span> <span class='o'>=</span> <span class='nx'>buttons</span><span class='p'>.</span><span class='nx'>length</span><span class='p'>;</span>
+<span class='lineno'>61</span> 
+<span class='lineno'>62</span>         <span class='k'>for</span> <span class='p'>(</span><span class='nx'>i</span> <span class='o'>=</span> <span class='mi'>0</span><span class='p'>;</span> <span class='nx'>i</span> <span class='o'>&amp;</span><span class='nx'>lt</span><span class='p'>;</span> <span class='nx'>length</span><span class='p'>;</span> <span class='nx'>i</span><span class='o'>++</span><span class='p'>)</span> <span class='p'>{</span>
+<span class='lineno'>63</span>             <span class='nx'>button</span> <span class='o'>=</span> <span class='nx'>buttons</span><span class='p'>[</span><span class='nx'>i</span><span class='p'>];</span>
+<span class='lineno'>64</span>             <span class='k'>if</span> <span class='p'>(</span><span class='o'>!</span><span class='nx'>isUndefined</span><span class='p'>(</span><span class='nx'>button</span><span class='p'>.</span><span class='nx'>callback</span><span class='p'>.</span><span class='nx'>type</span><span class='p'>)</span> <span class='o'>&amp;</span><span class='nx'>amp</span><span class='p'>;</span><span class='o'>&amp;</span><span class='nx'>amp</span><span class='p'>;</span> <span class='o'>!</span><span class='nx'>isUndefined</span><span class='p'>(</span><span class='nx'>button</span><span class='p'>.</span><span class='nx'>callback</span><span class='p'>.</span><span class='nx'>fn</span><span class='p'>))</span> <span class='p'>{</span>
+<span class='lineno'>65</span>                 <span class='nx'>DEMO</span><span class='p'>.</span><span class='nx'>DOM</span><span class='p'>.</span><span class='nx'>addListener</span><span class='p'>(</span><span class='nx'>button</span><span class='p'>.</span><span class='nx'>id</span><span class='p'>,</span> <span class='nx'>button</span><span class='p'>.</span><span class='nx'>callback</span><span class='p'>.</span><span class='nx'>type</span><span class='p'>,</span> <span class='nx'>button</span><span class='p'>.</span><span class='nx'>callback</span><span class='p'>.</span><span class='nx'>fn</span><span class='p'>);</span>
+<span class='lineno'>66</span>             <span class='p'>}</span> <span class='k'>else</span> <span class='p'>{</span>
+<span class='lineno'>67</span>                 <span class='nx'>DEMO</span><span class='p'>.</span><span class='nx'>DOM</span><span class='p'>.</span><span class='nx'>addListener</span><span class='p'>(</span><span class='nx'>button</span><span class='p'>.</span><span class='nx'>id</span><span class='p'>,</span> <span class='s1'>&#39;click&#39;</span><span class='p'>,</span> <span class='nx'>button</span><span class='p'>.</span><span class='nx'>callback</span><span class='p'>);</span>
+<span class='lineno'>68</span>             <span class='p'>}</span>
+<span class='lineno'>69</span>         <span class='p'>}</span>
+<span class='lineno'>70</span>         <span class='nx'>cached_buttons</span> <span class='o'>=</span> <span class='nx'>buttons</span><span class='p'>;</span>
+<span class='lineno'>71</span>     <span class='p'>};</span>
+<span class='lineno'>72</span> 
+<span class='lineno'>73</span>     <span class='k'>return</span> <span class='p'>{</span>
+<span class='lineno'>74</span>         <span class='c1'>// публичный функции</span>
+<span class='lineno'>75</span>         <span class='c1'>// показываем диалогове диалоговое окно</span>
+<span class='lineno'>76</span>         <span class='nx'>show</span> <span class='o'>:</span> <span class='kd'>function</span> <span class='p'>(</span><span class='nx'>o</span><span class='p'>)</span> <span class='p'>{</span>
+<span class='lineno'>77</span>             <span class='nx'>render</span><span class='p'>(</span><span class='nx'>o</span><span class='p'>);</span>
+<span class='lineno'>78</span>         <span class='p'>},</span>
+<span class='lineno'>79</span>         <span class='c1'>// прячем диалоговое окно</span>
+<span class='lineno'>80</span>         <span class='nx'>hide</span> <span class='o'>:</span> <span class='kd'>function</span> <span class='p'>()</span> <span class='p'>{</span>
+<span class='lineno'>81</span>             <span class='nx'>dialog</span><span class='p'>.</span><span class='nx'>style</span><span class='p'>.</span><span class='nx'>display</span> <span class='o'>=</span> <span class='s1'>&#39;none&#39;</span><span class='p'>;</span>
+<span class='lineno'>82</span>         <span class='p'>}</span>
+<span class='lineno'>83</span>     <span class='p'>};</span>
+<span class='lineno'>84</span> <span class='p'>}();</span>
+</code></pre></div>
+<p>Теперь у&#160;нас есть объект DEMO.Dialog, у&#160;которого есть два public метода&#160;&#8212; show и&#160;hide. При этом объект достаточно гибкий и&#160;может отрисовать как диалоговое окно, так и&#160;оповещение.</p>
+
+<p>Если мы хотим вызвать показать диалоговое окно, то мы добавим две кнопки:</p>
+<div class='highlight'><pre><code class='javascript'><span class='nx'>DEMO</span><span class='p'>.</span><span class='nx'>Dialog</span><span class='p'>.</span><span class='nx'>show</span><span class='p'>({</span>
+    <span class='nx'>body</span> <span class='o'>:</span> <span class='s1'>&#39;Хотите кофе?&#39;</span><span class='p'>,</span>
+    <span class='nx'>buttons</span> <span class='o'>:</span> <span class='p'>[</span>
+        <span class='p'>{</span>
+            <span class='nx'>id</span> <span class='o'>:</span> <span class='s1'>&#39;cancel&#39;</span><span class='p'>,</span>
+            <span class='nx'>text</span> <span class='o'>:</span> <span class='s1'>&#39;Не&#39;</span><span class='p'>,</span>
+            <span class='nx'>callback</span> <span class='o'>:</span> <span class='kd'>function</span> <span class='p'>()</span> <span class='p'>{</span> <span class='nx'>DEMO</span><span class='p'>.</span><span class='nx'>Dialog</span><span class='p'>.</span><span class='nx'>hide</span><span class='p'>();</span> <span class='p'>}</span>
+        <span class='p'>},</span>
+        <span class='p'>{</span>
+            <span class='nx'>id</span> <span class='o'>:</span> <span class='s1'>&#39;accept&#39;</span><span class='p'>,</span>
+            <span class='nx'>text</span> <span class='o'>:</span> <span class='s1'>&#39;Да!&#39;</span><span class='p'>,</span>
+            <span class='nx'>callback</span> <span class='o'>:</span> <span class='kd'>function</span> <span class='p'>()</span> <span class='p'>{</span>
+                <span class='nx'>DEMO</span><span class='p'>.</span><span class='nx'>Dialog</span><span class='p'>.</span><span class='nx'>hide</span><span class='p'>();</span>
+                <span class='nb'>document</span><span class='p'>.</span><span class='nx'>body</span><span class='p'>.</span><span class='nx'>appendChild</span><span class='p'>(</span><span class='nb'>document</span><span class='p'>.</span><span class='nx'>createTextNode</span><span class='p'>(</span><span class='s1'>&#39;Я тоже :)&#39;</span><span class='p'>));</span>
+            <span class='p'>}</span>
+        <span class='p'>}</span>
+    <span class='p'>]</span>
+<span class='p'>});</span>
+</code></pre></div>
+<p>Если мы хотим оповестить пользователя о чем-то, то достаточно одной кнопки &#8220;Закрыть&#8221;:</p>
+<div class='highlight'><pre><code class='javascript'><span class='nx'>DEMO</span><span class='p'>.</span><span class='nx'>Dialog</span><span class='p'>.</span><span class='nx'>show</span><span class='p'>({</span>
+    <span class='nx'>body</span> <span class='o'>:</span> <span class='s1'>&#39;Э... кхм... ваше кофе сбежало!&#39;</span><span class='p'>,</span>
+    <span class='nx'>buttons</span> <span class='o'>:</span> <span class='p'>[</span>
+        <span class='p'>{</span>
+            <span class='nx'>id</span> <span class='o'>:</span> <span class='s1'>&#39;accept&#39;</span><span class='p'>,</span>
+            <span class='nx'>text</span> <span class='o'>:</span> <span class='s1'>&#39;Куда?! o_O&#39;</span><span class='p'>,</span>
+            <span class='nx'>callback</span> <span class='o'>:</span> <span class='kd'>function</span> <span class='p'>()</span> <span class='p'>{</span> <span class='nx'>DEMO</span><span class='p'>.</span><span class='nx'>Dialog</span><span class='p'>.</span><span class='nx'>hide</span><span class='p'>();</span> <span class='p'>}</span>
+        <span class='p'>}</span>
+    <span class='p'>]</span>
+<span class='p'>});</span>
+</code></pre></div>
+<p>Думаю, css-код, используемый для примера, не важен.</p>
+
+<p><a href='/demo/dialog/'>Демонстрация</a></p>
+
+<p>Вес javascript кода после склейки:</p>
+
+<ol>
+<li>не&#160;сжатый: 6.4&#160;KB</li>
+
+<li>сжатый с&#160;помощью YUI Compressor&#8217;а: 2.2&#160;KB</li>
+
+<li>сжатый с&#160;помощью YUI Compressor&#8217;а и&#160;gzip-а: 931&#160;B</li>
+</ol>
+
+<p>Разумеется, это лишь пример, в реальном проекте нужно было добавить следующее:</p>
+
+<ol>
+<li>кнопку &#171;закрыть&#187;, чтобы которая скрывает окно</li>
+
+<li>обработка события resize объекта window&#160;&#8212; чтобы располагать диалоговое окно всегда по&#160;центру</li>
+
+<li>динамическое создание id&#160;у&#160;кнопок и&#160;самого диалогового окна, и&#160;запоминание конкретных instance&#8217;ов этих объектов</li>
+
+<li>передачу контекста, т.е. this вместе с&#160;обработчиком, навешиваемым на&#160;кнопку 5. дополняйте :)</li>
+</ol>
+				</div>
+			</div>
+		    <div id="disqus_thread"></div>
+            <script type="text/javascript">
+                var disqus_shortname = 'alexander-ulizko';
+                // var disqus_identifier = 'unique_dynamic_id_1234';
+                // var disqus_url = 'http://example.com/permalink-to-page.html';
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+		</div><!-- close:main-content -->
+		<div id="sidebar" class="clearfix">
+    <div id="sb-1">
+        <a href="/about.html">About</a>
+        <ul id="rss">
+            <li><a href="http://feeds.feedburner.com/ulizko-com">RSS Feed of the articles</a></li>
+        </ul>
+    </div>
+	<div id="sb-2">
+		<a href="mailto:alexander@ulizko.com" class="email">alexander@ulizko.com</a>
+		<br />
+		<a href="http://twitter.com/aulizko" class="twitter">@aulizko</a>
+		<br />
+		<a href="http://http://www.facebook.com/profile.php?id=1002139259" class="facebook">Alexander Ulizko</a>
+		<br />
+		<a href="http://github.com/aulizko">github</a>
+		<br />
+		<a href="https://code.google.com/u/aulizko/">Google Code</a>
+	</div><!-- close:sb-2 -->
+</div><!-- close:sidebar -->
+    </div><!-- close:content -->
+<div id="footer">
+    <p>&copy;2008&nbsp;&mdash;&nbsp;2014 <a href="http://ulizko.com">Alexander Ulizko</a></p>
+	<p>Powered by <a href="https://pages.github.com/">Github Pages</a> | generated by <a href="https://github.com/mojombo/jekyll">jekyll</a> | powered by <a href="http://disqus.com">disqus</a> | themed by <a href="http://www.vostoktheme.com" hreflang="en">Vostok Theme</a></p>
+</div><!-- close:footer -->
+</div><!-- close:wrapper -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-4326533-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</body>
+</html>

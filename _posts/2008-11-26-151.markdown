@@ -1,0 +1,19 @@
+---
+layout: post
+title: brainbench
+permalink: /posts/151/index.html
+---
+Сегодня сел разбирать почту, обнаружил письмо от brainbench с уведомлением, что ряд тестов до 30 ноября можно пройти бесплатно. И <a href="http://gw.vtrenz.net/?LONHFVCI9Q:QTN4X6RRIV=ssID:307356511,email:alexander@ulizko.com">ссылочку</a> на этот самый ряд тестов.
+
+Ну и вот результат:
+<ul style="list-style-type: none;">
+	<li><img title="ajax" src="/images/brainbench/ajax.png" alt="" width="170" height="50" /></li>
+	<li><img title="javascript" src="/images/brainbench/javascript15.png" alt="" width="170" height="50" /></li>
+	<li><img title="ooconcepts" src="/images/brainbench/ooconcepts.png" alt="" width="170" height="50" /></li>
+	<li><img title="java2fundamentals" src="/images/brainbench/java2fundamentals.png" alt="" width="170" height="50" /></li>
+	<li><img title="webdevelopmentconcepts" src="/images/brainbench/webdevelopmentconcepts.png" alt="" width="170" height="50" /></li>
+</ul>
+
+Тесты ajax и javascript 1.5 проходить было весело, если никуда не подглядывать, то по ним вполне можно проверить уровень собственных знаний. А вот java 2 Fundamentals, OO Concepts и Web Development concepts разочаровали - совершенно ничего интересного, их можно пройти и вовсе не обладая знаниями и опытом.
+
+Ну и на всякий случай, даю ссылку на мой профиль на brainbench: <a href="http://www.brainbench.com/transcript.jsp?pid=7798148">7798148</a>.

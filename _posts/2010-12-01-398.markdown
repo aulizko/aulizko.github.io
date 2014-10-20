@@ -1,0 +1,13 @@
+---
+layout: post
+title: "Java web server. Tomcat vs. Jetty and little more"
+published: false
+permalink: pretty
+tags:
+  - perfomance
+  - "java web server"
+  - java
+--- 
+Here is the chart of server perfomance comparision:
+
+<img src="http://chart.apis.google.com/chart?chxl=1:|1|10|20|30|40|50&chxp=1,3,13,22,30,38,46&chxr=0,0,7000|1,0,50&chxt=y,x&chbh=a&chs=568x300&cht=bvg&chco=E62113,E2DD44,73FF00,3366CC&chds=0,7000,0,7000,0,7000,0,7000&chd=t:535.33,1283.67,1471.75,1495.12,1490.24,1206.56|1025.24,2652.29,2581.17,2680.93,2506.2,2486.89|630,5046.88,4848.68,5137.46,5261.21,5005.5|2037.57,5122.52,6274.77,5686.95,6172.39,6093.09&chdl=Jetty|Tomcat|Jetty+mojo|Netty+mojo&chtt=Servlet+container+perfomance" width="568" height="300" alt="Servlet container perfomance" />

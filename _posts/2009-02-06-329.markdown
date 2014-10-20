@@ -1,0 +1,20 @@
+---
+layout: post
+title: "Перевод нормальных слов в код"
+permalink: /posts/329/index.html
+tags:
+  - JavaScript
+  - humor
+---
+Так, сегодня пришло в голову, решил записать. Не то, чтобы это очень уж смешная штука была, но забавная. Особенно в конце плодотворного рабочего дня :)
+
+{% highlight javascript %}
+for (var mate in addressBook) { 
+    if (mate.blacklisted) { // Ко всем неприятным знакомым:
+        if (calculateDistance(Home.getInstance().getLatitude(), 
+          mate.getLatitude()) < 100) { // будете проходить мимо -
+            continue; // проходите
+        }
+    }
+}
+{% endhighlight %}

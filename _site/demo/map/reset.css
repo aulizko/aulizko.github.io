@@ -1,0 +1,46 @@
+html, body,
+div, span,
+h1, h2, h3, h4, h5, h6, h7
+p,
+a,
+img,
+strong, em,
+form, label, input, textarea, button,
+ul, ol, li,
+table, tr, td, td {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    outline: 0;
+
+    font-weight: inherit;
+    font-style: inherit;
+    font-size: 100%;
+    font-family: inherit;
+    vertical-align: baseline;
+}
+
+:focus { outline: 0; }
+
+html { height: 100%; }
+
+body {
+    position: relative;
+
+    /* min height hack */
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+
+    background: #ffffff;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+table {
+    border-collapse: collapse;
+    font-size:inherit;
+    font:100%;
+}
