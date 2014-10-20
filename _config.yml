@@ -1,7 +1,6 @@
 paginate:       3
 future:      true
 markdown:    maruku
-permalink:   date
 
 maruku:
   use_tex:    false
