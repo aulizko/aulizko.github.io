@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "command-line package manager for textmate"
-permalink: /posts/182/index.html
 ---
+
 Ползая по github'у наткнулся на замечательную консольную приблуду от небезызвестного <a href="http://yehudakatz.com/">Yehuda Katz</a> (русифицировать его имя не рискну :).
 Эта утилита позволяет из командной строки устанавливать, удалять, обновлять и просматривать список установленных bundle'ов для [textmate](http://macromates.com "Лучший текстовый редактор").
 

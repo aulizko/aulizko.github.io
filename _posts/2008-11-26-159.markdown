@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "GlassFish vs. Jboss"
-permalink: /posts/159/index.html
 ---
+
 А&nbsp;кто-нибудь из&nbsp;коллег разработчиков работал с&nbsp;glassfish и&nbsp;jboss на&nbsp;продакшене?
 
 Я&nbsp;почему интересуюсь&nbsp;&mdash; в&nbsp;последнее время у&nbsp;меня ощущение, что jboss выпущен в&nbsp;open source только с&nbsp;одной целью&nbsp;&mdash; чтобы пользователи переходили на&nbsp;коммерческую версию и&nbsp;платили бабки за&nbsp;поддержку. Очень, очень он&nbsp;кривой. И&nbsp;коммьюнити у&nbsp;него кривое. На&nbsp;многие вопросы в&nbsp;коммьюнити нет ответа, и&nbsp;никто его не&nbsp;знает, и&nbsp;бесплатно не&nbsp;скажет.

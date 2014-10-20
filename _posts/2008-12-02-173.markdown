@@ -1,11 +1,11 @@
 ---
 layout: post
 title: "widget своими руками"
-permalink: /posts/173/index.html
 tags:
   - JavaScript
   - widget
 ---
+
 Привет.
 
 Наверное, многие из вас пользовались стандартными javascript-виджетами, написанными как безвестными <span style="text-decoration: line-through;">мудаками</span> разработчиками, так и маститыми профессионалами. Есть великолепные коллекции виджетов, поставляемых в качестве плагинов к известным фреймворкам (вроде <a href="http://jquery.com">jQuery</a>, <a href="http://prototypejs.org">Prototype JS</a>, <a href="http://developer.yahoo.com/yui/">YUI</a>), так и целые фреймворки, акцентирующие свое внимание на создании виджетов, вроде <a href="http://extjs.com/">Ext JS</a> или <a href="http://qooxdoo.org/">qooXdoo</a>.

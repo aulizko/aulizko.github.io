@@ -1,11 +1,11 @@
 ---
 layout: post
 title: "YUI.Lang is buggy?"
-permalink: /posts/203/index.html
 tags:
   - JavaScript
   - YUI
 ---
+
 Сижу я, значит, никого не трогаю, <span style="text-decoration: line-through;">починяю примус</span> пишу один модуль, и тут выясняется неприятное: оказывается, в <a href="http://developer.yahoo.com/yui/3/">YUI 3.0.0.pr2</a>, модуле <a href="http://developer.yahoo.com/yui/3/yui/">Lang</a> методы <a href="http://developer.yahoo.com/yui/3/api/Lang.html#method_isNumber">isNumber</a> и <a href="http://developer.yahoo.com/yui/3/api/Lang.html#method_isBoolean">isBoolean</a> того. Не этого. В смысле, бажные:
 
 {% highlight javascript %}
