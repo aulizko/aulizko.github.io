@@ -155,6 +155,7 @@ h2 > a {
 	
 	&:hover {
 		color: #aeaeae;
+		text-decoration: none;
 	}
 }
 
@@ -164,4 +165,9 @@ h2 > a {
     flex-wrap: wrap;
     justify-content: space-between;
 	margin-top: 2rem;
+}
+
+/* footer */
+footer a {
+	color: #aeaeae;
 }
