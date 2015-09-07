@@ -1,0 +1,149 @@
+@import "normalize.css";
+
+/* general stuff */
+
+::root {
+	font-size: 16px;
+}
+
+::selection {
+    background: #d6edff;
+}
+
+body {
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+	align-items: center;
+	
+	font-size: responsive 1rem 1.3rem;
+	font-family: Hack, Menlo, Consolas, monospace;
+	color: #333;
+}
+
+main {
+	flex: 1;
+}
+
+header, main, footer {
+	padding: 0 2rem;
+}
+
+header, main {
+	margin-bottom: 1rem;
+}
+
+@media(width < 35rem) {
+	header, main, footer {
+		padding: 0 1rem;
+	}
+}
+
+@media(width >= 43rem) {
+	header, main, footer {
+		width: 35rem;
+	}
+}
+
+@media(width >= 61rem) {
+	header, main, footer {
+		width: 52rem;
+	}
+}
+
+/* header stuff */
+
+.logo {
+	font-size: 1.8rem;
+	color: #333;
+	display: block;
+	text-decoration: none;
+	margin: .5rem 0 0 0;
+	
+	&:hover {
+		text-decoration: underline;
+		color: #333;
+	}
+}
+
+.impact {
+	display: inline-block;
+	padding: .2rem;
+	background-color: #000;
+	color: white;
+}
+
+.logo:hover .impact {
+	text-decoration: underline;
+}
+
+.menu {
+	margin: .5rem 0 0 0;
+	color: #aeaeae;
+}
+
+.menu-link {
+	color: #aeaeae;
+	font-size: 1.4rem;
+	text-decoration: none;
+	
+	&:hover {
+		text-decoration: underline;
+		color: #aeaeae;
+	}
+}
+
+header {
+	display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+/* Code blocks stuff */
+
+code, tt {
+    padding: 1px 3px;
+    white-space: pre-wrap;
+    border: #E3EDF3 1px solid;
+    background: #F7FAFB;
+    border-radius: 2px;
+}
+
+pre {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0 0 1.75em 0;
+    border: #E3EDF3 1px solid;
+    width: 100%;
+    padding: 10px;
+    white-space: pre-wrap;
+    overflow: auto;
+    background: #F7FAFB;
+    border-radius: 3px;
+}
+
+pre code, tt {
+    font-size: inherit;
+    white-space: -moz-pre-wrap;
+    white-space: pre-wrap;
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+@import './syntax.css';	
+
+/* posts list stuff */
+h2 > a {
+	color: #333;
+	margin-bottom: .5rem;
+}
+
+.date {
+	color: #aeaeae;
+}
+
+.post {
+	overflow-x: scroll;
+}

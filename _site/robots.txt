@@ -1,3 +1,0 @@
-# BEGIN XML-SITEMAP-PLUGIN
-Sitemap: http://ulizko.com/sitemap.xml
-# END XML-SITEMAP-PLUGIN

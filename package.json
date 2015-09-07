@@ -1,0 +1,30 @@
+{
+  "name": "aulizko.github.io",
+  "version": "1.0.0",
+  "description": "Just an outdated personal blog, nothing specific",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aulizko/aulizko.github.io.git"
+  },
+  "author": "Alexander Ulizko <alexander@ulizko.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aulizko/aulizko.github.io/issues"
+  },
+  "homepage": "https://github.com/aulizko/aulizko.github.io#readme",
+  "dependencies": {
+    "cssnano": "^3.0.0",
+    "cssnext": "^1.8.4",
+    "gulp": "^3.9.0",
+    "postcss": "^5.0.4",
+    "precss": "^1.0.0",
+    "rucksack-css": "^0.7.0"
+  },
+  "devDependencies": {
+    "gulp-postcss": "^6.0.0",
+    "normalize.css": "^3.0.3"
+  }
+}
