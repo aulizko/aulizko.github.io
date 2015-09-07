@@ -78,7 +78,7 @@ header, main {
 }
 
 .menu {
-	margin: .5rem 0 0 0;
+	margin: 1rem 0 0 0;
 	color: #aeaeae;
 }
 
@@ -146,4 +146,22 @@ h2 > a {
 
 .post {
 	overflow-x: scroll;
+}
+
+.prev a, 
+.next a {
+	color: #aeaeae;
+	font-size: 1.5rem;
+	
+	&:hover {
+		color: #aeaeae;
+	}
+}
+
+.pagination {
+	display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+	margin-top: 2rem;
 }
