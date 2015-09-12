@@ -17,3 +17,5 @@ gulp.task('css', function () {
         .pipe(postcss(processors))
         .pipe(gulp.dest('./css'));
 });
+
+gulp.task('default', ['css']);
