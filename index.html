@@ -3,13 +3,15 @@ layout: default
 title: Alexander's Ulizko blog
 ---
 {% for post in paginator.posts %}
-	<div class="post" id="post-{{ post.id }}">
-		<h2><a href="{{ post.url }}" rel="bookmark" title="{{ post.title }}">{{ post.title }}</a></h2>
-		<span class="date">{{ post.date | date: "%Y / %m / %d" }}</span>
+	<article id="post-{{ post.id }}">
+    <header>
+      <p>{{ post.date | date: "%Y / %m / %d" }}</p>
+      <h1><a href="{{ post.url }}" rel="bookmark" title="{{ post.title }}">{{ post.title }}</a></h1>
+    </header>
 		<div class="entry">
 			{{ post.content }}
 		</div>
-	</div><!-- close:post -->
+	</article><!-- close:article -->
 {% endfor %}
 <div class="pagination clearfix">
     {% if paginator.total_pages > 1 %}

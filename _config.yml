@@ -2,4 +2,4 @@ paginate:       3
 future:      true
 markdown:    kramdown
 
-exclude: ["node_modules", "package.json", "gulpfile.js", "postcss"]
+exclude: ["node_modules", "package.json", "process-css.js", "postcss", "Gemfile", "Gemfile.lock"]

@@ -1,76 +1,10 @@
-@import "normalize.css";
-
-/* general stuff */
-
-::root {
-	font-size: 16px;
-}
-
-::selection {
-    background: #d6edff;
-}
-
-body {
-	display: flex;
-	min-height: 100vh;
-	flex-direction: column;
-	align-items: center;
-	
-	font-size: responsive 1rem 1.3rem;
-	font-family: Hack, Menlo, Consolas, monospace;
-	color: #333;
-}
-
-/* links stuff by mrmrs. see http://mrmrs.io/links/ */
-
-a {
-  transition: color .4s;
-  color: #265C83;
-}
-
-a:link,
-a:visited { color: #265C83; }
-a:hover   { color: #7FDBFF; }
-a:active  {
-  transition: color .3s;
-  color: #007BE6;
-}
-
-.link { text-decoration: none; }
-
-/* links - end */
-
-main {
-	flex: 1;
-}
-
-header, main, footer {
-	padding: 0 2rem;
-}
-
-header, main {
-	margin-bottom: 1rem;
-}
-
-@media(width < 35rem) {
-	header, main, footer {
-		padding: 0 1rem;
-	}
-}
-
-@media(width >= 43rem) {
-	header, main, footer {
-		width: 35rem;
-	}
-}
-
-@media(width >= 61rem) {
-	header, main, footer {
-		width: 52rem;
-	}
-}
-
 /* header stuff */
+#header {
+	display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
 
 a.logo {
 	font-size: 1.8rem;
@@ -78,10 +12,12 @@ a.logo {
 	display: block;
 	text-decoration: none;
 	margin: .5rem 0 0 0;
+  background: none;
 	
 	&:hover {
 		text-decoration: underline;
 		color: #333;
+    box-shadow: none;
 	}
 }
 
@@ -105,18 +41,13 @@ a.menu-link {
 	color: #aeaeae;
 	font-size: 1.4rem;
 	text-decoration: none;
-	
+  background: none;
+  
 	&:hover {
 		text-decoration: underline;
 		color: #aeaeae;
+    box-shadow: none;
 	}
-}
-
-header {
-	display:flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
 }
 
 /* Code blocks stuff */
@@ -141,7 +72,7 @@ pre {
 }
 
 pre code, tt {
-    font-size: inherit;
+    font-size: 1.25rem;
     white-space: -moz-pre-wrap;
     white-space: pre-wrap;
     background: transparent;
@@ -152,27 +83,6 @@ pre code, tt {
 @import './syntax.css';	
 
 /* posts list stuff */
-h2 > a {
-	color: #333;
-	margin-bottom: .5rem;
-}
-
-.date {
-	color: #aeaeae;
-}
-
-.prev a, 
-.next a {
-	color: #aeaeae;
-	font-size: 1.5rem;
-	text-decoration: none;
-	
-	&:hover {
-		color: #aeaeae;
-		text-decoration: underline;
-	}
-}
-
 .pagination {
 	display:flex;
   flex-direction: row;
@@ -185,9 +95,11 @@ h2 > a {
 a.copy {
 	color: #aeaeae;
 	text-decoration: none;
+  background: none;
 	
 	&:hover {
 		text-decoration: underline;
+    box-shadow: none;
 	};
 }
 
