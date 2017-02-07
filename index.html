@@ -8,13 +8,13 @@ title: Alexander's Ulizko blog
       <p>{{ post.date | date: "%Y / %m / %d" }}</p>
       <h1><a href="{{ post.url }}" rel="bookmark" title="{{ post.title }}">{{ post.title }}</a></h1>
     </header>
-		<div class="entry">
+		<div>
 			{{ post.content }}
 		</div>
 	</article><!-- close:article -->
 {% endfor %}
-<div class="pagination clearfix">
-    {% if paginator.total_pages > 1 %}
+<div class="pagination">
+  {% if paginator.total_pages > 1 %}
     		{% if paginator.previous_page %}
     		    <div class="prev"><a href="/{%if paginator.previous_page > 1 %}page{{ paginator.previous_page }}/{% endif %}">&larr; Newer</a></div>
     		{% endif %}
@@ -24,4 +24,3 @@ title: Alexander's Ulizko blog
     		{% endif %}
     {% endif %}
 </div>
-	

@@ -13,7 +13,7 @@ a.logo {
 	text-decoration: none;
 	margin: .5rem 0 0 0;
   background: none;
-	
+
 	&:hover {
 		text-decoration: underline;
 		color: #333;
@@ -42,7 +42,7 @@ a.menu-link {
 	font-size: 1.4rem;
 	text-decoration: none;
   background: none;
-  
+
 	&:hover {
 		text-decoration: underline;
 		color: #aeaeae;
@@ -80,7 +80,7 @@ pre code, tt {
     padding: 0;
 }
 
-@import './syntax.css';	
+@import './syntax.css';
 
 /* posts list stuff */
 .pagination {
@@ -89,18 +89,6 @@ pre code, tt {
   flex-wrap: wrap;
   justify-content: space-between;
 	margin-top: 2rem;
-}
-
-/* footer */
-a.copy {
-	color: #aeaeae;
-	text-decoration: none;
-  background: none;
-	
-	&:hover {
-		text-decoration: underline;
-    box-shadow: none;
-	};
 }
 
 /* contacts page */
