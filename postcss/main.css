@@ -50,6 +50,16 @@ a.menu-link {
 	}
 }
 
+/* Posts stuff */
+
+article > header {
+  margin-bottom: 30px;
+}
+
+p img {
+  float: none;
+}
+
 /* Code blocks stuff */
 
 code, tt {
